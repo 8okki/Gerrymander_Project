@@ -1,3 +1,6 @@
+// global var
+var geojson;
+
 // get color function
 function getColor(state) {
 	return state == "Alabama" ? '#800026' :
@@ -16,6 +19,34 @@ function style(feature) {
 		fillOpacity: 0.5
 	};
 }
+// highlight feature
+function highlightFeature(e){
+	let layer = e.target;
+	layer.setStyle(
+		{
+			weight: 5,
+			color:"#666",
+			dashArray: '',
+			fillOpacity: 0.7
+		}
+	);
+}
+// reset highlight
+function resetHighlight(e) {
+	geojson.resetStyle(e.target);
+}
+// zoom to feature
+function zoomToFeature(e) {
+	map.fitBounds(e.target.getBounds());
+}
+// listeners
+function onEachFeature(feature, layer) {
+	layer.on({
+		mouseover: highlightFeature,
+		mouseout: resetHighlight,
+		click: zoomToFeature
+	});
+}
 // initialize the map on the "map" div with a given center and zoom
 var map = L.map('map', {
     center: [39.8283, -98.5795],
@@ -26,7 +57,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     }).addTo(map);
 
 // add highlighting	
-L.geoJson(statesData, {style: style}).addTo(map);
+geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
 
 
 

@@ -6,28 +6,52 @@
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 		<script src="./js/us-states.js"></script>
 		<style>
-			#map { height: 1000px; width: 1650px; left: 250px; }
+			#map { height: 1000px; width: 1850px; z-index: 1; position: absolute}
 			#navigation-bar {
-				z-index: 1;
+				z-index: 2;
 				position: absolute;
 				width: 250px;
 				overflow-y: visible;
 				border: 2px solid black;
+				background: white;
+			}
+			#hamburger2 {
+				z-index: 3;
 			}
 		</style>
 	</head>
-	<body>
-		<nav id="navigation-bar" class="h-100 text-light">
-			<button class="btn btn-outline-dark mx-3 my-2">Button1</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button2</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button3</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button4</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button5</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button6</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button7</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button8</button>
-			<button class="btn btn-outline-dark mx-3 my-2">Button9</button>
-		</nav>
+	<body>		
+		<!-- Left pane for options -->
+		<div id="options">
+			<div style="width:250px">
+				<nav id="navigation-bar" class="h-100 text-dark">
+					<div id="nav-margins" class="px-3 py-2">
+						<h2 class="my-2 mb-3">Options</h2>
+						<h5 class="my-2">Demographics</h5>
+						<input type="text" class="form-control my-2" placeholder="African-American %"></input>
+						<input type="text" class="form-control my-2" placeholder="Asian Pacific %"></input>		
+						<input type="text" class="form-control mb-4" placeholder="Hispanic %"></input>	
+						<h5 class="my-2">Thresholds</h5>
+						<input type="text" class="form-control my-2" placeholder="Bloc population %"></input>
+						<input type="text" class="form-control my-1" placeholder="Bloc voting %"></input>
+						<button class="btn btn-outline-secondary my-2">Begin Phase 0</button>
+					</div>
+				</nav>
+			</div>
+		</div>
+		
+		<!-- Right pane for data --->
+		<div style="z-index: 4; float: right">
+			<button id="hamburger2" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+			Button
+			</button>
+		</div>
+		<div class="collapse" id="collapseExample">
+			<div class="card card-body">
+			Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+			</div>
+		</div>
+		
 		<div id="map"></div>
 		
 		<script src="./js/leaflet.js"></script>
