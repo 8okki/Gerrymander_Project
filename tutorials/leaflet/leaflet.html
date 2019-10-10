@@ -1,14 +1,26 @@
 <html>
 	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
 		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 		<script src="./js/us-states.js"></script>
 		<style>
-			#map { height: 1000px; }
+			#map { height: 800px; width: 1600px; left: 185px; }
+			#navigation-bar {
+				z-index: 1;
+				position: absolute;
+				width: 185px;
+				overflow-y: visible;
+				border: 2px solid black;
+			}
 		</style>
 	</head>
 	<body>
+		<nav id="navigation-bar" class="h-100 text-light">
+		</nav>
 		<div id="map"></div>
+		
 		<script src="./js/leaflet.js"></script>
 	</body>
 </html>
