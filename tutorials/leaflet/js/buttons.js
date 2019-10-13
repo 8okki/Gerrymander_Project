@@ -1,6 +1,6 @@
 $("body").css("overflow", "hidden");
 
 $("[data-toggle='toggle']").click(function() {
-    var selector = $(this).data("target");
+    let selector = $(this).data("target");
     $(selector).toggleClass('in');
 });
