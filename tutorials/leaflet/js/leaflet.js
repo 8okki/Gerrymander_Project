@@ -49,8 +49,9 @@ function onEachFeature(feature, layer) {
 }
 // initialize the map on the "map" div with a given center and zoom
 var map = L.map('map', {
-    center: [39.8283, -98.5795],
-    zoom: 5.2
+	center: [39.8283, -98.5795],
+	zoomControl: false,
+	zoom: 5.2
 });
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
