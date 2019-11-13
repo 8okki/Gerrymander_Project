@@ -17,6 +17,12 @@ import java.util.Map;
 public class Votes {
     
     Map<PoliticalParty, Integer> votes;
+    String precinctName;
+    
+    public Votes(Map<PoliticalParty, Integer> votes, String precinctName){
+        this.votes = votes;
+        this.precinctName = precinctName;
+    }
     
     public int getTotalVotes(){
         int output = 0;
@@ -48,8 +54,12 @@ public class Votes {
         return curLargest;
     }
     
-    public VoteBlocResult getVoteBlocResult(Demographic demographic, float voteThreshold, String precinctName){
-        return null;
+    public VoteBlocResult getVoteBlocResult(Demographic demographic, float voteThreshold){
+        int winningVotes = getWinningVotes();
+        int totalVotes = getTotalVotes();
+        float ratio = calculateRatio(winningVotes,totalVotes);
+        boolean isVoteBloc = ratio > voteThreshold;
+        return new VoteBlocResult(isVoteBloc, demographic, getWinningParty(), this.precinctName);
     }
     
     private static float calculateRatio(int winningVotes, int totalVotes){

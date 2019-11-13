@@ -24,20 +24,27 @@ public class Precinct {
     String name;
     
     public VoteBlocResult findVoteBloc(float blocThreshold, float voteThreshold){
-        
+        Demographic maxDemographic = findDemographicBloc(blocThreshold);
+        if(maxDemographic != null){
+            return electionVotes.getVoteBlocResult(maxDemographic, voteThreshold);
+        }else{
+            return null;
+        }
     }
     
     public Demographic findDemographicBloc(float threshold){
         Demographic maxDemographic = findLargestDemographic();
         int maxDemographicPop = getDemographicPop(maxDemographic);
-        float ratio = calculateRatio(maxDemographicPop, blocThreshold);
+        float ratio = calculateRatio(maxDemographicPop, population);
         if(ratio > threshold){
             return maxDemographic;
+        }else{
+            return null;
         }
     }
     
-    public int getDemographicPop(float blocThreshold, float voteThreshold){
-        return null;
+    public int getDemographicPop(Demographic maxDemographic){
+        return demographicPopulationDist.get(maxDemographic);
     }
     
     public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
