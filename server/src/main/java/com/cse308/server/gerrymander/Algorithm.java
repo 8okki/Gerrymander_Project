@@ -17,10 +17,9 @@ import java.util.Map;
  */
 
 public class Algorithm {
-    
     State state;
     
-    public void initState(){
+    public void initState(StateName stateName){
         this.state = null;
     }
     

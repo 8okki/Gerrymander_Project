@@ -17,11 +17,22 @@ import java.util.HashMap;
  */
 public class Precinct {
     
-    Set<Precinct> neighbors;
-    int population;
-    Map<Demographic, Integer> demographicPopulationDist;
-    Votes electionVotes;
-    String name;
+    private String name;
+    private Set<Precinct> neighbors;
+    private int population;
+    private Map<Demographic, Integer> demographicPopulationDist;
+    private Votes electionVotes;
+    
+    public Precinct(String name, int population, Map<Demographic, Integer> demographicPopulationDist, Votes electionVotes){
+        this.name = name;
+        this.population = population;
+        this.demographicPopulationDist = demographicPopulationDist;
+        this.electionVotes = electionVotes;
+    }
+    
+    public void setNeighbors(Set<Precinct> neighbors){
+        this.neighbors = neighbors;
+    }
     
     public VoteBlocResult findVoteBloc(float blocThreshold, float voteThreshold){
         Demographic maxDemographic = findDemographicBloc(blocThreshold);

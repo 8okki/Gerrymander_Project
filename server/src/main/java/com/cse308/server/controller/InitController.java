@@ -5,6 +5,7 @@
  */
 package com.cse308.server.controller;
 
+import com.cse308.server.gerrymander.Algorithm;
 import com.cse308.server.gerrymander.State;
 import com.cse308.server.gerrymander.enums.StateName;
 import com.google.gson.JsonObject;
@@ -24,12 +25,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Jakob
  */
 
-
 @RestController
 public class InitController {
+    Algorithm algo;
     @PostMapping("/state")
     public String greetingPost(@RequestBody JsonObject state) {
-        System.out.println(state.toString());
-        return "ok";
+        try {
+            StateName stateName = StateName.valueOf(state.get("stateName").getAsString());
+            algo = new Algorithm();
+            algo.initState(stateName);
+            return "ok";
+        } catch (Exception e) {
+            return "Error occurred: " + e.toString();
+        }
     }
 }
