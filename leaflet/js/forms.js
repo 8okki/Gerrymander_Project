@@ -18,7 +18,7 @@ voteSlider.oninput = function() {
 }
 
 
-$("#optionButton").click(function() {
+$("#toolBtn").click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
 });
