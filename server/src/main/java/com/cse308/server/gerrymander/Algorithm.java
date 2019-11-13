@@ -13,10 +13,11 @@ import java.util.Map;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 
 public class Algorithm {
+    
     Map<String, State> states;
     
     public State initState(){

@@ -11,4 +11,24 @@ package com.cse308.server.gerrymander.result;
  */
 public class VoteBlocResult implements Result {
     
+    boolean isVoteBloc;
+    DEMOGRAPHIC demographic;
+    POLITICALPARTY winningParty;
+    String precinctName;
+    
+    public boolean getIsVoteBloc(){
+        return this.isVoteBloc;
+    }
+    
+    public DEMOGRAPHIC getDemographic(){
+        return this.demographic;
+    }
+    
+    public POLITICALPARTY getWinningParty(){
+        return this.winningParty;
+    }
+    public String getPrecinctName(){
+        return this.precinctName;
+    }
+    
 }

@@ -11,4 +11,20 @@ package com.cse308.server.gerrymander.result;
  */
 public class DistrictInfo implements Result {
     
+    Map<DEMOGRAPHIC, int> demoPopDist;
+    int districtPop;
+    int statePop;
+    
+    public Map<DEMOGRAPHIC, int> getDemoPopDist(){
+        return this.demoPopDist;
+    }
+    
+    public int getDistrictPop(){
+        return this.districtPop;
+    }
+    
+    public int getStatePop(){
+        return this.statePop;
+    }
+    
 }

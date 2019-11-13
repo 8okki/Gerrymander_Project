@@ -7,8 +7,33 @@ package com.cse308.server.gerrymander;
 
 /**
  *
- * @author Jakob
+ * @author Maverick
  */
 public class Precinct {
     
+    Set<Precinct> neighbors;
+    int population;
+    Map<DEMOGRAPHIC, int> demographicPopulationDist;
+    Votes electionVotes;
+    String name;
+    
+    public DEMOGRAPHIC findDemographicBlocs(float threshold){
+        return null;
+    }
+    
+    public VoteBlocresult getDemographicPop(float blocThreshold, float voteThreshold){
+        return null;
+    }
+    
+    public Map<DEMOGRAPHIC, int> getDemogrphicPop(DEMOGRAPHIC[] demographics){
+        return null;
+    }
+    
+    private DEMOGRAPHIC findLargestDemographic(){
+        return null;
+    }
+    
+    private float calculateRatio(int largestDemographicPop, int totalPop){
+        return (float)largestDemographicPop/totalPop;
+    }
 }

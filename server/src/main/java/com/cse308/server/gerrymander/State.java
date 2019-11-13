@@ -14,7 +14,7 @@ import java.util.Set;
 
 /**
  *
- * @author Jakob
+ * @author Maverick
  */
 public class State {
     int id;
