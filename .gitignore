@@ -6,3 +6,4 @@ edward_test/
 old-server/
 *.whl
 tutorials/hibernate
+preprocessing/shapely/*.json
