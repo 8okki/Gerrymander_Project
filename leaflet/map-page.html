@@ -1,54 +1,71 @@
 <html>
-	<head>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
-		<link rel="stylesheet" href="./css/styles.css">
-		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-	</head>
-	<body>		
-		<!-- Left pane for options -->
-		<button id="optionButton" class="btn btn-primary btn-sm float-left" type="button" data-toggle="toggle" data-target="#options-pane"></button>
-		<div id="options-pane">
-			<div>
-				<nav id="navigation-bar" class="h-100 text-dark border">
-					<div id="nav-margins" class="px-3 py-4">
-						<div id="title" class="mb-3">
-							<h3>GERRYMENDER</h3>
-						</div>
-						<hr>
-						<div id="thresholds" class="mb-3">
-							<h5 class="my-2">Thresholds</h5>
-							<p>Bloc Population: <span id="population"></span> %</p>
-							<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
-							<p>Bloc Vote: <span id="vote"></span> %</p>
-							<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
-							<button id="updateThresh" class="btn btn-outline-secondary my-2">Update Threshold</button>
-						</div>
-						<hr>
-						<div id="demographics" class="mb-3">
-							<h5 class="my-2">Demographics</h5>
-							<input type="checkbox" class="m-2" name="demographic" value="African-American">African-American<br>
-							<input type="checkbox" class="m-2" name="demographic" value="Asian Pacific">Asian Pacific<br>
-							<input type="checkbox" class="m-2" name="demographic" value="Hispanic">Hispanic<br>
-							<input type="checkbox" class="m-2" name="demographic" value="White">White<br>
-							<button id="run" name="demographic" class="btn btn-outline-secondary my-2">Compute Maj-Min</button>
-						</div>
-						<hr>
-						<div id="fullScreen">
-							<button id="fullScreenBtn" class="btn btn-outline-secondary my-2">Return to Full Screen</button>
-						</div>
-					</div>
-				</nav>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<link rel="stylesheet" href="./css/styles.css">
+
+</head>
+
+<body>
+	<!-- Left pane for options -->
+	<button id="toolBtn" class="float-left" type="button" data-toggle="toggle"
+		data-target="#options-pane, #data-pane"></button>
+	<div id="options-pane">
+		<nav class="navigation-bar h-100 px-3 py-4 text-dark border">
+			<div id="title" class="mb-3">
+				<h3>GERRYMENDER</h3>
 			</div>
-		</div>
-		
-		<div id="map"></div>
-	</body>
+			<hr>
+			<div id="thresholds" class="mb-3">
+				<h5 class="my-2">Thresholds</h5>
+				<p>Bloc Population: <span id="population"></span> %</p>
+				<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
+				<p>Bloc Vote: <span id="vote"></span> %</p>
+				<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
+				<button id="updateThresh" class="btn btn-outline-secondary my-2">Update Threshold</button>
+			</div>
+			<hr>
+			<div id="demographics" class="mb-3">
+				<h5 class="my-2">Demographics</h5>
+				<input type="checkbox" class="m-2" name="demographic" value="African-American">African-American<br>
+				<input type="checkbox" class="m-2" name="demographic" value="Asian Pacific">Asian Pacific<br>
+				<input type="checkbox" class="m-2" name="demographic" value="Hispanic">Hispanic<br>
+				<input type="checkbox" class="m-2" name="demographic" value="White">White<br>
+				<button id="run" name="demographic" class="btn btn-outline-secondary my-2">Compute Maj-Min</button>
+			</div>
+			<hr>
+			<div id="fullScreen">
+				<button id="fullScreenBtn" class="btn btn-outline-secondary my-2">Return to Full Screen</button>
+			</div>
+		</nav>
+	</div>
 
-	<script src="./js/us-states.js"></script>
-	<script src="./js/forms.js"></script>
-	<script src="./js/leaflet.js"></script>
+	<div id="data-pane">
+		<nav class="navigation-bar h-100 px-3 py-4 text-dark border">
+			<div class="mb-3">
+				<h3>DATA</h3>
+			</div>
+			<hr>
+			<div id="election-data">
+
+			</div>
+			<hr>
+			<div id="demographic-data">
+				
+			</div>
+		</nav>
+	</div>
+
+	<div id="map"></div>
+
+</body>
+
+<script src="./js/us-states.js"></script>
+<script src="./js/forms.js"></script>
+<script src="./js/leaflet.js"></script>
 
 </html>
