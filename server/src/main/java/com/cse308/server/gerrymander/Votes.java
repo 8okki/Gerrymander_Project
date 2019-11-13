@@ -5,27 +5,32 @@
  */
 package com.cse308.server.gerrymander;
 
+import com.cse308.server.gerrymander.enums.Demographic;
+import com.cse308.server.gerrymander.enums.PoliticalParty;
+import com.cse308.server.gerrymander.result.VoteBlocResult;
+import java.util.Map;
+
 /**
  *
  * @author Mavericks
  */
 public class Votes {
     
-    Map<POLITICALPARTY, int> votes;
+    Map<PoliticalParty, Integer> votes;
     
     public int getTotalVotes(){
-        return null;
+        return -1;
     }
     
-    public POLITICALPARTY getWinningParty(){
+    public PoliticalParty getWinningParty(){
         return null;
     }
     
     public int getWinningVotes(){
-        return null;
+        return -1;
     }
     
-    public VoteBlocResult getVoteBlockResult(DEMOGRAPHIC demographic, float voteThreshold, String precinctName){
+    public VoteBlocResult getVoteBlockResult(Demographic demographic, float voteThreshold, String precinctName){
         return null;
     }
     
@@ -34,6 +39,6 @@ public class Votes {
     }
     
     private boolean checkVoteThreshold(float ratio, float voteThreshold){
-        return null;
+        return False;
     }
 }

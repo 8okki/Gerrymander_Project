@@ -5,17 +5,20 @@
  */
 package com.cse308.server.gerrymander.result;
 
+import com.cse308.server.gerrymander.enums.Demographic;
+import java.util.Map;
+
 /**
  *
  * @author Jakob
  */
 public class DistrictInfo implements Result {
     
-    Map<DEMOGRAPHIC, int> demoPopDist;
+    Map<Demographic, Integer> demoPopDist;
     int districtPop;
     int statePop;
     
-    public Map<DEMOGRAPHIC, int> getDemoPopDist(){
+    public Map<Demographic, Integer> getDemoPopDist(){
         return this.demoPopDist;
     }
     

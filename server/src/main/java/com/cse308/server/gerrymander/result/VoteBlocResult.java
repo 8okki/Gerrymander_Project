@@ -5,6 +5,8 @@
  */
 package com.cse308.server.gerrymander.result;
 
+import com.cse308.server.gerrymander.enums.Demographic;
+
 /**
  *
  * @author Jakob
@@ -12,19 +14,19 @@ package com.cse308.server.gerrymander.result;
 public class VoteBlocResult implements Result {
     
     boolean isVoteBloc;
-    DEMOGRAPHIC demographic;
-    POLITICALPARTY winningParty;
+    Demographic demographic;
+    PoliticalParty winningParty;
     String precinctName;
     
     public boolean getIsVoteBloc(){
         return this.isVoteBloc;
     }
     
-    public DEMOGRAPHIC getDemographic(){
+    public Demographic getDemographic(){
         return this.demographic;
     }
     
-    public POLITICALPARTY getWinningParty(){
+    public PoliticalParty getWinningParty(){
         return this.winningParty;
     }
     public String getPrecinctName(){

@@ -5,8 +5,8 @@
  */
 package com.cse308.server.gerrymander;
 
-import com.cse308.server.gerrymander.enums.DEMOGRAPHIC;
-import com.cse308.server.gerrymander.enums.STATENAME;
+import com.cse308.server.gerrymander.enums.Demographic;
+import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
@@ -24,11 +24,11 @@ public class Algorithm {
         return null;
     }
     
-    public VoteBlocResult[] runPhase0(STATENAME statename, float blocThreshold, float voteThreshold){
+    public VoteBlocResult[] runPhase0(StateName statename, float blocThreshold, float voteThreshold){
         return null;
     }
     
-    public DistrictInfo getDistrictInfo(STATENAME stateName, int districtId, DEMOGRAPHIC[] demographics){
+    public DistrictInfo getDistrictInfo(StateName stateName, int districtId, Demographic[] demographics){
         return null;
     }
 }

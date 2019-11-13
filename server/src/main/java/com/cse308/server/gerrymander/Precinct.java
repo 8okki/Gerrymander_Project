@@ -5,6 +5,11 @@
  */
 package com.cse308.server.gerrymander;
 
+import com.cse308.server.gerrymander.enums.Demographic;
+import com.cse308.server.gerrymander.result.VoteBlocResult;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *
  * @author Maverick
@@ -13,23 +18,23 @@ public class Precinct {
     
     Set<Precinct> neighbors;
     int population;
-    Map<DEMOGRAPHIC, int> demographicPopulationDist;
+    Map<Demographic, Integer> demographicPopulationDist;
     Votes electionVotes;
     String name;
     
-    public DEMOGRAPHIC findDemographicBlocs(float threshold){
+    public Demographic findDemographicBlocs(float threshold){
         return null;
     }
     
-    public VoteBlocresult getDemographicPop(float blocThreshold, float voteThreshold){
+    public VoteBlocResult getDemographicPop(float blocThreshold, float voteThreshold){
         return null;
     }
     
-    public Map<DEMOGRAPHIC, int> getDemogrphicPop(DEMOGRAPHIC[] demographics){
+    public Map<Demographic, Integer> getDemogrphicPop(Demographic[] demographics){
         return null;
     }
     
-    private DEMOGRAPHIC findLargestDemographic(){
+    private Demographic findLargestDemographic(){
         return null;
     }
     

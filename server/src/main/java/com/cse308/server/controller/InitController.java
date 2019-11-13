@@ -6,7 +6,7 @@
 package com.cse308.server.controller;
 
 import com.cse308.server.gerrymander.State;
-import com.cse308.server.gerrymander.enums.STATENAME;
+import com.cse308.server.gerrymander.enums.StateName;
 import com.google.gson.JsonObject;
 //import com.google.gson.Gson;
 import java.util.Map;

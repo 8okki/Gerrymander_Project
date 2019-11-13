@@ -5,6 +5,11 @@
  */
 package com.cse308.server.gerrymander;
 
+import com.cse308.server.gerrymander.enums.Demographic;
+import com.cse308.server.gerrymander.result.DistrictInfo;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *
  * @author Mavericks
@@ -14,7 +19,7 @@ public class Cluster {
     int id;
     int population;
     Set<Precinct> precincts;
-    Map<DEMOGRAPHIC, int> demographicPopDist;
+    Map<Demographic, Integer> demographicPopDist;
     Set<Cluster> adjClusters;
     
     public int getPopulation(){
@@ -25,22 +30,22 @@ public class Cluster {
         return this.adjClusters;
     }
     
-    public Map<DEMOGRAPHIC, int> getDemographicPopDist(){
+    public Map<Demographic, Integer> getDemographicPopDist(){
         return this.demographicPopDist;
     }
     
-    public Map<DEMOGRAPHIC, int> getDemographicPopDist(DEMOGRAPHIC[] demographics){
+    public Map<Demographic, Integer> getDemographicPopDist(Demographic[] demographics){
         return null;
     }
-    public Map<Cluster, Cluster> findMMPair(float minRange, float maxRange, DEMOGRAPHIC[] demographic){
-        return null;
-    }
-    
-    public int getDemographicPopSum(DEMOGRAPHIC[] demographics){
+    public Map<Cluster, Cluster> findMMPair(float minRange, float maxRange, Demographic[] demographic){
         return null;
     }
     
-    public DistrictInfo getDistrictInfo(int statePopulation, DEMOGRAPHIC[] demographics){
+    public int getDemographicPopSum(Demographic[] demographics){
+        return -1;
+    }
+    
+    public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
         return null;
     }
     
@@ -49,7 +54,7 @@ public class Cluster {
     }
     
     private boolean checkPair(Cluster cluster2, float ratio){
-        return null;
+        return False;
     }
     
 }

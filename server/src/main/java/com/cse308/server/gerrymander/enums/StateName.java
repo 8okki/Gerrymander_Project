@@ -9,9 +9,8 @@ package com.cse308.server.gerrymander.enums;
  *
  * @author Jakob
  */
-public enum DEMOGRAPHIC {
-    ASIAN,
-    BLACK,
-    HISPANIC,
-    WHITE
+public enum StateName {
+    ALABAMA,
+    OHIO,
+    OREGON
 }

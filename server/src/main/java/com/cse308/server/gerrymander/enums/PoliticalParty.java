@@ -9,8 +9,7 @@ package com.cse308.server.gerrymander.enums;
  *
  * @author Jakob
  */
-public enum STATENAME {
-    ALABAMA,
-    OHIO,
-    OREGON
+public enum PoliticalParty {
+    DEMOCRATIC,
+    REPUBLICAN
 }
