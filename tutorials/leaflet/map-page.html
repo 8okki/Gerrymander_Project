@@ -5,6 +5,11 @@
 		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 		<script src="./js/us-states.js"></script>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 		<style>
 			#map { height: 100%; width: 100%; z-index: 1; position: absolute}
 			#navigation-bar {
@@ -23,7 +28,7 @@
 				-moz-transition: width 2s ease;
 				-o-transition: width 2s ease;
 				transition: width 2s ease;
-				
+
 				z-index: 4;
 				position: relative;
 				height: 100%;
@@ -41,7 +46,7 @@
 				-moz-transition: width 2s ease;
 				-o-transition: width 2s ease;
 				transition: width 2s ease;
-				
+
 				z-index: 4;
 				position: relative;
 				height: 100%;
@@ -54,10 +59,10 @@
 				width: 250px;
 				height: 100%;
 			}
-			
+
 		</style>
 	</head>
-	<body>		
+	<body>
 		<!-- Left pane for options -->
 		<button id="hamburger" class="btn btn-primary btn-sm float-left" type="button" data-toggle="toggle" data-target="#options-pane">+</button>
 		<div id="options-pane">
@@ -65,11 +70,23 @@
 				<nav id="navigation-bar" class="h-100 text-dark border">
 					<div id="nav-margins" class="px-3 py-4">
 						<h2 class="my-2 mb-3">Options</h2>
+
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Dropdown button
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="#">Ohio</a>
+								<a class="dropdown-item" href="#">Oregon</a>
+								<a class="dropdown-item" href="#">Alabama</a>
+							</div>
+						</div>
+
 						<h5 class="my-2">Demographics</h5>
 						<input type="text" class="form-control my-2" placeholder="African-American %"></input>
-						<input type="text" class="form-control my-2" placeholder="Asian Pacific %"></input>		
+						<input type="text" class="form-control my-2" placeholder="Asian Pacific %"></input>
 						<input type="text" class="form-control mb-2" placeholder="Hispanic %"></input>
-						<input type="text" class="form-control mb-4" placeholder="White %"></input>							
+						<input type="text" class="form-control mb-4" placeholder="White %"></input>
 						<h5 class="my-2">Thresholds</h5>
 						<input type="text" class="form-control my-2" placeholder="Bloc population %"></input>
 						<input type="text" class="form-control my-1" placeholder="Bloc voting %"></input>
@@ -78,12 +95,12 @@
 				</nav>
 			</div>
 		</div>
-		
+
 		<!-- Right pane for data --->
 		<button id="hamburger" class="btn btn-primary btn-sm float-right" type="button" data-toggle="toggle" data-target="#data-pane">
 			+
 		</button>
-		
+
 		<div id="data-pane">
 			<div>
 				<nav id="navigation-bar" class="h-100 text-dark border">
@@ -91,8 +108,8 @@
 						<h2 class="my-2 mb-3">Data</h2>
 						<h5 class="my-2">Demographics</h5>
 						<input type="text" class="form-control my-2" placeholder="African-American %"></input>
-						<input type="text" class="form-control my-2" placeholder="Asian Pacific %"></input>		
-						<input type="text" class="form-control mb-4" placeholder="Hispanic %"></input>	
+						<input type="text" class="form-control my-2" placeholder="Asian Pacific %"></input>
+						<input type="text" class="form-control mb-4" placeholder="Hispanic %"></input>
 						<h5 class="my-2">Thresholds</h5>
 						<input type="text" class="form-control my-2" placeholder="Bloc population %"></input>
 						<input type="text" class="form-control my-1" placeholder="Bloc voting %"></input>
@@ -100,9 +117,9 @@
 				</nav>
 			</div>
 		</div>
-		
+
 		<div id="map"></div>
-		
+
 		<script src="./js/buttons.js"></script>
 		<script src="./js/leaflet.js"></script>
 	</body>
