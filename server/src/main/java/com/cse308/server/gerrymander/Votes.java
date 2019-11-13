@@ -39,6 +39,6 @@ public class Votes {
     }
     
     private boolean checkVoteThreshold(float ratio, float voteThreshold){
-        return False;
+        return false;
     }
 }

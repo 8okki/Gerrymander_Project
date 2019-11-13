@@ -6,6 +6,7 @@
 package com.cse308.server.gerrymander.result;
 
 import com.cse308.server.gerrymander.enums.Demographic;
+import com.cse308.server.gerrymander.enums.PoliticalParty;
 
 /**
  *

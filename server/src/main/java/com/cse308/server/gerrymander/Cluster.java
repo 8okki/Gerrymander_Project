@@ -54,7 +54,7 @@ public class Cluster {
     }
     
     private boolean checkPair(Cluster cluster2, float ratio){
-        return False;
+        return false;
     }
     
 }
