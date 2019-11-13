@@ -1,3 +1,4 @@
 ./data
 venv
 /server/nbproject/private/
+/server/target/
