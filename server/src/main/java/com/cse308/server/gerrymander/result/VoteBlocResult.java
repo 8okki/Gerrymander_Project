@@ -19,6 +19,13 @@ public class VoteBlocResult implements Result {
     PoliticalParty winningParty;
     String precinctName;
     
+    public VoteBlocResult(boolean isVoteBloc, Demographic demographic, PoliticalParty winningParty, String precinctName){
+        this.isVoteBloc = isVoteBloc;
+        this.demographic = demographic;
+        this.winningParty = winningParty;
+        this.precinctName = precinctName;
+    }
+    
     public boolean getIsVoteBloc(){
         return this.isVoteBloc;
     }
