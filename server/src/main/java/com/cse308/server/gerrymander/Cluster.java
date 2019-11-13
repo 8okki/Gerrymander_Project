@@ -9,6 +9,7 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 
 /**
  *
@@ -35,21 +36,38 @@ public class Cluster {
     }
     
     public Map<Demographic, Integer> getDemographicPopDist(Demographic[] demographics){
-        return null;
+        HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
+        for(int i = 0; i < demographics.length; i++){
+            for(Map.Entry<Demographic, Integer> entry : this.demographicPopDist.entrySet()){
+                if (demographics[i].equals(entry.getKey())){
+                    output.put(entry.getKey(),entry.getValue());
+                }
+            }
+        }
+        return output;
     }
+
     public Map<Cluster, Cluster> findMMPair(float minRange, float maxRange, Demographic[] demographic){
         return null;
     }
     
     public int getDemographicPopSum(Demographic[] demographics){
-        return -1;
+        int sum = 0;
+        for(int i = 0; i < demographics.length; i++){
+            for(Map.Entry<Demographic, Integer> entry : this.demographicPopDist.entrySet()){
+                if (demographics[i].equals(entry.getKey())){
+                    sum += entry.getValue();
+                }
+            }
+        }
+        return sum;
     }
     
     public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
         return null;
     }
     
-    private float calculateRatio(int demographicPopSum, int populationSum){
+    private static float calculateRatio(int demographicPopSum, int populationSum){
         return (float)demographicPopSum/populationSum;
     }
     

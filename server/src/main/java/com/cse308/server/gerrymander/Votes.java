@@ -30,15 +30,15 @@ public class Votes {
         return -1;
     }
     
-    public VoteBlocResult getVoteBlockResult(Demographic demographic, float voteThreshold, String precinctName){
+    public VoteBlocResult getVoteBlocResult(Demographic demographic, float voteThreshold, String precinctName){
         return null;
     }
     
-    private float calculateRatio(int winningVotes, int totalVotes){
+    private static float calculateRatio(int winningVotes, int totalVotes){
         return (float)winningVotes/totalVotes;
     }
     
-    private boolean checkVoteThreshold(float ratio, float voteThreshold){
+    private static boolean checkVoteThreshold(float ratio, float voteThreshold){
         return false;
     }
 }

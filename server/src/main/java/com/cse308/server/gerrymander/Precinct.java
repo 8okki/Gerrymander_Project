@@ -9,6 +9,7 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 
 /**
  *
@@ -31,14 +32,30 @@ public class Precinct {
     }
     
     public Map<Demographic, Integer> getDemogrphicPop(Demographic[] demographics){
-        return null;
+        HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
+        for(int i = 0; i < demographics.length; i++){
+            for(Map.Entry<Demographic, Integer> entry : this.demographicPopDist.entrySet()){
+                if (demographics[i].equals(entry.getKey())){
+                    output.put(entry.getKey(),entry.getValue());
+                }
+            }
+        }
+        return output;
     }
     
     private Demographic findLargestDemographic(){
-        return null;
+        int curLargest;
+        Demographic curDemo;
+        for(Map.Entry<Demographic, Integer> entry : this.demographicPopDist.entrySet()){
+            if (entry.getValue() > curLargest){
+                curLargest = entry.getValue();
+                curDemo = entry.getKey();
+            }
+        }
+        return curDemo;
     }
     
-    private float calculateRatio(int largestDemographicPop, int totalPop){
+    private static float calculateRatio(int largestDemographicPop, int totalPop){
         return (float)largestDemographicPop/totalPop;
     }
 }
