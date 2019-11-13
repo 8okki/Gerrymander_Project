@@ -38,6 +38,7 @@ function resetHighlight(e) {
 // zoom to feature
 function zoomToFeature(e) {
 	map.fitBounds(e.target.getBounds());
+	$("#optionButton").click();
 }
 // listeners
 function onEachFeature(feature, layer) {
