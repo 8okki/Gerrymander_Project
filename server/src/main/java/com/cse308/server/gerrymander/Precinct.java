@@ -9,6 +9,7 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 
 /**
  *
@@ -22,23 +23,48 @@ public class Precinct {
     Votes electionVotes;
     String name;
     
-    public Demographic findDemographicBlocs(float threshold){
+    public VoteBlocResult findVoteBloc(float blocThreshold, float voteThreshold){
+        
+    }
+    
+    public Demographic findDemographicBloc(float threshold){
+        Demographic maxDemographic = findLargestDemographic();
+        int maxDemographicPop = getDemographicPop(maxDemographic);
+        float ratio = calculateRatio(maxDemographicPop, blocThreshold);
+        if(ratio > threshold){
+            return maxDemographic;
+        }
+    }
+    
+    public int getDemographicPop(float blocThreshold, float voteThreshold){
         return null;
     }
     
-    public VoteBlocResult getDemographicPop(float blocThreshold, float voteThreshold){
-        return null;
-    }
-    
-    public Map<Demographic, Integer> getDemogrphicPop(Demographic[] demographics){
-        return null;
+    public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
+        HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
+        for(int i = 0; i < demographics.length; i++){
+            for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
+                if (demographics[i].equals(entry.getKey())){
+                    output.put(entry.getKey(),entry.getValue());
+                }
+            }
+        }
+        return output;
     }
     
     private Demographic findLargestDemographic(){
-        return null;
+        int curLargest = Integer.MAX_VALUE;
+        Demographic curDemo = null;
+        for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
+            if (entry.getValue() > curLargest){
+                curLargest = entry.getValue();
+                curDemo = entry.getKey();
+            }
+        }
+        return curDemo;
     }
     
-    private float calculateRatio(int largestDemographicPop, int totalPop){
+    private static float calculateRatio(int largestDemographicPop, int totalPop){
         return (float)largestDemographicPop/totalPop;
     }
 }
