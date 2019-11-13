@@ -23,8 +23,17 @@ public class Precinct {
     Votes electionVotes;
     String name;
     
-    public Demographic findDemographicBlocs(float threshold){
-        return null;
+    public VoteBlocResult findVoteBloc(float blocThreshold, float voteThreshold){
+        
+    }
+    
+    public Demographic findDemographicBloc(float threshold){
+        Demographic maxDemographic = findLargestDemographic();
+        int maxDemographicPop = getDemographicPop(maxDemographic);
+        float ratio = calculateRatio(maxDemographicPop, blocThreshold);
+        if(ratio > threshold){
+            return maxDemographic;
+        }
     }
     
     public VoteBlocResult getDemographicPop(float blocThreshold, float voteThreshold){
@@ -34,7 +43,7 @@ public class Precinct {
     public Map<Demographic, Integer> getDemogrphicPop(Demographic[] demographics){
         HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
         for(int i = 0; i < demographics.length; i++){
-            for(Map.Entry<Demographic, Integer> entry : this.demographicPopDist.entrySet()){
+            for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
                 if (demographics[i].equals(entry.getKey())){
                     output.put(entry.getKey(),entry.getValue());
                 }
