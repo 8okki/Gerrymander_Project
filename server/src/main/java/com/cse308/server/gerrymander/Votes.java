@@ -19,15 +19,33 @@ public class Votes {
     Map<PoliticalParty, Integer> votes;
     
     public int getTotalVotes(){
-        return -1;
+        int output = 0;
+        for (Integer voteNum : this.votes.values()){
+            output += voteNum;
+        }
+        return output;
     }
     
     public PoliticalParty getWinningParty(){
-        return null;
+        int curLargest = Integer.MAX_VALUE;
+        PoliticalParty curParty = null;
+        for(Map.Entry<PoliticalParty, Integer> entry : this.votes.entrySet()){
+            if (entry.getValue() > curLargest){
+                curLargest = entry.getValue();
+                curParty = entry.getKey();
+            }
+        }
+        return curParty;
     }
     
     public int getWinningVotes(){
-        return -1;
+        int curLargest = Integer.MAX_VALUE;
+        for(Integer voteNum : this.votes.values()){
+            if (voteNum > curLargest){
+                curLargest = voteNum;
+            }
+        }
+        return curLargest;
     }
     
     public VoteBlocResult getVoteBlocResult(Demographic demographic, float voteThreshold, String precinctName){
@@ -39,6 +57,6 @@ public class Votes {
     }
     
     private static boolean checkVoteThreshold(float ratio, float voteThreshold){
-        return false;
+        return ratio > voteThreshold;
     }
 }

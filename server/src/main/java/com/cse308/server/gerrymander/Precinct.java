@@ -36,11 +36,11 @@ public class Precinct {
         }
     }
     
-    public VoteBlocResult getDemographicPop(float blocThreshold, float voteThreshold){
+    public int getDemographicPop(float blocThreshold, float voteThreshold){
         return null;
     }
     
-    public Map<Demographic, Integer> getDemogrphicPop(Demographic[] demographics){
+    public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
         HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
         for(int i = 0; i < demographics.length; i++){
             for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
@@ -53,9 +53,9 @@ public class Precinct {
     }
     
     private Demographic findLargestDemographic(){
-        int curLargest;
-        Demographic curDemo;
-        for(Map.Entry<Demographic, Integer> entry : this.demographicPopDist.entrySet()){
+        int curLargest = Integer.MAX_VALUE;
+        Demographic curDemo = null;
+        for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
             if (entry.getValue() > curLargest){
                 curLargest = entry.getValue();
                 curDemo = entry.getKey();
