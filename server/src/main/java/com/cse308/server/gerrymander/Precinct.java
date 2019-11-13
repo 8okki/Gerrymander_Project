@@ -27,11 +27,11 @@ public class Precinct {
         return null;
     }
     
-    public VoteBlocResult getDemographicPop(float blocThreshold, float voteThreshold){
+    public int getDemographicPop(float blocThreshold, float voteThreshold){
         return null;
     }
     
-    public Map<Demographic, Integer> getDemogrphicPop(Demographic[] demographics){
+    public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
         HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
         for(int i = 0; i < demographics.length; i++){
             for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
