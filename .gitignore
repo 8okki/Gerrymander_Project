@@ -3,3 +3,6 @@ venv
 /server/nbproject/private/
 /server/target/
 edward_test/
+old-server/
+*.whl
+tutorials/hibernate
