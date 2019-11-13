@@ -18,17 +18,17 @@ import java.util.Map;
 
 public class Algorithm {
     
-    Map<String, State> states;
+    State state;
     
-    public State initState(){
-        return null;
+    public void initState(){
+        this.state = null;
     }
     
-    public VoteBlocResult[] runPhase0(StateName statename, float blocThreshold, float voteThreshold){
-        return null;
+    public VoteBlocResult[] runPhase0(float blocThreshold, float voteThreshold){
+        return this.state.findVoteBlocs(blocThreshold, voteThreshold);
     }
     
-    public DistrictInfo getDistrictInfo(StateName stateName, int districtId, Demographic[] demographics){
-        return null;
+    public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){
+        return this.state.getDistrictInfo(districtId, demographics);
     }
 }
