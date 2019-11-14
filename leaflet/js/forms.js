@@ -16,15 +16,22 @@ voteSlider.oninput = function() {
 	vote.innerHTML = this.value;
 }
 
-$("#toolBtn").click(function() {
+$("#blocBtn").click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
 });
 
-$("#updateThresh").click(function() {
-	
+$("#gerryBtn").click(function() {
+	let selector = $(this).data("target");
+	$(selector).toggleClass('in');
 });
 
-$("#fullScreenBtn").click(function() {
+$("#bloc-returnBtn").click(function() {
+	let selector = $(this).data("target");
+	$(selector).toggleClass('in');
+});
 
+$("#gerry-returnBtn").click(function() {
+	let selector = $(this).data("target");
+	$(selector).toggleClass('in');
 });
