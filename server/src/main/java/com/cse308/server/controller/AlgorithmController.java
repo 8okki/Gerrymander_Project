@@ -14,7 +14,9 @@ import com.google.gson.JsonObject;
 //import com.google.gson.Gson;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +36,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlgorithmController {
     AlgorithmService algoService = new AlgorithmService();
     
-    @PostMapping(value = "/initState", produces = MediaType.APPLICATION_JSON_VALUE)
-    public JsonObject initStateRequest(@RequestBody JsonObject stateJson) {
+    @PostMapping(value = "/initState", 
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> initStateRequest(@RequestBody JsonObject stateJson) {
         JsonObject responseBody = new JsonObject();
         try {
             StateName stateName = StateName.valueOf(stateJson.get("stateName").getAsString());
@@ -43,28 +47,28 @@ public class AlgorithmController {
             if(state != null){
                 responseBody.addProperty("name", state.getName());
                 responseBody.addProperty("population", state.getPopulation());
-                return responseBody;
+                return new ResponseEntity<>(responseBody,HttpStatus.OK);
             }else{
-                responseBody.addProperty("error", "Couldn't initialize state");
-                return responseBody;
+                responseBody.addProperty("error", "Invalid request body");
+                return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            responseBody.addProperty("error", e.toString());
-            return responseBody;
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
         }
     }
     
     @PostMapping(value = "/runPhase0", produces = MediaType.APPLICATION_JSON_VALUE)
-    public JsonObject phase0Request(@RequestBody JsonObject input){
+    public ResponseEntity<?> phase0Request(@RequestBody JsonObject input){
         JsonObject responseBody = new JsonObject();
         try {
             float blocThreshold = input.get("blocThreshold").getAsFloat();
             float voteThreshold = input.get("blocThreshold").getAsFloat();
             algoService.runPhase0(blocThreshold, voteThreshold);
-            return responseBody;
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
-            responseBody.addProperty("error", e.toString());
-            return responseBody;
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
     }
     
