@@ -40,8 +40,26 @@ function resetHighlight(e) {
 }
 
 // zoom to feature
-function zoomToFeature(e) {
-	map.fitBounds(e.target.getBounds());
+function initState(e) {
+	let feature = e.sourceTarget.feature;
+	let stateName = feature.properties.name;
+	
+	$.ajax({
+		'type': "POST",
+		'dataType': 'json',
+		'url': "http://localhost:8080/initState",
+		'data': JSON.stringify({'stateName': stateName.toUpperCase()}),
+		'contentType': "application/json",
+		'statusCode':{
+			"200": function (data) {
+				map.fitBounds(e.target.getBounds());
+				$("#toolBtn").click();
+			},
+			"400": function(data){
+				console.log("error",data);
+			}
+		}
+	});
 }
 
 // listeners
@@ -49,7 +67,7 @@ function onEachFeature(feature, layer) {
 	layer.on({
 		mouseover: highlightFeature,
 		mouseout: resetHighlight,
-		click: zoomToFeature
+		click: initState
 	});
 }
 
