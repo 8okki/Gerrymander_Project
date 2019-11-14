@@ -22,5 +22,5 @@ $('[name="paneToggle"]').click(function() {
 });
 
 $('#homeBtn').click(function() {
-	
+	map.setView(new L.LatLng(39.8283, -98.5795), 5.2)
 })
