@@ -57,7 +57,7 @@ public class Votes {
     }
     
     public PoliticalParty getWinningParty(){
-        int curLargest = Integer.MAX_VALUE;
+        int curLargest = -1;
         PoliticalParty curParty = null;
         for(Map.Entry<PoliticalParty, Integer> entry : this.votes.entrySet()){
             if (entry.getValue() > curLargest){
@@ -83,7 +83,7 @@ public class Votes {
         int totalVotes = getTotalVotes();
         float ratio = calculateRatio(winningVotes,totalVotes);
         boolean isVoteBloc = ratio > voteThreshold;
-        return new VoteBlocResult(isVoteBloc, demographic, getWinningParty(), this.precinctCode);
+        return new VoteBlocResult(isVoteBloc, demographic, this.getWinningParty(), this.precinctCode);
     }
     
     private static float calculateRatio(int winningVotes, int totalVotes){

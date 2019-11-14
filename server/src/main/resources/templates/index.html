@@ -1,0 +1,165 @@
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+	<link rel="stylesheet" href="./css/styles.css">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/5cad909fe4.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+	<!-- Navigation Bar -->
+	<div id="main-toolbar">
+		<nav class="navigation-bar py-3 text-white">
+			<div id="homeTab">
+				<button id="homeBtn" class="btn btn-outline-light nav-btn" type="button">
+					<i class="fas fa-home"></i>
+					<p>Home</p>
+				</button>
+			</div>
+			<div id="stateTab">
+				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle" type="button"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-flag-usa"></i>
+					<p>States</p>
+				</button>
+				<div class="dropdown-menu" id="state-dropdown" aria-labelledby="stateDropdown">
+					<option name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#bloc-pane">Ohio</a>
+					<option name="paneToggle" class="dropdown-item" data-toggle="toggle"
+						data-target="#state-pane">Alabama</a>
+					<option name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#bloc-pane">Oregon</a>
+				</div>
+			</div>
+			<div id="blocTab">
+				<button id="blocBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
+					data-toggle="toggle" data-target="#bloc-pane">
+					<i class="far fa-chart-bar"></i>
+					<p>Bloc Analysis</p>
+				</button>
+			</div>
+			<div id="gerryTab">
+				<button id="gerryBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
+					data-toggle="toggle" data-target="#gerry-pane">
+					<i class="fas fa-balance-scale-right"></i>
+					<p>Gerrymander</p>
+				</button>
+			</div>
+		</nav>
+	</div>
+
+	<!-- State -->
+	<div id="state-pane" class="pane">
+		<nav id="state-nav" class="nav p-2 text-dark border">
+			<div class="return-pane ml-1">
+				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
+					data-toggle="toggle" data-target="#state-pane">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+			</div>
+			<div id="state-contents" class="contents pr-2 py-2">
+				<div id="state-title" class="mb-3">
+					<h4><i class="fas fa-flag-usa mr-2"></i>State</h4>
+				</div>
+				<hr>
+			</div>
+		</nav>
+	</div>
+
+	<!-- Bloc Analysis -->
+	<div id="bloc-pane" class="pane">
+		<nav id="bloc-nav" class="nav p-2 text-dark border">
+			<div class="return-pane ml-1">
+				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
+					data-toggle="toggle" data-target="#bloc-pane">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+			</div>
+			<div id="bloc-contents" class="contents pr-2 py-2">
+				<div id="bloc-title" class="mb-3">
+					<h4><i class="far fa-chart-bar mr-2"></i>Bloc Analysis</h4>
+				</div>
+				<hr>
+				<div id="thresholds">
+					<p class="mb-1">Bloc Population Threshold: <span id="population"></span> %</p>
+					<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
+					<p class="mb-1">Bloc Vote Threshold: <span id="vote"></span> %</p>
+					<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
+					<button id="updateThresh" class="btn btn-outline-success btn-sm">Analyze</button>
+				</div>
+				<hr>
+				<div id="bloc-results">
+					<h4>Blocs</h4>
+					<table class="table table-bordered">
+						<thead class="thead-dark my-1">
+							<tr>
+								<th scope="col"><p>Vote Bloc</p></th>
+								<th scope="col"><p>Precinct Name</p></th>
+								<th scope="col"><p>Demographic</p></th>
+								<th scope="col"><p>Winning Party</p></th>
+							</tr>
+						</thead>
+						<tbody id="bloc-table-body">
+							<tr>
+								<td>true<p>
+								<td><p>Stony Brook</p></td>
+								<td><p>Demographic</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<!-- Gerrymander -->
+	<div id="gerry-pane" class="pane">
+		<nav id="gerry-nav" class="nav p-2 text-dark border">
+			<div class="return-pane ml-1">
+				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
+					data-toggle="toggle" data-target="#gerry-pane">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+			</div>
+			<div id="gerry-contents" class="contents pr-2 py-2">
+				<div id="gerry-title" class="mb-3">
+					<h4><i class="fas fa-balance-scale-right mr-2"></i>Gerrymander</h4>
+				</div>
+				<hr>
+				<div id="demographics">
+					<h6 class="mb-1">Demographics</h6>
+					<input type="checkbox" class="m-1" name="demographic" value="African-American"> African-American<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Asian Pacific"> Asian Pacific<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Hispanic"> Hispanic<br>
+					<input type="checkbox" class="m-1" name="demographic" value="White"> White<br>
+					<button id="run" name="demographic" class="btn btn-outline-success btn-sm my-2">Run</button>
+				</div>
+				<hr>
+			</div>
+	</div>
+
+	<!-- Map -->
+	<div id="map"></div>
+
+</body>
+
+<script src="./js/us-states.js"></script>
+<script src="./js/forms.js"></script>
+<script src="./js/leaflet.js"></script>
+<script src="./js/buttons.js"></script>
+
+</html>

@@ -1,5 +1,6 @@
 // global var
 var geojson;
+var currentState;
 
 // get color function
 function getColor(state) {
@@ -48,6 +49,7 @@ function initState(e) {
 		'contentType': "application/json",
 		'statusCode':{
 			"200": function (data) {
+				currentState = stateName;
 				console.log("res:",data)
 				map.fitBounds(e.target.getBounds());
 				$("#toolBtn").click();
