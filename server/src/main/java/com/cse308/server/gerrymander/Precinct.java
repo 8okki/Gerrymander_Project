@@ -11,9 +11,19 @@ import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyEnumerated;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
@@ -21,16 +31,19 @@ import javax.persistence.Transient;
  * @author Maverick
  */
 @Entity
+@Table(name="Precincts")
 public class Precinct {
     @Id
     private String code;
     private String name;
     private StateName state;
     private int population;
-    private String[] demographics;
-    private Integer[] demographicPopulations;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="votes_code")
     private Votes electionVotes;
-    @Transient
+    @ElementCollection
+    @MapKeyColumn(name = "demographic")
+    @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographicPopulationDist;
     @Transient
     private Set<Precinct> neighbors;
@@ -93,4 +106,5 @@ public class Precinct {
     private static float calculateRatio(int largestDemographicPop, int totalPop){
         return (float)largestDemographicPop/totalPop;
     }
+    
 }

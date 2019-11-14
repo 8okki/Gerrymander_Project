@@ -3,6 +3,7 @@ package com.cse308.server.hibernate.util;
 
 import com.cse308.server.gerrymander.Precinct;
 import com.cse308.server.gerrymander.State;
+import com.cse308.server.gerrymander.Votes;
 import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +39,8 @@ public class HibernateUtil {
 
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(State.class);
+                configuration.addAnnotatedClass(Votes.class);
+                configuration.addAnnotatedClass(Precinct.class);
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);

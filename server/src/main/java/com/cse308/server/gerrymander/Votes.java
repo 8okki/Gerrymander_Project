@@ -9,15 +9,28 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.PoliticalParty;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Id;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyEnumerated;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
  * @author Mavericks
  */
+@Entity
+@Table(name="Votes")
 public class Votes {
-    
-    Map<PoliticalParty, Integer> votes;
+    @Id
     String precinctCode;
+    @ElementCollection
+    @MapKeyColumn(name = "politicalparty")
+    @MapKeyEnumerated(EnumType.STRING)
+    Map<PoliticalParty, Integer> votes;
     
     public Votes(Map<PoliticalParty, Integer> votes, String precinctName){
         this.votes = votes;
