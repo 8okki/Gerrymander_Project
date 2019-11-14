@@ -69,7 +69,7 @@ public class Votes {
     }
     
     public int getWinningVotes(){
-        int curLargest = Integer.MAX_VALUE;
+        int curLargest = -1;
         for(Integer voteNum : this.votes.values()){
             if (voteNum > curLargest){
                 curLargest = voteNum;
@@ -109,14 +109,6 @@ public class Votes {
     public void setVotes(Map<PoliticalParty, Integer> votes){
         this.votes = votes;
     }
-    
-    /*public Precinct getPrecinct(){
-        return this.precinct;
-    }
-    
-    public void setPrecinct(Precinct precinct){
-        this.precinct = precinct;
-    }*/
     
     public void setPrecinctCode(String precinctCode){
         this.precinctCode = precinctCode;

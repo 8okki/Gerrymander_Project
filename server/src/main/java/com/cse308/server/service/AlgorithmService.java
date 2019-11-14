@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 
 @Service

@@ -14,7 +14,7 @@ import org.hibernate.query.Query;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 public class StateDao {
     public List<State> getStateById(StateName stateName) {
