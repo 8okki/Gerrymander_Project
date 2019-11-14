@@ -35,3 +35,8 @@ $("#gerry-returnBtn").click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
 });
+
+$("#stateBtn").click(function() {
+	let selector = $(this).data("target");
+	$(selector).toggleClass('in');
+});

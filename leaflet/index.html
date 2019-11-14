@@ -25,14 +25,14 @@
 				</button>
 			</div>
 			<div id="stateTab" class="my-2">
-				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle" type="button" 
+				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle" type="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-flag-usa"></i>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="stateDropdown">
-					<a class="dropdown-item">Ohio</a>
-					<a class="dropdown-item">Alabama</a>
-					<a class="dropdown-item">Oregon</a>
+					<a id="stateBtn" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Ohio</a>
+					<a class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Alabama</a>
+					<a class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Oregon</a>
 				</div>
 			</div>
 			<div id="blocTab" class="my-2">
@@ -50,6 +50,32 @@
 		</nav>
 	</div>
 
+<!-- State -->
+	<div id="state-pane" class="pane">
+		<nav id="state-nav" class="p-2 text-dark border">
+			<div class="return-pane mx-3">
+				<button id="state-returnBtn" class="btn btn-outline-secondary nav-btn" type="button" data-toggle="toggle"
+					data-target="#state-pane">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+			</div>
+			<div id="state-contents" class="p-2">
+				<div id="state-title" class="mb-3">
+					<h3>State</h3>
+				</div>
+				<hr>
+				<div id="thresholds">
+					<p class="mb-1">state Population Threshold: <span id="population"></span> %</p>
+					<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
+					<p class="mb-1">state Vote Threshold: <span id="vote"></span> %</p>
+					<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
+					<button id="updateThresh" class="btn btn-outline-success btn-sm">Analyze</button>
+				</div>
+				<hr>
+			</div>
+		</nav>
+	</div>
+<!-- state end -->
 	<div id="bloc-pane" class="pane">
 		<nav id="bloc-nav" class="p-2 text-dark border">
 			<div class="return-pane mx-3">
@@ -92,32 +118,6 @@
 		</nav>
 	</div>
 
-	<!-- Left pane for options -->
-	<!-- <button id="toolBtn" class="btn btn-secondary btn-lg float-left" type="button" data-toggle="toggle"
-		data-target="#options-pane"><i class="fas fa-bars"></i></button>
-
-	<div id="options-pane">
-		<nav class="navigation-bar h-100 px-3 py-4 text-dark border">
-			<div id="title" class="mb-3">
-				<h3>GERRYMANDER</h3>
-			</div>
-			<hr>
-			
-			<hr>
-			<div id="demographics" class="mb-3">
-				<h5 class="my-2">Demographics</h5>
-				<input type="checkbox" class="m-2" name="demographic" value="African-American">African-American<br>
-				<input type="checkbox" class="m-2" name="demographic" value="Asian Pacific">Asian Pacific<br>
-				<input type="checkbox" class="m-2" name="demographic" value="Hispanic">Hispanic<br>
-				<input type="checkbox" class="m-2" name="demographic" value="White">White<br>
-				<button id="run" name="demographic" class="btn btn-outline-secondary my-2">Compute Maj-Min</button>
-			</div>
-			<hr>
-			<div id="fullScreen">
-				<button id="fullScreenBtn" class="btn btn-outline-secondary my-2">Return to Full Screen</button>
-			</div>
-		</nav> 
-	</div> -->
 
 	<div id="map"></div>
 
