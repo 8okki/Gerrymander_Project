@@ -16,22 +16,28 @@ voteSlider.oninput = function() {
 	vote.innerHTML = this.value;
 }
 
-$("#blocBtn").click(function() {
+$('[name="paneToggle"]').click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
 });
 
-$("#gerryBtn").click(function() {
-	let selector = $(this).data("target");
-	$(selector).toggleClass('in');
-});
 
-$("#bloc-returnBtn").click(function() {
-	let selector = $(this).data("target");
-	$(selector).toggleClass('in');
-});
+// $("#blocBtn").click(function() {
+// 	let selector = $(this).data("target");
+// 	$(selector).toggleClass('in');
+// });
 
-$("#gerry-returnBtn").click(function() {
-	let selector = $(this).data("target");
-	$(selector).toggleClass('in');
-});
+// $("#gerryBtn").click(function() {
+// 	let selector = $(this).data("target");
+// 	$(selector).toggleClass('in');
+// });
+
+// $("#bloc-returnBtn").click(function() {
+// 	let selector = $(this).data("target");
+// 	$(selector).toggleClass('in');
+// });
+
+// $("#gerry-returnBtn").click(function() {
+// 	let selector = $(this).data("target");
+// 	$(selector).toggleClass('in');
+// });

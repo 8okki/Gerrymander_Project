@@ -36,14 +36,14 @@
 				</div>
 			</div>
 			<div id="blocTab" class="my-2">
-				<button id="blocBtn" class="btn btn-outline-light nav-btn" type="button" data-toggle="toggle"
-					data-target="#bloc-pane">
+				<button id="blocBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
+					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="fas fa-dice-one"></i>
 				</button>
 			</div>
 			<div id="gerryTab" class="my-2">
-				<button id="gerryBtn" class="btn btn-outline-light nav-btn" type="button" data-toggle="toggle"
-					data-target="#gerry-pane">
+				<button id="gerryBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
+					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-dice-two"></i>
 				</button>
 			</div>
@@ -53,8 +53,8 @@
 	<div id="bloc-pane" class="pane">
 		<nav id="bloc-nav" class="p-2 text-dark border">
 			<div class="return-pane mx-3">
-				<button id="bloc-returnBtn" class="btn btn-outline-secondary nav-btn" type="button" data-toggle="toggle"
-					data-target="#bloc-pane">
+				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button" 
+					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
@@ -78,8 +78,8 @@
 	<div id="gerry-pane" class="pane">
 		<nav id="gerry-nav" class="ml-2 text-dark border">
 			<div class="return-pane mx-3">
-				<button id="gerry-returnBtn" class="btn btn-outline-secondary nav-btn" type="button" data-toggle="toggle"
-					data-target="#gerry-pane">
+				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button" 
+					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
