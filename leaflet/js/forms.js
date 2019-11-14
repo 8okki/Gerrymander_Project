@@ -16,15 +16,7 @@ voteSlider.oninput = function() {
 	vote.innerHTML = this.value;
 }
 
-$("#toolBtn").click(function() {
+$('[name="paneToggle"]').click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
-});
-
-$("#updateThresh").click(function() {
-	
-});
-
-$("#fullScreenBtn").click(function() {
-
 });

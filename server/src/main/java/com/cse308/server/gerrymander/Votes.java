@@ -9,19 +9,32 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.PoliticalParty;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Id;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyEnumerated;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
  * @author Mavericks
  */
+@Entity
+@Table(name="Votes")
 public class Votes {
-    
+    @Id
+    String precinctCode;
+    @ElementCollection
+    @MapKeyColumn(name = "politicalparty")
+    @MapKeyEnumerated(EnumType.STRING)
     Map<PoliticalParty, Integer> votes;
-    String precinctName;
     
     public Votes(Map<PoliticalParty, Integer> votes, String precinctName){
         this.votes = votes;
-        this.precinctName = precinctName;
+        this.precinctCode = precinctCode;
     }
     
     public int getTotalVotes(){
@@ -59,7 +72,7 @@ public class Votes {
         int totalVotes = getTotalVotes();
         float ratio = calculateRatio(winningVotes,totalVotes);
         boolean isVoteBloc = ratio > voteThreshold;
-        return new VoteBlocResult(isVoteBloc, demographic, getWinningParty(), this.precinctName);
+        return new VoteBlocResult(isVoteBloc, demographic, getWinningParty(), this.precinctCode);
     }
     
     private static float calculateRatio(int winningVotes, int totalVotes){
