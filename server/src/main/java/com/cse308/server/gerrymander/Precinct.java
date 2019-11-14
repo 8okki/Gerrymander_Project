@@ -60,26 +60,22 @@ public class Precinct {
     
     public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
         HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
-        for(int i = 0; i < demographics.length; i++){
-            for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
-                if (demographics[i].equals(entry.getKey())){
-                    output.put(entry.getKey(),entry.getValue());
-                }
-            }
+        for(Demographic demographic : demographics){
+            output.put(demographic,getDemographicPop(demographic));
         }
         return output;
     }
     
     private Demographic findLargestDemographic(){
-        int curLargest = Integer.MAX_VALUE;
-        Demographic curDemo = null;
+        int maxPopulation = -1;
+        Demographic maxDemographic = null;
         for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
-            if (entry.getValue() > curLargest){
-                curLargest = entry.getValue();
-                curDemo = entry.getKey();
+            if (entry.getValue() > maxPopulation){
+                maxDemographic = entry.getKey();
+                maxPopulation = entry.getValue();
             }
         }
-        return curDemo;
+        return maxDemographic;
     }
     
     private static float calculateRatio(int largestDemographicPop, int totalPop){

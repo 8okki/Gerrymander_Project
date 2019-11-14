@@ -9,6 +9,9 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
+import com.cse308.server.hibernate.dao.StateDao;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,13 +20,23 @@ import java.util.Map;
  */
 
 public class Algorithm {
+    StateDao stateDao = new StateDao();
+    
     State state;
     
-    public void initState(StateName stateName){
-        this.state = null;
+    public State initState(StateName stateName){
+        List<State> results = stateDao.getStateById(stateName);
+        if(!results.isEmpty()){
+            this.state = results.get(0);
+            System.out.println("Set state to: " + this.state);
+            return this.state;
+        }else{
+            return null;
+        }
+        
     }
     
-    public VoteBlocResult[] runPhase0(float blocThreshold, float voteThreshold){
+    public ArrayList<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
         return this.state.findVoteBlocs(blocThreshold, voteThreshold);
     }
     
