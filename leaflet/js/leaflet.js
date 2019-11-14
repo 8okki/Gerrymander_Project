@@ -53,7 +53,8 @@ function initState(e) {
 		'statusCode':{
 			"200": function (data) {
 				map.fitBounds(e.target.getBounds());
-				$("#toolBtn").click();
+				let selector = $([name="paneToggle"]).data("target");
+				$(selector).toggleClass('in');
 			},
 			"400": function(data){
 				console.log("error",data);

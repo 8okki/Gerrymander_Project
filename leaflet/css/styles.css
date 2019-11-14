@@ -1,6 +1,6 @@
 #map { 
   height: 100%; 
-  width: 95%; 
+  width: 92%; 
   z-index: 1;
   float: right;
   position: relative;
@@ -10,17 +10,35 @@
     z-index: 2;
     position: absolute;
     height: 100%;
-    width: 5%;
+    width: 8%;
     background: #537780;
 }
 
 .nav-btn {
-  height: 7%;
-  width: 82%;
+  height: 10%;
+  width: 100%;
+  border: none;
+  border-radius: 0px;
+  padding-top: 25px;
+  padding-bottom: 58px;
 }
 
-.dropdown-toggle::after { 
-  content: none; 
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 15px;
+}
+
+.dropdown-toggle::after {
+  content: none;
+}
+
+.dropdown-item:active {
+  background: lightgray;
 }
 
 .pane {
@@ -28,7 +46,7 @@
   -moz-transition: width 0.5s ease;
   -o-transition: width 0.5s ease;
   transition: width 0.5s ease;
-  
+
   z-index: 4;
   position: absolute;
   height: 100%;
@@ -36,6 +54,7 @@
   float: left;
   overflow: hidden;
   margin-left:-1.5%;
+  background: white;
 }
 
 .pane.in{
@@ -46,29 +65,16 @@
   background: white;
 }
 
-#bloc-nav {
+.nav {
   height: 100%;
   width: 400px;
 }
 
-#bloc-contents {
+.contents {
   z-index: 3;
   position: absolute;
   height: 100%;
-  left: 80px;
-  width: 320px;
-}
-
-#gerry-nav {
-  height: 100%;
-  width: 400px;
-}
-
-#gerry-contents {
-  z-index: 3;
-  position: absolute;
-  height: 100%;
-  left: 80px;
+  left: 70px;
   width: 320px;
 }
 
@@ -88,11 +94,11 @@
     -webkit-transition: .2s;
     transition: opacity .2s;
   }
-  
+
   .slider:hover {
     opacity: 1;
   }
-  
+
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -101,7 +107,7 @@
     background: #4CAF50;
     cursor: pointer;
   }
-  
+
   .slider::-moz-range-thumb {
     width: 25px;
     height: 15px;
@@ -111,4 +117,17 @@
 
   p {
     font-size: 12px;
+    margin-bottom: 0%;
+  }
+
+  hr {
+    margin: 10px;
+  }
+
+  #demographics {
+    font-size: 13px;
+  }
+
+  table {
+    float: center;
   }
