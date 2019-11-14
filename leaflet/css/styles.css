@@ -1,17 +1,21 @@
-#map { height: 100%; width: 100%; z-index: 1; position: absolute}
+#map { 
+  height: 100%; 
+  width: 96%; 
+  z-index: 1;
+  float: right;
+  position: relative;
+}
 
 .navigation-bar {
     z-index: 2;
     position: absolute;
-    width: 250px;
+    width: 5%;
     background: white;
 }
 
 #toolBtn {
     z-index: 5;
-    width: 1.5%;
     position: relative;
-    visibility: hidden;
 }
 
 #options-pane {
@@ -32,26 +36,6 @@
 #options-pane.in {
     width: 250px;
     height: 100%;
-}
-
-#data-pane {
-  -webkit-transition: width 0.5s ease;
-  -moz-transition: width 0.5s ease;
-  -o-transition: width 0.5s ease;
-  transition: width 0.5s ease;
-  
-  z-index: 4;
-  position: relative;
-  height: 100%;
-  float: right;
-  overflow: hidden;
-  width: 0px;
-  margin-left:-1.5%;
-}
-
-#data-pane.in {
-  width: 250px;
-  height: 100%;
 }
 
 .slider {

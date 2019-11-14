@@ -71,7 +71,7 @@ public class Precinct {
     }
     
     public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
-        HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
+        Map<Demographic, Integer> output = new HashMap<Demographic, Integer>();
         for(Demographic demographic : demographics){
             output.put(demographic,getDemographicPop(demographic));
         }

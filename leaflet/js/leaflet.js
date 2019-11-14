@@ -8,6 +8,7 @@ function getColor(state) {
 	       state == "Ohio"  ? '#9CFF88' :
 	                  '#FFEDA0';
 }
+
 // style function
 function style(feature) {
 	return {
@@ -19,6 +20,7 @@ function style(feature) {
 		fillOpacity: 0.5
 	};
 }
+
 // highlight feature
 function highlightFeature(e){
 	let layer = e.target;
@@ -31,10 +33,12 @@ function highlightFeature(e){
 		}
 	);
 }
+
 // reset highlight
 function resetHighlight(e) {
 	geojson.resetStyle(e.target);
 }
+
 // zoom to feature
 function initState(e) {
 	let feature = e.sourceTarget.feature;
@@ -57,6 +61,7 @@ function initState(e) {
 		}
 	});
 }
+
 // listeners
 function onEachFeature(feature, layer) {
 	layer.on({
@@ -65,6 +70,7 @@ function onEachFeature(feature, layer) {
 		click: initState
 	});
 }
+
 // initialize the map on the "map" div with a given center and zoom
 var map = L.map('map', {
 	center: [39.8283, -98.5795],
