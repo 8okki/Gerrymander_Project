@@ -47,38 +47,12 @@
   background: white;
 }
 
-#bloc-nav {
+.nav {
   height: 100%;
   width: 400px;
 }
 
-#bloc-contents {
-  z-index: 3;
-  position: absolute;
-  height: 100%;
-  left: 70px;
-  width: 320px;
-}
-
-#state-nav {
-  height: 100%;
-  width: 400px;
-}
-
-#state-contents {
-  z-index: 3;
-  position: absolute;
-  height: 100%;
-  left: 80px;
-  width: 320px;
-}
-
-#gerry-nav {
-  height: 100%;
-  width: 400px;
-}
-
-#gerry-contents {
+.contents {
   z-index: 3;
   position: absolute;
   height: 100%;

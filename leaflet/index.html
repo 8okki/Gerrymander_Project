@@ -64,24 +64,16 @@
 
 	<!-- State -->
 	<div id="state-pane" class="pane">
-		<nav id="state-nav" class="p-2 text-dark border">
+		<nav id="state-nav" class="nav p-2 text-dark border">
 			<div class="return-pane ml-1">
 				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
 					data-toggle="toggle" data-target="#state-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
-			<div id="state-contents" class="p-2">
+			<div id="state-contents" class="contents pr-2 py-2">
 				<div id="state-title" class="mb-3">
 					<h3>State</h3>
-				</div>
-				<hr>
-				<div id="thresholds">
-					<p class="mb-1">state Population Threshold: <span id="population"></span> %</p>
-					<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
-					<p class="mb-1">state Vote Threshold: <span id="vote"></span> %</p>
-					<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
-					<button id="updateThresh" class="btn btn-outline-success btn-sm">Analyze</button>
 				</div>
 				<hr>
 			</div>
@@ -90,14 +82,14 @@
 
 	<!-- Bloc Analysis -->
 	<div id="bloc-pane" class="pane">
-		<nav id="bloc-nav" class="p-2 text-dark border">
+		<nav id="bloc-nav" class="nav p-2 text-dark border">
 			<div class="return-pane ml-1">
 				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
 					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
-			<div id="bloc-contents" class="pr-2 py-2">
+			<div id="bloc-contents" class="contents pr-2 py-2">
 				<div id="bloc-title" class="mb-3">
 					<h4>Bloc Analysis</h4>
 				</div>
@@ -116,14 +108,14 @@
 
 	<!-- Gerrymander -->
 	<div id="gerry-pane" class="pane">
-		<nav id="gerry-nav" class="p-2 text-dark border">
+		<nav id="gerry-nav" class="nav p-2 text-dark border">
 			<div class="return-pane ml-1">
 				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
 					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
-			<div id="gerry-contents" class="pr-2 py-2">
+			<div id="gerry-contents" class="contents pr-2 py-2">
 				<div id="gerry-title" class="mb-3">
 					<h4>Gerrymander</h4>
 				</div>
