@@ -11,8 +11,11 @@ $("[data-toggle='toggle']").click(function() {
 });
 */
 
+$("#state-dropdown").onchange = function(e){
+	
+};
+
 $("#updateThresh").click(function(e){
-	console.log(e);
 	if(!currentState){
 		window.alert("Please select a state first.");
 	}else{
@@ -21,6 +24,8 @@ $("#updateThresh").click(function(e){
 		
 		let popThreshold = popSlider.value / 100;
 		let voteThreshold = voteSlider.value / 100;
+		
+		console.log(popThreshold. voteThreshold);
 		
 		$.ajax({
 		'type': "POST",
