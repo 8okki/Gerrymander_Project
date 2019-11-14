@@ -17,11 +17,11 @@ import java.util.Map;
 public class Votes {
     
     Map<PoliticalParty, Integer> votes;
-    String precinctName;
+    String precinctCode;
     
     public Votes(Map<PoliticalParty, Integer> votes, String precinctName){
         this.votes = votes;
-        this.precinctName = precinctName;
+        this.precinctCode = precinctCode;
     }
     
     public int getTotalVotes(){

@@ -48,11 +48,12 @@ function initState(e) {
 		'contentType': "application/json",
 		'statusCode':{
 			"200": function (data) {
+				console.log("res:",data)
 				map.fitBounds(e.target.getBounds());
 				$("#toolBtn").click();
 			},
 			"400": function(data){
-				console.log("error",data);
+				console.log("error:",data.responseJSON.error);
 			}
 		}
 	});

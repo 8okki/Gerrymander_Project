@@ -6,22 +6,34 @@
 package com.cse308.server.gerrymander;
 
 import com.cse308.server.gerrymander.enums.Demographic;
+import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  *
  * @author Maverick
  */
+@Entity
 public class Precinct {
-    
+    @Id
+    private String code;
     private String name;
-    private Set<Precinct> neighbors;
+    private StateName state;
     private int population;
-    private Map<Demographic, Integer> demographicPopulationDist;
+    private String[] demographics;
+    private Integer[] demographicPopulations;
     private Votes electionVotes;
+    @Transient
+    private Map<Demographic, Integer> demographicPopulationDist;
+    @Transient
+    private Set<Precinct> neighbors;
     
     public Precinct(String name, int population, Map<Demographic, Integer> demographicPopulationDist, Votes electionVotes){
         this.name = name;

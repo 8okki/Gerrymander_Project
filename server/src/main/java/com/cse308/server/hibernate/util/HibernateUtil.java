@@ -1,6 +1,7 @@
 package com.cse308.server.hibernate.util;
 
 
+import com.cse308.server.gerrymander.Precinct;
 import com.cse308.server.gerrymander.State;
 import java.util.Properties;
 import javax.persistence.EntityManager;
