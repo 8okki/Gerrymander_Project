@@ -39,9 +39,10 @@
 					<p>States</p>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="stateDropdown">
-					<a class="dropdown-item">Ohio</a>
-					<a class="dropdown-item">Alabama</a>
-					<a class="dropdown-item">Oregon</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Ohio</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle"
+						data-target="#state-pane">Alabama</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Oregon</a>
 				</div>
 			</div>
 			<div id="blocTab" class="my-3">
@@ -57,6 +58,32 @@
 					<i class="fas fa-dice-two"></i>
 					<p>Phase 1</p>
 				</button>
+			</div>
+		</nav>
+	</div>
+
+	<!-- State -->
+	<div id="state-pane" class="pane">
+		<nav id="state-nav" class="p-2 text-dark border">
+			<div class="return-pane ml-1">
+				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
+					data-toggle="toggle" data-target="#state-pane">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+			</div>
+			<div id="state-contents" class="p-2">
+				<div id="state-title" class="mb-3">
+					<h3>State</h3>
+				</div>
+				<hr>
+				<div id="thresholds">
+					<p class="mb-1">state Population Threshold: <span id="population"></span> %</p>
+					<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
+					<p class="mb-1">state Vote Threshold: <span id="vote"></span> %</p>
+					<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
+					<button id="updateThresh" class="btn btn-outline-success btn-sm">Analyze</button>
+				</div>
+				<hr>
 			</div>
 		</nav>
 	</div>
