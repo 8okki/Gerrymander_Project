@@ -17,11 +17,11 @@ import java.util.Map;
 public class Votes {
     
     Map<PoliticalParty, Integer> votes;
-    String precinctName;
+    String precinctCode;
     
     public Votes(Map<PoliticalParty, Integer> votes, String precinctName){
         this.votes = votes;
-        this.precinctName = precinctName;
+        this.precinctCode = precinctCode;
     }
     
     public int getTotalVotes(){
@@ -59,7 +59,7 @@ public class Votes {
         int totalVotes = getTotalVotes();
         float ratio = calculateRatio(winningVotes,totalVotes);
         boolean isVoteBloc = ratio > voteThreshold;
-        return new VoteBlocResult(isVoteBloc, demographic, getWinningParty(), this.precinctName);
+        return new VoteBlocResult(isVoteBloc, demographic, getWinningParty(), this.precinctCode);
     }
     
     private static float calculateRatio(int winningVotes, int totalVotes){

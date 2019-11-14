@@ -10,6 +10,7 @@ import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -46,8 +47,8 @@ public class State {
     @Transient
     private Map<Cluster,Cluster> mmPairs;
     
-    public ArrayList<VoteBlocResult> findVoteBlocs(float blocThreshold, float voteThreshold){
-        ArrayList<VoteBlocResult> voteBlocResults = new ArrayList<>();
+    public List<VoteBlocResult> findVoteBlocs(float blocThreshold, float voteThreshold){
+        List<VoteBlocResult> voteBlocResults = new ArrayList<>();
         for(Precinct precinct : this.precincts){
             VoteBlocResult result = precinct.findVoteBloc(blocThreshold, voteThreshold);
             if(result != null){

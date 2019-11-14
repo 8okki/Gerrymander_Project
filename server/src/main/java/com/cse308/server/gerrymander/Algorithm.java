@@ -36,7 +36,7 @@ public class Algorithm {
         
     }
     
-    public ArrayList<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
+    public List<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
         return this.state.findVoteBlocs(blocThreshold, voteThreshold);
     }
     
