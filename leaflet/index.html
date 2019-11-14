@@ -18,6 +18,7 @@
 	<script src="https://kit.fontawesome.com/5cad909fe4.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 	<link rel="stylesheet" href="./css/styles.css">
 </head>
 
@@ -26,14 +27,14 @@
 	<!-- Navigation Bar -->
 	<div id="main-toolbar">
 		<nav class="navigation-bar py-3 text-white">
-			<div id="homeTab" class="my-3">
-				<button id="homeBtn" class="btn btn-outline-light nav-btn" type="button">
+			<div id="homeTab">
+				<button id="homeBtn" class="btn btn-outline-light nav-btn pt-3" type="button">
 					<i class="fas fa-home"></i>
 					<p>Home</p>
 				</button>
 			</div>
-			<div id="stateTab" class="my-3">
-				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle" type="button"
+			<div id="stateTab">
+				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle pt-3" type="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-flag-usa"></i>
 					<p>States</p>
@@ -45,15 +46,15 @@
 					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Oregon</a>
 				</div>
 			</div>
-			<div id="blocTab" class="my-3">
-				<button id="blocBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
+			<div id="blocTab">
+				<button id="blocBtn" class="btn btn-outline-light nav-btn pt-3" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="fas fa-dice-one"></i>
 					<p>Phase 0</p>
 				</button>
 			</div>
-			<div id="gerryTab" class="my-3">
-				<button id="gerryBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
+			<div id="gerryTab">
+				<button id="gerryBtn" class="btn btn-outline-light nav-btn pt-3" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-dice-two"></i>
 					<p>Phase 1</p>
@@ -121,14 +122,12 @@
 				</div>
 				<hr>
 				<div id="demographics">
-					<h5 class="mb-1">Demographics</h5>
-					<input type="checkbox" class="m-1" name="demographic" value="African-American">African-American<br>
-					<input type="checkbox" class="m-1" name="demographic" value="Asian Pacific">Asian Pacific<br>
-					<input type="checkbox" class="m-1" name="demographic" value="Hispanic">Hispanic<br>
-					<input type="checkbox" class="m-1" name="demographic" value="White">White<br>
-
-					<button id="run" name="demographic" class="btn btn-outline-secondary btn-sm my-2">Compute
-						Maj-Min</button>
+					<h6 class="mb-1">Demographics</h6>
+					<input type="checkbox" class="m-1" name="demographic" value="African-American"> African-American<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Asian Pacific"> Asian Pacific<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Hispanic"> Hispanic<br>
+					<input type="checkbox" class="m-1" name="demographic" value="White"> White<br>
+					<button id="run" name="demographic" class="btn btn-outline-success btn-sm my-2">Run</button>
 				</div>
 				<hr>
 			</div>
