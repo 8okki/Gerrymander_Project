@@ -20,3 +20,7 @@ $('[name="paneToggle"]').click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
 });
+
+$('#homeBtn').click(function() {
+	
+})
