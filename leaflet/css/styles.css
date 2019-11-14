@@ -19,6 +19,8 @@
   width: 100%;
   border: none;
   border-radius: 0px;
+  padding-top: 25px;
+  padding-bottom: 58px;
 }
 
 .btn-circle {
@@ -33,6 +35,10 @@
 
 .dropdown-toggle::after {
   content: none;
+}
+
+.dropdown-item:active {
+  background: lightgray;
 }
 
 .pane {
@@ -111,6 +117,7 @@
 
   p {
     font-size: 12px;
+    margin-bottom: 0%;
   }
 
   hr {
@@ -119,4 +126,8 @@
 
   #demographics {
     font-size: 13px;
+  }
+
+  table {
+    float: center;
   }

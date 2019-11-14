@@ -26,13 +26,13 @@
 	<div id="main-toolbar">
 		<nav class="navigation-bar py-3 text-white">
 			<div id="homeTab">
-				<button id="homeBtn" class="btn btn-outline-light nav-btn pt-3" type="button">
+				<button id="homeBtn" class="btn btn-outline-light nav-btn" type="button">
 					<i class="fas fa-home"></i>
 					<p>Home</p>
 				</button>
 			</div>
 			<div id="stateTab">
-				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle pt-3" type="button"
+				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle" type="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-flag-usa"></i>
 					<p>States</p>
@@ -45,14 +45,14 @@
 				</div>
 			</div>
 			<div id="blocTab">
-				<button id="blocBtn" class="btn btn-outline-light nav-btn pt-3" type="button" name="paneToggle"
+				<button id="blocBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="far fa-chart-bar"></i>
 					<p>Bloc Analysis</p>
 				</button>
 			</div>
 			<div id="gerryTab">
-				<button id="gerryBtn" class="btn btn-outline-light nav-btn pt-3" type="button" name="paneToggle"
+				<button id="gerryBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-balance-scale-right"></i>
 					<p>Gerrymander</p>
@@ -101,8 +101,23 @@
 					<button id="updateThresh" class="btn btn-outline-success btn-sm">Analyze</button>
 				</div>
 				<hr>
-				<div>
-
+				<div id="bloc-results">
+					<table class="table table-bordered">
+						<thead class="thead-dark my-1">
+							<tr>
+								<th scope="col"><p>Precinct Name</p></th>
+								<th scope="col"><p>Demographic</p></th>
+								<th scope="col"><p>Winning Party</p></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</nav>
