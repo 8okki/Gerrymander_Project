@@ -4,6 +4,8 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+
+	<script src="https://kit.fontawesome.com/5cad909fe4.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<link rel="stylesheet" href="./css/styles.css">
@@ -11,13 +13,21 @@
 </head>
 
 <body>
+	<!-- Navigation Bar -->
+	<div id="main-navbar">
+		<nav class="navigation-bar h-100 px-1 py-3 text-dark border">
+			
+		</nav>
+	</div>
+
 	<!-- Left pane for options -->
-	<button id="toolBtn" class="float-left" type="button" data-toggle="toggle"
-		data-target="#options-pane, #data-pane"></button>
+	<!-- <button id="toolBtn" class="btn btn-secondary btn-lg float-left" type="button" data-toggle="toggle"
+		data-target="#options-pane"><i class="fas fa-bars"></i></button>
+
 	<div id="options-pane">
 		<nav class="navigation-bar h-100 px-3 py-4 text-dark border">
 			<div id="title" class="mb-3">
-				<h3>GERRYMENDER</h3>
+				<h3>GERRYMANDER</h3>
 			</div>
 			<hr>
 			<div id="thresholds" class="mb-3">
@@ -41,23 +51,7 @@
 			<div id="fullScreen">
 				<button id="fullScreenBtn" class="btn btn-outline-secondary my-2">Return to Full Screen</button>
 			</div>
-		</nav>
-	</div>
-
-	<div id="data-pane">
-		<nav class="navigation-bar h-100 px-3 py-4 text-dark border">
-			<div class="mb-3">
-				<h3>DATA</h3>
-			</div>
-			<hr>
-			<div id="election-data">
-
-			</div>
-			<hr>
-			<div id="demographic-data">
-				
-			</div>
-		</nav>
+		</nav> -->
 	</div>
 
 	<div id="map"></div>

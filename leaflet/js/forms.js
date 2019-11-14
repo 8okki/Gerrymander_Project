@@ -1,5 +1,4 @@
 $("body").css("overflow", "hidden");
-$('[name="demographic"]').prop('disabled', true);
 
 var popSlider = document.getElementById("popSlider");
 var population = document.getElementById("population");
@@ -17,16 +16,15 @@ voteSlider.oninput = function() {
 	vote.innerHTML = this.value;
 }
 
-
 $("#toolBtn").click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
 });
 
 $("#updateThresh").click(function() {
-	$('[name="demographic"]').prop('disabled', false);
+	
 });
 
 $("#fullScreenBtn").click(function() {
 
-})
+});
