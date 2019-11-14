@@ -72,6 +72,7 @@ public class AlgorithmController {
             responseBody.add("results",jsonResults);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e.toString());
             responseBody.addProperty("error", "Invalid request body");
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }

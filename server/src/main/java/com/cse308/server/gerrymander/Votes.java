@@ -32,12 +32,12 @@ public class Votes {
     @Id
     String precinctCode;
     
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @MapKeyColumn(name = "politicalparty")
     @MapKeyEnumerated(EnumType.STRING)
     Map<PoliticalParty, Integer> votes;
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "precinct")
     private Precinct precinct;
     

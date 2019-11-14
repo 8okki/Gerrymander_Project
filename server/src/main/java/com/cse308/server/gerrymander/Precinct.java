@@ -47,10 +47,10 @@ public class Precinct {
     @JoinColumn(name="state", nullable=false)
     private State state;
     
-    @OneToOne(mappedBy="precinct",fetch=FetchType.LAZY)
+    @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER)
     private Votes electionVotes;
     
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @MapKeyColumn(name = "demographic")
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographicPopulationDist;
@@ -85,10 +85,7 @@ public class Precinct {
         Demographic maxDemographic = findLargestDemographic();
         int maxDemographicPop = getDemographicPop(maxDemographic);
         float ratio = calculateRatio(maxDemographicPop, population);
-        System.out.println("maxDemographic: " + maxDemographic + ",maxPop:" + maxDemographicPop);
-        System.out.println("population:" + this.population + ",ratio:" + ratio);
         if(ratio > threshold){
-            System.out.println("succeeded");
             return maxDemographic;
         }else{
             return null;

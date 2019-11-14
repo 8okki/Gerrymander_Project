@@ -53,7 +53,7 @@ public class State {
     private String name;
     private int population;
     
-    @OneToMany(mappedBy="state")
+    @OneToMany(mappedBy="state",fetch=FetchType.EAGER)
     private Set<Precinct> precincts;
     
     @Transient
