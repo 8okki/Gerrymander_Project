@@ -30,9 +30,9 @@
 					<i class="fas fa-flag-usa"></i>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="stateDropdown">
-					<a id="stateBtn" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Ohio</a>
-					<a class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Alabama</a>
-					<a class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Oregon</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Ohio</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Alabama</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Oregon</a>
 				</div>
 			</div>
 			<div id="blocTab" class="my-2">
@@ -54,7 +54,7 @@
 	<div id="state-pane" class="pane">
 		<nav id="state-nav" class="p-2 text-dark border">
 			<div class="return-pane mx-3">
-				<button id="state-returnBtn" class="btn btn-outline-secondary nav-btn" type="button" data-toggle="toggle"
+				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button" data-toggle="toggle"
 					data-target="#state-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
@@ -76,10 +76,11 @@
 		</nav>
 	</div>
 <!-- state end -->
+<!-- bloc -->
 	<div id="bloc-pane" class="pane">
 		<nav id="bloc-nav" class="p-2 text-dark border">
 			<div class="return-pane mx-3">
-				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button" 
+				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button"
 					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
@@ -100,11 +101,12 @@
 			</div>
 		</nav>
 	</div>
+<!-- bloc end -->
 
 	<div id="gerry-pane" class="pane">
 		<nav id="gerry-nav" class="ml-2 text-dark border">
 			<div class="return-pane mx-3">
-				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button" 
+				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button"
 					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
