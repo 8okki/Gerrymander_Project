@@ -5,9 +5,15 @@
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
 
 	<script src="https://kit.fontawesome.com/5cad909fe4.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
@@ -16,18 +22,21 @@
 </head>
 
 <body>
+
 	<!-- Navigation Bar -->
 	<div id="main-toolbar">
-		<nav class="navigation-bar pl-2 py-2 text-dark">
-			<div id="homeTab" class="my-2">
+		<nav class="navigation-bar py-3 text-white">
+			<div id="homeTab" class="my-3">
 				<button id="homeBtn" class="btn btn-outline-light nav-btn" type="button">
 					<i class="fas fa-home"></i>
+					<p>Home</p>
 				</button>
 			</div>
-			<div id="stateTab" class="my-2">
-				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle" type="button" 
+			<div id="stateTab" class="my-3">
+				<button id="stateDropdown" class="btn btn-outline-light nav-btn dropdown-toggle" type="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-flag-usa"></i>
+					<p>States</p>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="stateDropdown">
 					<a class="dropdown-item">Ohio</a>
@@ -35,32 +44,35 @@
 					<a class="dropdown-item">Oregon</a>
 				</div>
 			</div>
-			<div id="blocTab" class="my-2">
+			<div id="blocTab" class="my-3">
 				<button id="blocBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="fas fa-dice-one"></i>
+					<p>Phase 0</p>
 				</button>
 			</div>
-			<div id="gerryTab" class="my-2">
+			<div id="gerryTab" class="my-3">
 				<button id="gerryBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-dice-two"></i>
+					<p>Phase 1</p>
 				</button>
 			</div>
 		</nav>
 	</div>
 
+	<!-- Bloc Analysis -->
 	<div id="bloc-pane" class="pane">
 		<nav id="bloc-nav" class="p-2 text-dark border">
-			<div class="return-pane mx-3">
-				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button" 
+			<div class="return-pane ml-1">
+				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
 					data-toggle="toggle" data-target="#bloc-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
-			<div id="bloc-contents" class="p-2">
+			<div id="bloc-contents" class="pr-2 py-2">
 				<div id="bloc-title" class="mb-3">
-					<h3>Bloc Analysis</h3>
+					<h4>Bloc Analysis</h4>
 				</div>
 				<hr>
 				<div id="thresholds">
@@ -75,50 +87,35 @@
 		</nav>
 	</div>
 
+	<!-- Gerrymander -->
 	<div id="gerry-pane" class="pane">
-		<nav id="gerry-nav" class="ml-2 text-dark border">
-			<div class="return-pane mx-3">
-				<button name="paneToggle" class="btn btn-outline-secondary nav-btn" type="button" 
+		<nav id="gerry-nav" class="p-2 text-dark border">
+			<div class="return-pane ml-1">
+				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
 					data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
-			<div id="gerry-contents" class="p-2"></div>
+			<div id="gerry-contents" class="pr-2 py-2">
 				<div id="gerry-title" class="mb-3">
-					<h3>Gerrymander</h3>
+					<h4>Gerrymander</h4>
+				</div>
+				<hr>
+				<div id="demographics">
+					<h5 class="mb-1">Demographics</h5>
+					<input type="checkbox" class="m-1" name="demographic" value="African-American">African-American<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Asian Pacific">Asian Pacific<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Hispanic">Hispanic<br>
+					<input type="checkbox" class="m-1" name="demographic" value="White">White<br>
+
+					<button id="run" name="demographic" class="btn btn-outline-secondary btn-sm my-2">Compute
+						Maj-Min</button>
 				</div>
 				<hr>
 			</div>
-		</nav>
 	</div>
 
-	<!-- Left pane for options -->
-	<!-- <button id="toolBtn" class="btn btn-secondary btn-lg float-left" type="button" data-toggle="toggle"
-		data-target="#options-pane"><i class="fas fa-bars"></i></button>
-
-	<div id="options-pane">
-		<nav class="navigation-bar h-100 px-3 py-4 text-dark border">
-			<div id="title" class="mb-3">
-				<h3>GERRYMANDER</h3>
-			</div>
-			<hr>
-			
-			<hr>
-			<div id="demographics" class="mb-3">
-				<h5 class="my-2">Demographics</h5>
-				<input type="checkbox" class="m-2" name="demographic" value="African-American">African-American<br>
-				<input type="checkbox" class="m-2" name="demographic" value="Asian Pacific">Asian Pacific<br>
-				<input type="checkbox" class="m-2" name="demographic" value="Hispanic">Hispanic<br>
-				<input type="checkbox" class="m-2" name="demographic" value="White">White<br>
-				<button id="run" name="demographic" class="btn btn-outline-secondary my-2">Compute Maj-Min</button>
-			</div>
-			<hr>
-			<div id="fullScreen">
-				<button id="fullScreenBtn" class="btn btn-outline-secondary my-2">Return to Full Screen</button>
-			</div>
-		</nav> 
-	</div> -->
-
+	<!-- Map -->
 	<div id="map"></div>
 
 </body>
