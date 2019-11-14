@@ -8,9 +8,12 @@ package com.cse308.server.controller;
 import com.cse308.server.gerrymander.Algorithm;
 import com.cse308.server.gerrymander.State;
 import com.cse308.server.gerrymander.enums.StateName;
+import com.cse308.server.gerrymander.result.VoteBlocResult;
 import com.cse308.server.service.AlgorithmService;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
 //import com.google.gson.Gson;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +67,9 @@ public class AlgorithmController {
         try {
             float blocThreshold = input.get("blocThreshold").getAsFloat();
             float voteThreshold = input.get("blocThreshold").getAsFloat();
-            algoService.runPhase0(blocThreshold, voteThreshold);
+            ArrayList<VoteBlocResult> voteBlocResults = (ArrayList<VoteBlocResult>)algoService.runPhase0(blocThreshold, voteThreshold);
+            JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(voteBlocResults);
+            responseBody.add("results",jsonResults);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
             responseBody.addProperty("error", "Invalid request body");

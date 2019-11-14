@@ -8,7 +8,10 @@ package com.cse308.server.service;
 import com.cse308.server.gerrymander.Algorithm;
 import com.cse308.server.gerrymander.State;
 import com.cse308.server.gerrymander.enums.StateName;
+import com.cse308.server.gerrymander.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,7 +27,7 @@ public class AlgorithmService {
         return this.algo.initState(stateName);
     }
     
-    public void runPhase0(float blocThreshold, float voteThreshold){
-        this.algo.runPhase0(blocThreshold, voteThreshold);
+    public List<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
+        return this.algo.runPhase0(blocThreshold, voteThreshold);
     }
 }

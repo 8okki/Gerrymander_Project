@@ -75,7 +75,7 @@ public class Precinct {
     public VoteBlocResult findVoteBloc(float blocThreshold, float voteThreshold){
         Demographic maxDemographic = findDemographicBloc(blocThreshold);
         if(maxDemographic != null){
-            return null;//electionVotes.getVoteBlocResult(maxDemographic, voteThreshold);
+            return electionVotes.getVoteBlocResult(maxDemographic, voteThreshold);
         }else{
             return null;
         }
@@ -85,7 +85,10 @@ public class Precinct {
         Demographic maxDemographic = findLargestDemographic();
         int maxDemographicPop = getDemographicPop(maxDemographic);
         float ratio = calculateRatio(maxDemographicPop, population);
+        System.out.println("maxDemographic: " + maxDemographic + ",maxPop:" + maxDemographicPop);
+        System.out.println("population:" + this.population + ",ratio:" + ratio);
         if(ratio > threshold){
+            System.out.println("succeeded");
             return maxDemographic;
         }else{
             return null;
