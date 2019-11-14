@@ -12,9 +12,13 @@ import java.util.Map;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,14 +27,21 @@ import javax.persistence.Transient;
  * @author Mavericks
  */
 @Entity
-@Table(name="Votes")
+@Table(name="votes")
 public class Votes {
     @Id
     String precinctCode;
+    
     @ElementCollection
     @MapKeyColumn(name = "politicalparty")
     @MapKeyEnumerated(EnumType.STRING)
     Map<PoliticalParty, Integer> votes;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "precinct")
+    private Precinct precinct;
+    
+    public Votes(){} //hibernate seems to require empty constructors
     
     public Votes(Map<PoliticalParty, Integer> votes, String precinctName){
         this.votes = votes;
@@ -82,4 +93,33 @@ public class Votes {
     private static boolean checkVoteThreshold(float ratio, float voteThreshold){
         return ratio > voteThreshold;
     }
+    
+    public String toString(){
+        return "" + this.getTotalVotes();
+    }
+    
+    public String getPrecinctCode(){
+        return this.precinctCode;
+    }
+    
+    public Map<PoliticalParty, Integer> getVotes(){
+        return this.votes;
+    }
+    
+    public void setVotes(Map<PoliticalParty, Integer> votes){
+        this.votes = votes;
+    }
+    
+    /*public Precinct getPrecinct(){
+        return this.precinct;
+    }
+    
+    public void setPrecinct(Precinct precinct){
+        this.precinct = precinct;
+    }*/
+    
+    public void setPrecinctCode(String precinctCode){
+        this.precinctCode = precinctCode;
+    }
+    
 }

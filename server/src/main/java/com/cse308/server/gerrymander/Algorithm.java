@@ -28,6 +28,7 @@ public class Algorithm {
         List<State> results = stateDao.getStateById(stateName);
         if(!results.isEmpty()){
             this.state = results.get(0);
+            System.out.println("ples:" + this.state.getPrecincts());
             System.out.println("Set state to: " + this.state);
             return this.state;
         }else{

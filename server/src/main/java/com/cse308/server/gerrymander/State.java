@@ -10,17 +10,25 @@ import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -29,23 +37,31 @@ import javax.persistence.Transient;
  * @author Mavericks
  */
 
-@NamedNativeQueries({
-        @NamedNativeQuery(name = "State_findByName", query = "select * from states where name = :NAME", resultClass = State.class)
+@NamedQueries({
+        @NamedQuery(name = "State_findByName",
+                query = "from State where id = :ID")
 })
 
+/*@NamedNativeQueries({
+        @NamedNativeQuery(name = "State_findByName", query = "select * from states where name = :NAME", resultClass = State.class)
+})*/
+
 @Entity
-@Table(name="States")
+@Table(name="states")
 public class State {
-    @Enumerated(EnumType.STRING)
     @Id
-    private StateName name;
+    private String name;
     private int population;
+    
+    @OneToMany(mappedBy="state")
+    private Set<Precinct> precincts;
+    
     @Transient
     private Set<Cluster> clusters;
     @Transient
-    private Set<Precinct> precincts;
-    @Transient
     private Map<Cluster,Cluster> mmPairs;
+
+    public State() {}
     
     public List<VoteBlocResult> findVoteBlocs(float blocThreshold, float voteThreshold){
         List<VoteBlocResult> voteBlocResults = new ArrayList<>();
@@ -73,10 +89,19 @@ public class State {
     public int getPopulation(){
         return this.population;
     }
+    public void setName(String name) { 
+        this.name = name;
+    }
+    public void setPopulation(int population) { 
+        this.population = population;
+    }
+    
+    public Set<Precinct> getPrecincts() { return this.precincts; }
+    void setPrecincts(Set precincts) { this.precincts = precincts; }
     
     @Override
     public String toString(){
         return "[Name: " + this.name.toString() + 
-                ", population: " + this.population + "]"; 
+                ", population: " + this.population + ",precincts: " + this.precincts + "]"; 
     }
 }
