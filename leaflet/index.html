@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+	<link rel="stylesheet" href="./css/styles.css">
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -14,12 +15,9 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
-
 	<script src="https://kit.fontawesome.com/5cad909fe4.js" crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-	<link rel="stylesheet" href="./css/styles.css">
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -49,15 +47,15 @@
 			<div id="blocTab">
 				<button id="blocBtn" class="btn btn-outline-light nav-btn pt-3" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#bloc-pane">
-					<i class="fas fa-dice-one"></i>
-					<p>Phase 0</p>
+					<i class="far fa-chart-bar"></i>
+					<p>Bloc Analysis</p>
 				</button>
 			</div>
 			<div id="gerryTab">
 				<button id="gerryBtn" class="btn btn-outline-light nav-btn pt-3" type="button" name="paneToggle"
 					data-toggle="toggle" data-target="#gerry-pane">
-					<i class="fas fa-dice-two"></i>
-					<p>Phase 1</p>
+					<i class="fas fa-balance-scale-right"></i>
+					<p>Gerrymander</p>
 				</button>
 			</div>
 		</nav>
@@ -74,7 +72,7 @@
 			</div>
 			<div id="state-contents" class="contents pr-2 py-2">
 				<div id="state-title" class="mb-3">
-					<h3>State</h3>
+					<h4><i class="fas fa-flag-usa mr-2"></i>State</h4>
 				</div>
 				<hr>
 			</div>
@@ -92,7 +90,7 @@
 			</div>
 			<div id="bloc-contents" class="contents pr-2 py-2">
 				<div id="bloc-title" class="mb-3">
-					<h4>Bloc Analysis</h4>
+					<h4><i class="far fa-chart-bar mr-2"></i>Bloc Analysis</h4>
 				</div>
 				<hr>
 				<div id="thresholds">
@@ -103,6 +101,9 @@
 					<button id="updateThresh" class="btn btn-outline-success btn-sm">Analyze</button>
 				</div>
 				<hr>
+				<div>
+
+				</div>
 			</div>
 		</nav>
 	</div>
@@ -118,7 +119,7 @@
 			</div>
 			<div id="gerry-contents" class="contents pr-2 py-2">
 				<div id="gerry-title" class="mb-3">
-					<h4>Gerrymander</h4>
+					<h4><i class="fas fa-balance-scale-right mr-2"></i>Gerrymander</h4>
 				</div>
 				<hr>
 				<div id="demographics">
