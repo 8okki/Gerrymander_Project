@@ -21,7 +21,6 @@ import java.util.Map;
 
 public class Algorithm {
     StateDao stateDao = new StateDao();
-    
     State state;
     
     public State initState(StateName stateName){
@@ -31,8 +30,7 @@ public class Algorithm {
             return this.state;
         }else{
             return null;
-        }
-        
+        }    
     }
     
     public List<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){

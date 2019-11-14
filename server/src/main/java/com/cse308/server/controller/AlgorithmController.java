@@ -66,7 +66,7 @@ public class AlgorithmController {
         JsonObject responseBody = new JsonObject();
         try {
             float blocThreshold = input.get("blocThreshold").getAsFloat();
-            float voteThreshold = input.get("blocThreshold").getAsFloat();
+            float voteThreshold = input.get("voteThreshold").getAsFloat();
             ArrayList<VoteBlocResult> voteBlocResults = (ArrayList<VoteBlocResult>)algoService.runPhase0(blocThreshold, voteThreshold);
             JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(voteBlocResults);
             responseBody.add("results",jsonResults);

@@ -20,7 +20,7 @@ public class StateDao {
     public List<State> getStateById(StateName stateName) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query query = session.createNamedQuery("State_findByName",
-                    State.class).setParameter("ID", stateName.toString());
+                State.class).setParameter("ID", stateName.toString());
             return query.getResultList();
         }
     }
