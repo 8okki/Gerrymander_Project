@@ -80,10 +80,3 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 // add highlighting	
 geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
-
-
-
-
-/*L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();*/
