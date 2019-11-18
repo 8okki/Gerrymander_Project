@@ -1,19 +1,13 @@
-/*$("body").css("overflow", "hidden");
-
-$("[data-toggle='toggle']").click(function() {
-	let element = $(this)[0];
-	if(element.innerHTML.includes("+"))
-		element.innerHTML = "-";
-	else
-		element.innerHTML = "+";
-	let selector = $(this).data("target");
-	$(selector).toggleClass('in');
-});
-*/
-
 $("#state-dropdown").onchange = function(e){
 	
 };
+
+function updateTableBody(newTableBody, oldTableBody){
+	let tableBody = oldTableBody;
+	tableBody.parentNode.replaceChild(newTableBody,tableBody);
+	tableBody = newTableBody;
+	tableBody.id = "bloc-table-body";
+}
 
 $("#updateThresh").click(function(e){
 	if(!currentState){
@@ -21,12 +15,9 @@ $("#updateThresh").click(function(e){
 	}else{
 		let popSlider = $("#popSlider")[0];
 		let voteSlider = $("#voteSlider")[0];
-		
 		let popThreshold = popSlider.value / 100;
 		let voteThreshold = voteSlider.value / 100;
-		
-		console.log(popThreshold. voteThreshold);
-		
+                
 		$.ajax({
 		'type': "POST",
 		'dataType': 'json',
@@ -37,12 +28,12 @@ $("#updateThresh").click(function(e){
 		'statusCode':{
 			"200": function (data) {
 				let results = data.results;
-				let newTable = document.createElement("tbody");
-				let table = $("#bloc-table-body")[0];
+				let newTableBody = document.createElement("tbody");
+				let tableBody = $("#bloc-table-body")[0];
 				
-				table.parentNode.replaceChild(newTable,table);
-				table = newTable;
-				table.id = "bloc-table-body";
+				table.parentNode.replaceChild(newTableBody,tableBody);
+				tableBody = newTableBody;
+				tableBody.id = "bloc-table-body";
 				
 				for(result of results){
 					let row = table.insertRow(0);
@@ -51,12 +42,11 @@ $("#updateThresh").click(function(e){
 					row.insertCell(2).innerHTML = result.demographic;
 					row.insertCell(3).innerHTML = result.winningParty.substring(0,3);
 				}
-				
 			},
 			"400": function(data){
 				console.log("error",data);
 			}
 		}
-	});
+            });
 	}
 });

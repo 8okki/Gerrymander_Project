@@ -96,8 +96,13 @@ public class State {
         this.population = population;
     }
     
-    public Set<Precinct> getPrecincts() { return this.precincts; }
-    void setPrecincts(Set precincts) { this.precincts = precincts; }
+    public Set<Precinct> getPrecincts() { 
+        return this.precincts; 
+    }
+    
+    public void setPrecincts(Set precincts) { 
+        this.precincts = precincts; 
+    }
     
     @Override
     public String toString(){
