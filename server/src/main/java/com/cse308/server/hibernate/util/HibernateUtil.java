@@ -35,14 +35,14 @@ public class HibernateUtil {
 
 
                 // Configure how the schema should be created
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
+                settings.put(Environment.HBM2DDL_AUTO, "update");
 
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(State.class);
                 configuration.addAnnotatedClass(Votes.class);
                 configuration.addAnnotatedClass(Precinct.class);
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(configuration.getProperties()).build();
+                    .applySettings(configuration.getProperties()).build();
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
                 e.printStackTrace();

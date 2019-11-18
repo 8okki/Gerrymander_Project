@@ -15,26 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 
 @Controller
 public class HomeController {
     @GetMapping("/")
-    public String home(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "home";
-    }
-    
-    @RequestMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
-    }
-    
-    @PostMapping("/greeting")
-    public String greetingPost(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greetings "  + name;
+    public String homePage() {
+        return "index";
     }
 }

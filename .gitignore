@@ -1,3 +1,5 @@
+.vs/
+nbactions.xml
 ./data
 venv
 /server/nbproject/private/

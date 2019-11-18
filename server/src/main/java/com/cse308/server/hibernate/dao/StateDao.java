@@ -10,17 +10,18 @@ import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.hibernate.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 public class StateDao {
     public List<State> getStateById(StateName stateName) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            System.out.println("Statename: " + stateName.toString());
-            return session.createNamedQuery("State_findByName",
-                    State.class).setParameter("NAME", stateName.toString()).getResultList();
+            Query query = session.createNamedQuery("State_findByName",
+                State.class).setParameter("ID", stateName.toString());
+            return query.getResultList();
         }
     }
 }

@@ -37,11 +37,11 @@
 					<i class="fas fa-flag-usa"></i>
 					<p>States</p>
 				</button>
-				<div class="dropdown-menu" aria-labelledby="stateDropdown">
-					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Ohio</a>
-					<a name="paneToggle" class="dropdown-item" data-toggle="toggle"
+				<div class="dropdown-menu" id="state-dropdown" aria-labelledby="stateDropdown">
+					<option name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#bloc-pane">Ohio</a>
+					<option name="paneToggle" class="dropdown-item" data-toggle="toggle"
 						data-target="#state-pane">Alabama</a>
-					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Oregon</a>
+					<option name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#bloc-pane">Oregon</a>
 				</div>
 			</div>
 			<div id="blocTab">
@@ -102,19 +102,22 @@
 				</div>
 				<hr>
 				<div id="bloc-results">
+					<h4>Blocs</h4>
 					<table class="table table-bordered">
 						<thead class="thead-dark my-1">
 							<tr>
+								<th scope="col"><p>Vote Bloc</p></th>
 								<th scope="col"><p>Precinct Name</p></th>
 								<th scope="col"><p>Demographic</p></th>
 								<th scope="col"><p>Winning Party</p></th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="bloc-table-body">
 							<tr>
+								<td>true<p>
 								<td><p>Stony Brook</p></td>
-								<td><p>African-American</p></td>
-								<td><p>Democratics</p></td>
+								<td><p>Demographic</p></td>
+								<td><p>DEM</p></td>
 							</tr>
 						</tbody>
 					</table>
@@ -139,14 +142,11 @@
 				<hr>
 				<div id="demographics">
 					<h6 class="mb-1">Demographics</h6>
-					<input type="checkbox" class="m-1" name="demographic" value="African-American"> African-American<br>
-					<input type="checkbox" class="m-1" name="demographic" value="Asian Pacific"> Asian Pacific<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Asian"> Asian<br>
+                                        <input type="checkbox" class="m-1" name="demographic" value="Black"> Black<br>
 					<input type="checkbox" class="m-1" name="demographic" value="Hispanic"> Hispanic<br>
 					<input type="checkbox" class="m-1" name="demographic" value="White"> White<br>
-					<p class="mt-2">Range: <span id="minRange"></span> - <span id="maxRange"></span> %</p>
-					<input id="minSlider" type="range" class="slider" min="1" max="100" value="25">
-					<input id="maxSlider" type="range" class="slider" min="1" max="100" value="75">
-					<button id="gerryBtn" class="btn btn-outline-success btn-sm my-2">Run Gerrymander</button>
+					<button id="run" name="demographic" class="btn btn-outline-success btn-sm my-2">Run</button>
 				</div>
 				<hr>
 			</div>
@@ -160,5 +160,6 @@
 <script src="./js/us-states.js"></script>
 <script src="./js/forms.js"></script>
 <script src="./js/leaflet.js"></script>
+<script src="./js/buttons.js"></script>
 
 </html>

@@ -13,7 +13,6 @@ import com.cse308.server.gerrymander.enums.PoliticalParty;
  * @author Jakob
  */
 public class VoteBlocResult implements Result {
-    
     boolean isVoteBloc;
     Demographic demographic;
     PoliticalParty winningParty;

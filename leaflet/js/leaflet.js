@@ -53,7 +53,8 @@ function initState(e) {
 		'statusCode':{
 			"200": function (data) {
 				map.fitBounds(e.target.getBounds());
-				$("#toolBtn").click();
+				let selector = $([name="paneToggle"]).data("target");
+				$(selector).toggleClass('in');
 			},
 			"400": function(data){
 				console.log("error",data);
@@ -75,17 +76,15 @@ function onEachFeature(feature, layer) {
 var map = L.map('map', {
 	center: [39.8283, -98.5795],
 	zoomControl: false,
-	zoom: 5.2
+	zoom: 5
 });
+
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
 // add highlighting	
 geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
-
-
-
 
 /*L.marker([51.5, -0.09]).addTo(map)
     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')

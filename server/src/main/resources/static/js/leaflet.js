@@ -1,5 +1,6 @@
 // global var
 var geojson;
+var currentState;
 
 // get color function
 function getColor(state) {
@@ -48,6 +49,7 @@ function initState(e) {
 		'contentType': "application/json",
 		'statusCode':{
 			"200": function (data) {
+				currentState = stateName;
 				console.log("res:",data)
 				map.fitBounds(e.target.getBounds());
 				$("#toolBtn").click();
@@ -78,10 +80,3 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 // add highlighting	
 geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
-
-
-
-
-/*L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();*/
