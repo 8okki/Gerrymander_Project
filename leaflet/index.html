@@ -143,7 +143,10 @@
 					<input type="checkbox" class="m-1" name="demographic" value="Asian Pacific"> Asian Pacific<br>
 					<input type="checkbox" class="m-1" name="demographic" value="Hispanic"> Hispanic<br>
 					<input type="checkbox" class="m-1" name="demographic" value="White"> White<br>
-					<button id="run" name="demographic" class="btn btn-outline-success btn-sm my-2">Run</button>
+					<p class="mt-2">Range: <span id="minRange"></span> - <span id="maxRange"></span> %</p>
+					<input id="minSlider" type="range" class="slider" min="1" max="100" value="25">
+					<input id="maxSlider" type="range" class="slider" min="1" max="100" value="75">
+					<button id="gerryBtn" class="btn btn-outline-success btn-sm my-2">Run Gerrymander</button>
 				</div>
 				<hr>
 			</div>

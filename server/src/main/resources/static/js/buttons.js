@@ -15,12 +15,9 @@ $("#updateThresh").click(function(e){
 	}else{
 		let popSlider = $("#popSlider")[0];
 		let voteSlider = $("#voteSlider")[0];
-		
 		let popThreshold = popSlider.value / 100;
 		let voteThreshold = voteSlider.value / 100;
-		
-		console.log(popThreshold. voteThreshold);
-		
+                
 		$.ajax({
 		'type': "POST",
 		'dataType': 'json',
@@ -45,12 +42,11 @@ $("#updateThresh").click(function(e){
 					row.insertCell(2).innerHTML = result.demographic;
 					row.insertCell(3).innerHTML = result.winningParty.substring(0,3);
 				}
-				
 			},
 			"400": function(data){
 				console.log("error",data);
 			}
 		}
-	});
+            });
 	}
 });
