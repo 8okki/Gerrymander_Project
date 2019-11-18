@@ -1,0 +1,82 @@
+insert into states (name, population) values("OHIO", 11690000);
+insert into precincts (code,name,population,state)
+values ("AAA","BRATTON TOWNSHIP",661,"OHIO");
+insert into precincts (code,name,population,state)
+values ("BAA","LIMA 1-A",1200,"OHIO");
+
+insert into votes (precinct_code, precinctCode) values ("AAA", "AAA");
+insert into votes_votes(votes_precinct_code,votes,politicalparty)
+values ("AAA",96,"DEMOCRATIC");
+insert into votes_votes(votes_precinct_code,votes,politicalparty)
+values ("AAA",532,"REPUBLICAN");
+
+insert into votes (precinct_code, precinctCode) values ("BAA", "BAA");
+insert into votes_votes(votes_precinct_code,votes,politicalparty)
+values ("BAA",1100,"DEMOCRATIC");
+insert into votes_votes(votes_precinct_code,votes,politicalparty)
+values ("BAA",92,"REPUBLICAN");
+
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 110, "WHITE");
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 220, "BLACK");
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 110, "HISPANIC");
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 110, "ASIAN");
+
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("BAA", 90, "WHITE");
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("BAA", 50, "BLACK");
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("BAA", 50, "HISPANIC");
+insert into precinct_demographic_population_dist
+(precinct_code,demographic_population_dist,demographic)
+values ("BAA", 910, "ASIAN");
+
+insert into Votes_votes(Votes_precinctCode,votes,politicalparty)
+values ("AAA",96,"DEMOCRATIC");
+insert into Votes_votes(Votes_precinctCode,votes,politicalparty)
+values ("AAA",532,"REPUBLICAN");
+
+insert into Votes_votes(Votes_precinctCode,votes,politicalparty)
+values ("BAA",910,"DEMOCRATIC");
+insert into Votes_votes(Votes_precinctCode,votes,politicalparty)
+values ("BAA",290,"REPUBLICAN");
+
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("AAA", 110, "WHITE");
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("AAA", 220, "BLACK");
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("AAA", 110, "HISPANIC");
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("AAA", 110, "ASIAN");
+
+
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("BAA", 90, "WHITE");
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("BAA", 50, "BLACK");
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("BAA", 50, "HISPANIC");
+insert into Precinct_demographicPopulationDist
+(Precinct_code,demographicPopulationDist,demographic)
+values ("BAA", 910, "ASIAN");
+
+insert into votes (precinct_code, precinct, precinctCode) values ("AAA","AAA","AAA");
