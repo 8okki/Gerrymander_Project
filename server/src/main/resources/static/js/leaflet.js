@@ -1,6 +1,5 @@
 // global var
 var geojson;
-var currentState;
 
 // get color function
 function getColor(state) {
@@ -9,6 +8,7 @@ function getColor(state) {
 	       state == "Ohio"  ? '#9CFF88' :
 	                  '#FFEDA0';
 }
+
 // style function
 function style(feature) {
 	return {
@@ -20,6 +20,7 @@ function style(feature) {
 		fillOpacity: 0.5
 	};
 }
+
 // highlight feature
 function highlightFeature(e){
 	let layer = e.target;
@@ -32,10 +33,12 @@ function highlightFeature(e){
 		}
 	);
 }
+
 // reset highlight
 function resetHighlight(e) {
 	geojson.resetStyle(e.target);
 }
+
 // zoom to feature
 function initState(e) {
 	let feature = e.sourceTarget.feature;
@@ -49,17 +52,17 @@ function initState(e) {
 		'contentType': "application/json",
 		'statusCode':{
 			"200": function (data) {
-				currentState = stateName;
-				console.log("res:",data)
 				map.fitBounds(e.target.getBounds());
-				$("#toolBtn").click();
+				let selector = $([name="paneToggle"]).data("target");
+				$(selector).toggleClass('in');
 			},
 			"400": function(data){
-				console.log("error:",data.responseJSON.error);
+				console.log("error",data);
 			}
 		}
 	});
 }
+
 // listeners
 function onEachFeature(feature, layer) {
 	layer.on({
@@ -68,15 +71,21 @@ function onEachFeature(feature, layer) {
 		click: initState
 	});
 }
+
 // initialize the map on the "map" div with a given center and zoom
 var map = L.map('map', {
 	center: [39.8283, -98.5795],
 	zoomControl: false,
-	zoom: 5.2
+	zoom: 5
 });
+
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
 // add highlighting	
 geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
+
+/*L.marker([51.5, -0.09]).addTo(map)
+    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    .openPopup();*/
