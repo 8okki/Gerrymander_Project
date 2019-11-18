@@ -18,6 +18,10 @@
 	<script src="https://kit.fontawesome.com/5cad909fe4.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -37,11 +41,11 @@
 					<i class="fas fa-flag-usa"></i>
 					<p>States</p>
 				</button>
-				<div class="dropdown-menu" id="state-dropdown" aria-labelledby="stateDropdown">
-					<option name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#bloc-pane">Ohio</a>
-					<option name="paneToggle" class="dropdown-item" data-toggle="toggle"
+				<div class="dropdown-menu" aria-labelledby="stateDropdown">
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Ohio</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle"
 						data-target="#state-pane">Alabama</a>
-					<option name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#bloc-pane">Oregon</a>
+					<a name="paneToggle" class="dropdown-item" data-toggle="toggle" data-target="#state-pane">Oregon</a>
 				</div>
 			</div>
 			<div id="blocTab">
@@ -72,9 +76,45 @@
 			</div>
 			<div id="state-contents" class="contents pr-2 py-2">
 				<div id="state-title" class="mb-3">
-					<h4><i class="fas fa-flag-usa mr-2"></i>State</h4>
+					<h4><i class="fas fa-flag-usa mr-2"></i>States</h4>
 				</div>
 				<hr>
+				<div id="election-results">
+					<table class="table table-striped">
+						<thead class="thead-dark my-1">
+							<tr>
+								<th scope="col"><p>Party</p></th>
+								<th scope="col"><p>Votes</p></th>
+								<th scope="col"><p>Percentage</p></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><p>Democratics</p></td>
+								<td><p>774,469</p></td>
+								<td><p>51.3%</p></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="demo-data">
+					<table class="table table-striped">
+						<thead class="thead-dark my-1">
+							<tr>
+								<th scope="col"><p>Demographic</p></th>
+								<th scope="col"><p>Population</p></th>
+								<th scope="col"><p>Percentage</p></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><p>African-American</p></td>
+								<td><p>123,456</p></td>
+								<td><p>10.3%</p></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</nav>
 	</div>
@@ -102,22 +142,79 @@
 				</div>
 				<hr>
 				<div id="bloc-results">
-					<h4>Blocs</h4>
-					<table class="table table-bordered">
-						<thead class="thead-dark my-1">
+					<table class="table table-striped">
+						<thead class="thead-dark">
 							<tr>
-								<th scope="col"><p>Vote Bloc</p></th>
-								<th scope="col"><p>Precinct Name</p></th>
-								<th scope="col"><p>Demographic</p></th>
-								<th scope="col"><p>Winning Party</p></th>
+								<th scope="col" width="27%"><p>Precinct</p></th>
+								<th scope="col" width="38"><p>Demographic</p></th>
+								<th scope="col" width="35%"><p>Party</p></th>
 							</tr>
 						</thead>
-						<tbody id="bloc-table-body">
+						<tbody>
 							<tr>
-								<td>true<p>
 								<td><p>Stony Brook</p></td>
-								<td><p>Demographic</p></td>
-								<td><p>DEM</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
+							</tr>
+							<tr>
+								<td><p>Stony Brook</p></td>
+								<td><p>African-American</p></td>
+								<td><p>Democratics</p></td>
 							</tr>
 						</tbody>
 					</table>
@@ -130,8 +227,8 @@
 	<div id="gerry-pane" class="pane">
 		<nav id="gerry-nav" class="nav p-2 text-dark border">
 			<div class="return-pane ml-1">
-				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" type="button"
-					data-toggle="toggle" data-target="#gerry-pane">
+				<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn ml-3 mt-2" 
+					type="button" data-toggle="toggle" data-target="#gerry-pane">
 					<i class="fas fa-arrow-left"></i>
 				</button>
 			</div>
@@ -140,16 +237,41 @@
 					<h4><i class="fas fa-balance-scale-right mr-2"></i>Gerrymander</h4>
 				</div>
 				<hr>
-				<div id="demographics">
+				<div id="gerry-demographics">
 					<h6 class="mb-1">Demographics</h6>
-					<input type="checkbox" class="m-1" name="demographic" value="Asian"> Asian<br>
-                                        <input type="checkbox" class="m-1" name="demographic" value="Black"> Black<br>
+					<input type="checkbox" class="m-1" name="demographic" value="African-American"> African-American<br>
+					<input type="checkbox" class="m-1" name="demographic" value="Asian Pacific"> Asian Pacific<br>
 					<input type="checkbox" class="m-1" name="demographic" value="Hispanic"> Hispanic<br>
 					<input type="checkbox" class="m-1" name="demographic" value="White"> White<br>
-					<button id="run" name="demographic" class="btn btn-outline-success btn-sm my-2">Run</button>
 				</div>
+				<div id="gerry-range">
+					<p class="mt-3 mb-1">
+					  Demographic Population Range: <span id="popRange"></span>
+					</p>
+					<div id="slider-range"></div>
+				</div>
+				<div class="input-group input-group-sm mb-1">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="weight">Weight</span>
+					</div>
+					<input type="text" class="form-control" aria-describedby="weight">
+				</div>
+				<div class="input-group input-group-sm mb-1">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="maj-min">Majority-Minority Districts</span>
+					</div>
+					<input type="text" class="form-control" aria-describedby="maj-min">
+				</div>
+				<div class="input-group input-group-sm mb-1">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="cong-dist">Number of Cong. Districts</span>
+					</div>
+					<input type="text" class="form-control" aria-describedby="cong-dist">
+				</div>
+				<button id="gerryBtn" class="btn btn-outline-success btn-sm my-2">Run Gerrymander</button>
 				<hr>
 			</div>
+		</nav>
 	</div>
 
 	<!-- Map -->
@@ -160,6 +282,5 @@
 <script src="./js/us-states.js"></script>
 <script src="./js/forms.js"></script>
 <script src="./js/leaflet.js"></script>
-<script src="./js/buttons.js"></script>
 
 </html>

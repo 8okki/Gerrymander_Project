@@ -1,17 +1,20 @@
-#map { 
-  height: 100%; 
-  width: 92%; 
+/* Map CSS */
+#map {
+  height: 100%;
+  width: 92%;
   z-index: 1;
   float: right;
   position: relative;
 }
 
+
+/* Nav Bar CSS */
 .navigation-bar {
-    z-index: 2;
-    position: absolute;
-    height: 100%;
-    width: 8%;
-    background: #537780;
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+  width: 8%;
+  background: #537780;
 }
 
 .nav-btn {
@@ -41,6 +44,8 @@
   background: lightgray;
 }
 
+
+/* Tab Pane CSS */
 .pane {
   -webkit-transition: width 0.5s ease;
   -moz-transition: width 0.5s ease;
@@ -84,50 +89,99 @@
   position: absolute;
 }
 
+
+/* Bloc Analysis CSS */
 .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 15px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
   }
 
-  .slider:hover {
-    opacity: 1;
-  }
+.slider:hover {
+  opacity: 1;
+}
 
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 15px;
-    background: #4CAF50;
-    cursor: pointer;
-  }
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 15px;
+  background: #4CAF50;
+  cursor: pointer;
+}
 
-  .slider::-moz-range-thumb {
-    width: 25px;
-    height: 15px;
-    background: #4CAF50;
-    cursor: pointer;
-  }
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 15px;
+  background: #4CAF50;
+  cursor: pointer;
+}
 
-  p {
-    font-size: 12px;
-    margin-bottom: 0%;
-  }
+#bloc-results {
+  height: 440px;
+  overflow: auto;
+}
 
-  hr {
-    margin: 10px;
-  }
+html > body #bloc-results {
+  overflow: hidden;
+  height: 440px;
+}
 
-  #demographics {
-    font-size: 13px;
-  }
+#bloc-results table {
+  float: center;
+}
 
-  table {
-    float: center;
-  }
+#bloc-results thead tr {
+  position: relative;
+}
+
+#bloc-results tbody {
+  display: block;
+  height: 400px;
+  width: 100%;
+  overflow: auto;
+}
+
+#bloc-results tbody tr {
+  border: 1px solid lightgray;
+}
+
+html > body #bloc-results thead {
+  display: table;
+  overflow: auto;
+  width: 100%;
+}
+
+
+/* Gerrymander CSS */
+#gerry-demographics {
+  font-size: 13px;
+}
+
+#slider-range{
+  margin-bottom: 10px;
+}
+
+#gerryBtn{
+  margin-top: 10px;
+}
+
+
+/* General CSS */
+body {
+  overflow: hidden;
+}
+
+p {
+  font-size: 12px;
+  margin-bottom: 0%;
+}
+
+hr {
+  margin: 10px;
+}
