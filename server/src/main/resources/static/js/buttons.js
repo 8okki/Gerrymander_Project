@@ -51,7 +51,6 @@ $("#updateThresh").click(function(e){
 					row.insertCell(2).innerHTML = result.demographic;
 					row.insertCell(3).innerHTML = result.winningParty.substring(0,3);
 				}
-				
 			},
 			"400": function(data){
 				console.log("error",data);
