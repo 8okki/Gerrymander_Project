@@ -1,16 +1,3 @@
-/*$("body").css("overflow", "hidden");
-
-$("[data-toggle='toggle']").click(function() {
-	let element = $(this)[0];
-	if(element.innerHTML.includes("+"))
-		element.innerHTML = "-";
-	else
-		element.innerHTML = "+";
-	let selector = $(this).data("target");
-	$(selector).toggleClass('in');
-});
-*/
-
 $("#state-dropdown").onchange = function(e){
 	
 };
@@ -21,12 +8,9 @@ $("#updateThresh").click(function(e){
 	}else{
 		let popSlider = $("#popSlider")[0];
 		let voteSlider = $("#voteSlider")[0];
-		
 		let popThreshold = popSlider.value / 100;
 		let voteThreshold = voteSlider.value / 100;
-		
-		console.log(popThreshold. voteThreshold);
-		
+                
 		$.ajax({
 		'type': "POST",
 		'dataType': 'json',
@@ -56,6 +40,6 @@ $("#updateThresh").click(function(e){
 				console.log("error",data);
 			}
 		}
-	});
+            });
 	}
 });
