@@ -8,3 +8,4 @@ old-server/
 tutorials/hibernate
 preprocessing/shapely/*.json
 preprocessing/data/*
+preprocessing/testshp/*
