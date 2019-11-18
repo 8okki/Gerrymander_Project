@@ -115,11 +115,6 @@
     cursor: pointer;
   }
 
-  #minSlider {
-    
-  }
-
-
   p {
     font-size: 12px;
     margin-bottom: 0%;
@@ -133,6 +128,9 @@
     font-size: 13px;
   }
 
-  table {
-    float: center;
+  tbody {
+    height: 420px;
+    width: 300px;
+    overflow: auto;
+    display: block;
   }
