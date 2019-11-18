@@ -1,6 +1,6 @@
-#map { 
-  height: 100%; 
-  width: 92%; 
+#map {
+  height: 100%;
+  width: 92%;
   z-index: 1;
   float: right;
   position: relative;
@@ -116,7 +116,7 @@
   }
 
   #minSlider {
-    
+
   }
 
 
