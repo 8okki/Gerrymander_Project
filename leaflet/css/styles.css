@@ -166,3 +166,18 @@ html > body #bloc-results thead {
 #slider-range{
   margin-bottom: 10px;
 }
+
+
+/* General CSS */
+body {
+  overflow: hidden;
+}
+
+p {
+  font-size: 12px;
+  margin-bottom: 0%;
+}
+
+hr {
+  margin: 10px;
+}

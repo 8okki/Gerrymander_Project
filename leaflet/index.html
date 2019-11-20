@@ -251,30 +251,6 @@
 					  Demographic Population Range: <span id="popRange"></span>
 					</p>
 					<div id="slider-range"></div>
-					<p>
-						Weights
-					</p><input type="text" name="fname"><br>
-					<p>
-						Majority-Minority Districts
-					</p><input type="text" name="fname"><br>
-					<p>
-						Desired Number of congressional districts
-					</p><input type="text" name="fname"><br>
-					<button id="gerryBtn" class="btn btn-outline-success btn-sm my-3">Run Gerrymander</button>
-					<table class="table table-bordered">
-						<thead class="thead-dark my-1">
-							<tr>
-								<th scope="col"><p>Current Majority Minority Districts</p></th>
-								<th scope="col"><p>Calculated Majority Minority Districts</p></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><p>District 1</p></td>
-								<td><p>Distrct 2</p></td>
-							</tr>
-						</tbody>
-					</table>
 				</div>
 				<div class="input-group input-group-sm mb-1">
 					<div class="input-group-prepend">
@@ -296,6 +272,22 @@
 				</div>
 				<button id="gerryBtn" class="btn btn-outline-success btn-sm my-2">Run Gerrymander</button>
 				<hr>
+				<div id="gerry-results">
+					<table class="table table-bordered">
+						<thead class="thead-dark my-1">
+							<tr>
+								<th scope="col"><p>Current Majority Minority Districts</p></th>
+								<th scope="col"><p>Calculated Majority Minority Districts</p></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><p>District 1</p></td>
+								<td><p>Distrct 2</p></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</nav>
 	</div>
