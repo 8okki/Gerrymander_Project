@@ -26,16 +26,6 @@
   padding-bottom: 58px;
 }
 
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.42;
-  border-radius: 15px;
-}
-
 .dropdown-toggle::after {
   content: none;
 }
@@ -57,36 +47,45 @@
   height: 100%;
   width: 0px;
   float: left;
-  overflow: hidden;
-  margin-left:-1.5%;
+  margin-left: -0.1%;
+  overflow-y: hidden;
+  overflow-x: hidden;
   background: white;
 }
 
 .pane.in{
   height: 100%;
-  width: 400px;
+  width: 450px;
   z-index: 3;
   position: absolute;
   background: white;
-}
-
-.nav {
-  height: 100%;
-  width: 400px;
 }
 
 .contents {
   z-index: 3;
   position: absolute;
   height: 100%;
-  left: 70px;
-  width: 320px;
+  left: 40px;
+  width: 400px;
+  margin-top: 5px;
 }
 
 .return-pane {
   height: 100%;
-  width: 60px;
+  width: 30px;
+  margin-left: 10px;
   position: absolute;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 15px;
+  margin-top: 15px;
 }
 
 
@@ -145,9 +144,16 @@ html > body #bloc-results {
   height: 400px;
   width: 100%;
   overflow: auto;
+  overflow-x: hidden;
 }
 
 #bloc-results tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+#bloc-results tbody td {
   border: 1px solid lightgray;
 }
 
@@ -165,10 +171,6 @@ html > body #bloc-results thead {
 
 #slider-range{
   margin-bottom: 10px;
-}
-
-#gerryBtn{
-  margin-top: 10px;
 }
 
 
