@@ -3,16 +3,16 @@ $('#homeBtn').click(function() {
 	map.setView(new L.LatLng(39.8283, -98.5795), 5.2)
 })
 
-
 $('[name="paneToggle"]').click(function() {
 	let selector = $(this).data("target");
-	if(selector == "#state-pane"){
-		initState();
-	}
-	else {
-		$(selector).toggleClass('in');
-	}
+	$(selector).toggleClass('in');
 });
+
+$('[name="stateToggle"]').click(function() {
+	var id = stateIDs[$(this).text()];
+	var layer = geojson.getLayer(id);
+	layer.fireEvent('click');
+})
 
 
 /* Bloc Analysis Script */

@@ -1,6 +1,7 @@
 // global var
 var geojson;
 var currentState;
+var stateIDs = {};
 
 // get color function
 function getColor(state) {
@@ -72,6 +73,8 @@ function onEachFeature(feature, layer) {
 		mouseout: resetHighlight,
 		click: initState
 	});
+	layer._leaflet_id = feature.id;
+	stateIDs[feature.properties.name] = feature.id;
 }
 
 // initialize the map on the "map" div with a given center and zoom
