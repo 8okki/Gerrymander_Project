@@ -1,20 +1,5 @@
 $(document).ready(function () {
 
-<<<<<<< HEAD
-document.addEventListener("keypress", function(event) {
-	if(event.key == "w"){
-		console.log("hello");
-		$("#voting-data").toggle();
-	}
-});
-=======
-	document.addEventListener("keypress", function (event) {
-		if (event.key == "w") {
-			console.log(event.key);
-		}
-	});
->>>>>>> c61bdd63d7c3851217c563ac5b197cbcda60656b
-
 	$("#state-dropdown").onchange = function (e) {
 
 	};

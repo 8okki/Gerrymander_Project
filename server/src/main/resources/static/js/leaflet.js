@@ -36,6 +36,11 @@ function highlightFeature(e){
 	);
 }
 
+function hoverFeature(e){
+	$("#voting-data").toggleClass("hide");
+	$("#district-demo-data").toggleClass("hide");
+}
+
 // reset highlight
 function resetHighlight(e) {
 	geojson.resetStyle(e.target);
@@ -73,6 +78,14 @@ function onEachFeature(feature, layer) {
 		mouseout: resetHighlight,
 		click: initState
 	});
+	layer.on('mouseover', function () {
+			$("#voting-data").toggleClass("hide");
+			// $("#district-demo-data").toggleClass("hide");
+    });
+	layer.on('mouseout', function () {
+			$("#voting-data").toggleClass("hide");
+			// $("#district-demo-data").toggleClass("hide");
+	  });
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
 }
