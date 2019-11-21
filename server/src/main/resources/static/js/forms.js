@@ -6,7 +6,12 @@ $('#homeBtn').click(function() {
 
 $('[name="paneToggle"]').click(function() {
 	let selector = $(this).data("target");
-	$(selector).toggleClass('in');
+	if(selector == "#state-pane"){
+		initState();
+	}
+	else {
+		$(selector).toggleClass('in');
+	}
 });
 
 
