@@ -9,11 +9,9 @@ $('[name="paneToggle"]').click(function () {
 });
 
 $('[name="stateToggle"]').click(function () {
-	// var id = stateIDs[$(this).text()];
-	// var layer = geojson.getLayer(id);
-	// layer.fireEvent('click');
-	$("#state-pane").toggleClass('in');
-
+	var id = stateIDs[$(this).text()];
+	var layer = geojson.getLayer(id);
+	layer.fireEvent('click');
 })
 
 

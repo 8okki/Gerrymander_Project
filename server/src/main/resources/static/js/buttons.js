@@ -43,7 +43,7 @@ $(document).ready(function () {
 						tableBody.id = "bloc-tbody";
 
 						for (result of results) {
-							let row = table.insertRow(0);
+							let row = tableBody.insertRow(0);
 							row.insertCell(0).innerHTML = result.isVoteBloc;
 							row.insertCell(1).innerHTML = result.precinctName;
 							row.insertCell(2).innerHTML = result.demographic;
