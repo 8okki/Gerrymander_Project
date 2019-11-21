@@ -2,7 +2,8 @@ $(document).ready(function() {
 
 document.addEventListener("keypress", function(event) {
 	if(event.key == "w"){
-		console.log(event.key);
+		console.log("hello");
+		$("#voting-data").toggle();
 	}
 });
 
