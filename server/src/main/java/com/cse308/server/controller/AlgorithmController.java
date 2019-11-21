@@ -92,7 +92,8 @@ public class AlgorithmController {
             }
             float demographicMinimum = input.get("demographicMinimum").getAsFloat();
             float demographicMaximum = input.get("demographicMaximum").getAsFloat();
-            algoService.runPhase1(demographics, demographicMinimum, demographicMaximum);
+            int targetDistrictNum = input.get("targetDistrictNum").getAsInt();
+            algoService.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.toString());

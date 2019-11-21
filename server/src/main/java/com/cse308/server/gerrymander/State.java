@@ -9,11 +9,8 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -52,17 +49,18 @@ public class State {
     @Id
     private String name;
     private int population;
-    
+
     @OneToMany(mappedBy="state",fetch=FetchType.EAGER)
     private Set<Precinct> precincts;
-    
+
     @Transient
     private Set<Cluster> clusters;
+
     @Transient
-    private Map<Cluster,Cluster> mmPairs;
+    private Map<Cluster,Cluster> pairs;
 
     public State() {}
-    
+
     public List<VoteBlocResult> findVoteBlocs(float blocThreshold, float voteThreshold){
         List<VoteBlocResult> voteBlocResults = new ArrayList<>();
         for(Precinct precinct : this.precincts){
@@ -73,40 +71,112 @@ public class State {
         }
         return voteBlocResults;
     }
-    
+
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographic){
         return null;
     }
-    
-    public Map<Cluster,Cluster> setMMPairs(float minRange, float maxRange, Demographic[] demographics){
-        return null;
+
+    public Set<Cluster> getClusters() { return clusters; }
+
+    public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
+        pairs = new HashMap<>();
+        for (Cluster cluster : clusters) {
+            if (!pairs.containsKey(cluster)) {
+                Cluster pair = cluster.findMMPair(minRange, maxRange, demographics);
+                if (pair != null) {
+                    pairs.put(cluster, pair);
+                    pairs.put(pair, cluster);
+                }
+            }
+        }
+        for(Cluster pairedCluster : pairs.keySet()){
+            clusters.remove(pairedCluster);
+        }
     }
-    
+
+    public void setPairs(float targetPopulation) {
+        for(Cluster cluster : clusters) {
+            if (!pairs.containsKey(cluster)) {
+                Cluster pair = cluster.findPair(targetPopulation);
+                if (pair != null) {
+                    pairs.put(cluster, pair);
+                    pairs.put(pair, cluster);
+                }
+            }
+        }
+        for(Cluster pairedCluster : pairs.keySet()){
+            clusters.remove(pairedCluster);
+        }
+    }
+
+    public void mergePairs() {
+        if(pairs.isEmpty()) {
+            int currentMin = Integer.MAX_VALUE;
+            Cluster[] minClusters = new Cluster[2];
+
+            for (Cluster cluster : clusters) {
+                for (Cluster neighbor : cluster.getAdjacentClusters()) {
+                    int sum = cluster.getPopulation() + neighbor.getPopulation();
+                    if (sum < currentMin) {
+                        currentMin = sum;
+                        minClusters[0] = cluster;
+                        minClusters[1] = neighbor;
+                    }
+                }
+            }
+            pairs.put(minClusters[0], minClusters[1]);
+        }
+        for (Cluster cluster : pairs.keySet()) {
+            if (!cluster.isMerged()) {
+                cluster.merge(pairs.get(cluster));
+                clusters.add(cluster);
+            }
+        }
+    }
+
     public String getName(){
         return this.name.toString();
     }
-    
+
     public int getPopulation(){
         return this.population;
     }
-    public void setName(String name) { 
+
+    public void setName(String name) {
         this.name = name;
     }
-    public void setPopulation(int population) { 
+
+    public void setPopulation(int population) {
         this.population = population;
     }
-    
-    public Set<Precinct> getPrecincts() { 
-        return this.precincts; 
+
+    public Set<Precinct> getPrecincts() {
+        return this.precincts;
     }
-    
-    public void setPrecincts(Set precincts) { 
-        this.precincts = precincts; 
+
+    public void setPrecincts(Set precincts) {
+        this.precincts = precincts;
     }
-    
+
+    public void initClusters(){
+        clusters = new HashSet<>();
+        Map<Precinct,Cluster> precinctsToClusters = new HashMap<>();
+        for(Precinct precinct : precincts){
+            Cluster cluster = new Cluster(precinct);
+            clusters.add(cluster);
+            precinctsToClusters.put(precinct, cluster);
+        }
+        for(Cluster cluster : clusters){
+            Precinct precinct = (Precinct) cluster.getPrecincts().toArray()[0];
+            for(Precinct neighbor : precinct.getNeighbors()){
+                cluster.getAdjacentClusters().add(precinctsToClusters.get(neighbor));
+            }
+        }
+    }
+
     @Override
     public String toString(){
-        return "[Name: " + this.name.toString() + 
-                ", population: " + this.population + ",precincts: " + this.precincts + "]"; 
+        return "[Name: " + this.name.toString() +
+                ", population: " + this.population + ",precincts: " + this.precincts + "]";
     }
 }
