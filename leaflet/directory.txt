@@ -1,7 +1,0 @@
-|   map-page.html
-|   
-\---js
-        buttons.js
-        leaflet.js
-        us-states.js
-        

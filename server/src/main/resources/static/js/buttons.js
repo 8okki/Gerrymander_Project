@@ -15,7 +15,7 @@ function updateTableBody(newTableBody, oldTableBody){
 $("#updateThresh").click(function(e){
 	if(!currentState){
 		window.alert("Please select a state first.");
-	}else{
+	} else {
 		let popSlider = $("#popSlider")[0];
 		let voteSlider = $("#voteSlider")[0];
 		let popThreshold = popSlider.value / 100;
@@ -39,11 +39,11 @@ $("#updateThresh").click(function(e){
 				tableBody.id = "bloc-table-body";
 
 				for(result of results){
-					let row = table.insertRow(0);
-					row.insertCell(0).innerHTML = result.isVoteBloc;
-					row.insertCell(1).innerHTML = result.precinctName;
-					row.insertCell(2).innerHTML = result.demographic;
-					row.insertCell(3).innerHTML = result.winningParty.substring(0,3);
+                                    let row = table.insertRow(0);
+                                    row.insertCell(0).innerHTML = result.isVoteBloc;
+                                    row.insertCell(1).innerHTML = result.precinctName;
+                                    row.insertCell(2).innerHTML = result.demographic;
+                                    row.insertCell(3).innerHTML = result.winningParty.substring(0,3);
 				}
 			},
 			"400": function(data){
