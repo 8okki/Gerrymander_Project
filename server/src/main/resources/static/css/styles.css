@@ -107,6 +107,24 @@ html > body #election-results {
   overflow-x: hidden;
 }
 
+#demo-results {
+  height: 240px;
+  overflow: auto;
+}
+
+html > body #demo-results {
+  overflow: hidden;
+  height: 240px;
+}
+
+#demo-results tbody {
+  display: block;
+  height: 200px;
+  width: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
 
 /* Bloc Analysis CSS */
 .slider {
