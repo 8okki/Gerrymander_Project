@@ -103,12 +103,12 @@
 
 html > body #election-results {
   overflow: hidden;
-  height: 240px;
+  height: 220px;
 }
 
 #election-results tbody {
   display: block;
-  height: 200px;
+  height: 180px;
   width: 100%;
   overflow: auto;
   overflow-x: auto;
@@ -129,12 +129,12 @@ html > body #election-results {
 
 html > body #demo-results {
   overflow: hidden;
-  height: 240px;
+  height: 220px;
 }
 
 #demo-results tbody {
   display: block;
-  height: 200px;
+  height: 180px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
