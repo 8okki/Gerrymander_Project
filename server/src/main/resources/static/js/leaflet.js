@@ -66,8 +66,6 @@ function initState(e) {
     			"200": function (data) {
     			    currentState = data;
     				stateLoaded[stateName] = true;
-
-
     			},
     			"400": function(data){
     				console.log("error",data);

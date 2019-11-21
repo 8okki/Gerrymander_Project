@@ -23,6 +23,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
@@ -62,7 +63,9 @@ public class Precinct {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographics;
     
-    @Transient
+   /*@ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn()
+  */
     private Set<Precinct> neighbors;
     
     public Precinct(){}

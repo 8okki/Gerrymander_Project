@@ -1,17 +1,35 @@
 import shapefile
 import shapely
 from shapely.geometry import shape
-from area import area
+import json
 
-shapes = shapefile.Reader("shp-convert/precincts.shp")
-shapes2 = shapefile.Reader("tabblock-39053/tl_2010_39053_tabblock00.shp")
+shapes = shapefile.Reader("../data/precinct-shapes/precincts.shp")
+shapes2 = shapefile.Reader("../data/tabblock-39053/tl_2010_39053_tabblock00.shp")
+shapes3 = shapefile.Reader("../data/tabblock-39053/tl_2010_39053_tabblock10.shp")
+out_path = "../data/gallia_blocks.json"
+out_file = open(out_path, "w")
 
-precinct = shapes.shapeRecords()[0]
-precinct_shape = shape(precinct.shape.__geo_interface__)
-print(precinct.record[0:])
+for precinct_sr in shapes.iterShapeRecords():
+	precinct_county = precinct_sr.record[2]
+	if precinct_county == "gallia":
+		precinct_name = precinct_sr.record[1]
+		result = {"precinct_name":precinct_name,"blocks":{}}
+		precinct_shape = shape(precinct_sr.shape.__geo_interface__)
+		
+		for s in shapes2.iterShapeRecords():
+			block = shape(s.shape.__geo_interface__)
+			if block.intersects(precinct_shape):
+				block_name = s.record[2][:-2]+"_"+s.record[5]
+				intersection = block.intersection(precinct_shape)
+				ratio = (intersection.area/block.area)*100
+				result["blocks"][block_name] = ratio
+		for s in shapes3.iterShapeRecords():
+			block = shape(s.shape.__geo_interface__)
+			if block.intersects(precinct_shape):
+				block_name = s.record[2][:-2]+"_"+s.record[5]
+				intersection = block.intersection(precinct_shape)
+				ratio = (intersection.area/block.area)*100
+				result["blocks"][block_name] = ratio
+		out_file.write(json.dumps(result) + ",\n")
 
-for s in shapes2.iterShapeRecords():
-    block = shape(s.shape.__geo_interface__)
-    if block.intersects(precinct_shape):
-        intersection = block.intersection(precinct_shape)
-        print(s.record[0:],(intersection.area/block.area)*100)
+out_file.close()
