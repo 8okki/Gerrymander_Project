@@ -20,6 +20,7 @@ public class Cluster {
     Set<Precinct> precincts;
     Map<Demographic, Integer> demographicPopDist;
     Set<Cluster> adjClusters;
+    boolean isMerged;
     
     public int getPopulation(){
         return this.population;
@@ -45,6 +46,10 @@ public class Cluster {
         return output;
     }
 
+    public boolean isMerged() { return isMerged; }
+
+    public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
+
     public Cluster(Precinct precinct) {
         population = precinct.getPopulation();
         demographicPopDist = new HashMap<>();
@@ -57,13 +62,37 @@ public class Cluster {
 
     public Cluster findMMPair(float minRange, float maxRange, List<Demographic> demographics){
         for(Cluster cluster : adjClusters) {
-            if(checkPair(cluster, demographics, minRange, maxRange)) {
+            if(!cluster.isMerged() && isMMPair(cluster, demographics, minRange, maxRange)) {
                 return cluster;
             }
         }
         return null;
     }
-    
+
+    public Cluster findPair(float targetPopulation) {
+        for(Cluster cluster : adjClusters) {
+            if(!cluster.isMerged() && isPair(cluster, targetPopulation)){
+                return cluster;
+            }
+        }
+        return null;
+    }
+
+    public void merge(Cluster cluster) {
+        this.population += cluster.getPopulation();
+        for (Demographic demographic : demographicPopDist.keySet()){
+            int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
+            demographicPopDist.put(demographic, sum);
+        }
+        this.precincts.addAll(cluster.getPrecincts());
+        for(Cluster neighbor : cluster.getAdjacentClusters()){
+            if(!this.adjClusters.contains(neighbor)){
+                adjClusters.add(neighbor);
+            }
+        }
+        cluster.setIsMerged(true);
+    }
+
     public int getDemographicPopSum(List<Demographic> demographics){
         int sum = 0;
         for(Demographic demographic : demographics) {
@@ -84,12 +113,18 @@ public class Cluster {
         return (float)demographicPopSum / populationSum;
     }
     
-    private boolean checkPair(Cluster cluster, List<Demographic> demographics, float minRange, float maxRange){
+    private boolean isMMPair(Cluster cluster, List<Demographic> demographics, float minRange, float maxRange){
         int pairDemographicPopSum = this.getDemographicPopSum(demographics) + cluster.getDemographicPopSum(demographics);
         int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
         float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
 
         return ratio >= minRange && ratio <= maxRange;
+    }
+
+    private boolean isPair(Cluster cluster, float targetPopulation) {
+        int populationSum = this.getPopulation() + cluster.getPopulation();
+
+        return populationSum <= targetPopulation;
     }
 
 }

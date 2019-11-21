@@ -33,6 +33,6 @@ public class AlgorithmService {
     }
     
     public void runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum){
-        this.algo.runPhase1(demographics, demographicMinimum, demographicMaximum);
+        this.algo.runPhase1(demographicMinimum, demographicMaximum, demographics);
     }
 }

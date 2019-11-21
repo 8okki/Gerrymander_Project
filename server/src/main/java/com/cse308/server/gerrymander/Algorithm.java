@@ -37,10 +37,15 @@ public class Algorithm {
         return this.state.findVoteBlocs(blocThreshold, voteThreshold);
     }
     
-    public void runPhase1(float demographicMinimum, float demographicMaximum, List<Demographic> demographics){
+    public void runPhase1(float demographicMinimum, float demographicMaximum, List<Demographic> demographics, int targetDistrictNum){
         state.initClusters();
-        state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
+        float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
 
+        while(state.getClusters().size() < targetDistrictNum) {
+            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
+            state.setPairs(targetPopulation);
+            state.mergePairs();
+        }
     }
     
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){

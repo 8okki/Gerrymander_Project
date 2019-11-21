@@ -57,7 +57,7 @@ public class State {
     private Set<Cluster> clusters;
 
     @Transient
-    private Map<Cluster,Cluster> mmPairs;
+    private Map<Cluster,Cluster> pairs;
 
     public State() {}
 
@@ -75,23 +75,49 @@ public class State {
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographic){
         return null;
     }
-    
+
+    public Set<Cluster> getClusters() { return clusters; }
+
     public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
-        mmPairs = new HashMap<>();
+        pairs = new HashMap<>();
         for (Cluster cluster : clusters) {
-            if(!mmPairs.containsKey(cluster)) {
+            if (!pairs.containsKey(cluster)) {
                 Cluster pair = cluster.findMMPair(minRange, maxRange, demographics);
                 if (pair != null) {
-                    mmPairs.put(cluster, pair);
-                    mmPairs.put(pair, cluster);
+                    pairs.put(cluster, pair);
+                    pairs.put(pair, cluster);
                 }
             }
         }
-        for(Cluster mmCluster : mmPairs.keySet()){
-            clusters.remove(mmCluster);
+        for(Cluster pairedCluster : pairs.keySet()){
+            clusters.remove(pairedCluster);
         }
     }
-    
+
+    public void setPairs(float targetPopulation) {
+        for(Cluster cluster : clusters) {
+            if (!pairs.containsKey(cluster)) {
+                Cluster pair = cluster.findPair(targetPopulation);
+                if (pair != null) {
+                    pairs.put(cluster, pair);
+                    pairs.put(pair, cluster);
+                }
+            }
+        }
+        for(Cluster pairedCluster : pairs.keySet()){
+            clusters.remove(pairedCluster);
+        }
+    }
+
+    public void mergePairs() {
+        for(Cluster cluster : pairs.keySet()) {
+            if (!cluster.isMerged()) {
+                cluster.merge(pairs.get(cluster));
+                clusters.add(cluster);
+            }
+        }
+    }
+
     public String getName(){
         return this.name.toString();
     }
