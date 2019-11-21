@@ -45,20 +45,25 @@ $(document).ready(function () {
 						for (result of results) {
 							let row = tableBody.insertRow(0);
 
-							let t0 = document.createTextNode(result.precinctName)
+                            let t0 = document.createTextNode(result.isVoteBloc)
 							let p0 = document.createElement("p");
 							p0.appendChild(t0);
 							row.insertCell(0).appendChild(p0);
 
-							let t1 = document.createTextNode(result.demographic)
-                            let p1 = document.createElement("p");
-                            p1.appendChild(t1);
+							let t1 = document.createTextNode(result.precinctName)
+							let p1 = document.createElement("p");
+							p1.appendChild(t1);
 							row.insertCell(1).appendChild(p1);
 
-							let t2 = document.createTextNode(result.winningParty.substring(0, 3))
+							let t2 = document.createTextNode(result.demographic)
                             let p2 = document.createElement("p");
                             p2.appendChild(t2);
 							row.insertCell(2).appendChild(p2);
+
+							let t3 = document.createTextNode(result.winningParty.substring(0, 3))
+                            let p3 = document.createElement("p");
+                            p3.appendChild(t3);
+							row.insertCell(3).appendChild(p3);
 						}
 					},
 					"400": function (data) {
