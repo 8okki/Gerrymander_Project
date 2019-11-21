@@ -32,13 +32,13 @@ import javax.persistence.Transient;
 @Table(name="votes")
 public class Votes {
     @Id
-    @Column(name="precinct_code")
-    String precinctCode;
+    @Column(name="precinct_name")
+    String precinctName;
     
     @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(
         name = "party_votes",
-        joinColumns=@JoinColumn(name = "precinct_code", referencedColumnName = "precinct_code")
+        joinColumns=@JoinColumn(name = "precinct_name", referencedColumnName = "precinct_name")
     )
     @Column(name="votes")
     @MapKeyColumn(name = "politicalparty")
@@ -53,7 +53,7 @@ public class Votes {
     
     public Votes(Map<PoliticalParty, Integer> partyVotes, String precinctName){
         this.partyVotes = partyVotes;
-        this.precinctCode = precinctCode;
+        this.precinctName = precinctName;
     }
     
     public int getTotalVotes(){
@@ -91,7 +91,7 @@ public class Votes {
         int totalVotes = getTotalVotes();
         float ratio = calculateRatio(winningVotes,totalVotes);
         boolean isVoteBloc = ratio > voteThreshold;
-        return new VoteBlocResult(isVoteBloc, demographic, this.getWinningParty(), this.precinctCode);
+        return new VoteBlocResult(isVoteBloc, demographic, this.getWinningParty(), this.precinctName);
     }
     
     private static float calculateRatio(int winningVotes, int totalVotes){
@@ -106,8 +106,8 @@ public class Votes {
         return "" + this.getTotalVotes();
     }
     
-    public String getPrecinctCode(){
-        return this.precinctCode;
+    public String getPrecinctName(){
+        return this.precinctName;
     }
     
     public Map<PoliticalParty, Integer> getVotes(){
@@ -118,8 +118,8 @@ public class Votes {
         this.partyVotes = partyVotes;
     }
     
-    public void setPrecinctCode(String precinctCode){
-        this.precinctCode = precinctCode;
+    public void setPrecinctName(String precinctName){
+        this.precinctName = precinctName;
     }
     
 }

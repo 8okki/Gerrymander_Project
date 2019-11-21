@@ -41,8 +41,8 @@ import javax.persistence.Transient;
 @Table(name="precincts")
 public class Precinct {
     @Id
-    private String code;
     private String name;
+    private String code;
     private int population;
     
     @ManyToOne(cascade = CascadeType.ALL)
@@ -55,7 +55,7 @@ public class Precinct {
     @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(
         name = "demographics",
-        joinColumns=@JoinColumn(name = "code", referencedColumnName = "code")
+        joinColumns=@JoinColumn(name = "precinct_name", referencedColumnName = "name")
     )
     @Column(name = "population")
     @MapKeyColumn(name = "demographic")
@@ -178,17 +178,17 @@ public class Precinct {
         if (this == o) return true;
         if (!(o instanceof Precinct)) return false;
         Precinct p  = (Precinct) o;
-        return Objects.equals(p.code, this.code);
+        return Objects.equals(p.name, this.name);
     }
     
     @Override
     public String toString(){
-        return "[code:" + this.code + ",dist:" + this.getDemographicPopDist() + ",election:" + this.getElectionVotes() + "]";
+        return "[name:" + this.name + ",dist:" + this.getDemographicPopDist() + ",election:" + this.getElectionVotes() + "]";
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.code);
+        return Objects.hash(this.name);
     }
     
 }
