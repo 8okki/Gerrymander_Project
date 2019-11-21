@@ -16,7 +16,7 @@ demographics_query = "INSERT INTO demographics (precinct_name, population, demog
 
 state = "OHIO"
 
-with open("../data/2016_election_ohio.json") as data, open("../data/gallia_precinct_pops.json") as dist_data:
+with open("../../data/2016_election_ohio.json") as data, open("../../data/gallia_precinct_pops.json") as dist_data:
 	line = data.readline().replace("\n", "")[:-1]
 	while line != "":
 		precinct_json = json.loads(line)

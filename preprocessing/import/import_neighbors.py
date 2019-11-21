@@ -17,7 +17,7 @@ demographics_query = "INSERT INTO demographics (precinct_name, population, demog
 
 state = "OHIO"
 
-neighbor_list = open("../data/gallia.txt").read().splitlines()
+neighbor_list = open("../../data/gallia.txt").read().splitlines()
 
 for precinct in neighbor_list:
 	data = precinct.split(";")

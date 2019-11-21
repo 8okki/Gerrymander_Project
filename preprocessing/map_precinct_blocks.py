@@ -23,11 +23,12 @@ for precinct_data in precinct_lines:
 		block_data = block_data[:-2]
 		block_data = json.loads(block_data)
 		if block_data["block_name"] in intersected_blocks.keys():
-			white_pop = int(block_data["pop_dist"]["WHITE"])
-			black_pop = int(block_data["pop_dist"]["BLACK"])
-			asian_pop = int(block_data["pop_dist"]["ASIAN"])
-			hispanic_pop = int(block_data["pop_dist"]["HISPANIC"])
-			total_pop = int(block_data["total_pop"])
+			ratio = intersected_blocks[block_data["block_name"]] / 100
+			white_pop = math.floor(int(block_data["pop_dist"]["WHITE"])*ratio)
+			black_pop = math.floor(int(block_data["pop_dist"]["BLACK"])*ratio)
+			asian_pop = math.floor(int(block_data["pop_dist"]["ASIAN"])*ratio)
+			hispanic_pop = math.floor(int(block_data["pop_dist"]["HISPANIC"])*ratio)
+			total_pop = math.floor(int(block_data["total_pop"])*ratio)
 			result["total_pop"] += total_pop
 			result["pop_dist"]["WHITE"] += white_pop
 			result["pop_dist"]["BLACK"] += black_pop
