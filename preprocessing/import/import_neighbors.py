@@ -4,7 +4,7 @@ import json
 db = mysql.connector.connect(
             host='mysql4.cs.stonybrook.edu',
             user='jbuckley',
-            password='111089268',
+            password='',
             database='mavericks'
 )
 cursor = db.cursor()
