@@ -7,13 +7,16 @@ package com.cse308.server.controller;
 
 import com.cse308.server.gerrymander.Algorithm;
 import com.cse308.server.gerrymander.State;
+import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import com.cse308.server.service.AlgorithmService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.List;
 //import com.google.gson.Gson;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +80,24 @@ public class AlgorithmController {
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
     }
-    
+	
+    @PostMapping(value = "/runPhase1", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> phase1Request(@RequestBody JsonObject input){
+        JsonObject responseBody = new JsonObject();
+        try {
+            JsonArray demographicsAsStrings = input.get("demographics").getAsJsonArray();
+            List<Demographic> demographics = new ArrayList<Demographic>();
+            for(JsonElement demographic : demographicsAsStrings){
+                demographics.add(Demographic.valueOf(demographic.getAsString()));
+            }
+            float demographicMinimum = input.get("demographicMinimum").getAsFloat();
+            float demographicMaximum = input.get("demographicMaximum").getAsFloat();
+            algoService.runPhase1(demographics, demographicMinimum, demographicMaximum);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+    } 
 }

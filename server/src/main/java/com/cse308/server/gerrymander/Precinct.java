@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -43,28 +45,33 @@ public class Precinct {
     private String name;
     private int population;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="state", nullable=false)
     private State state;
     
-    @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER)
+    @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
     private Votes electionVotes;
     
     @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(
+        name = "demographics",
+        joinColumns=@JoinColumn(name = "code", referencedColumnName = "code")
+    )
+    @Column(name = "population")
     @MapKeyColumn(name = "demographic")
     @MapKeyEnumerated(EnumType.STRING)
-    private Map<Demographic, Integer> demographicPopulationDist;
+    private Map<Demographic, Integer> demographics;
     
     @Transient
     private Set<Precinct> neighbors;
     
     public Precinct(){}
     
-    public Precinct(String code, String name, int population, Map<Demographic, Integer> demographicPopulationDist, Votes electionVotes){
+    public Precinct(String code, String name, int population, Map<Demographic, Integer> demographics, Votes electionVotes){
         this.code = code;
         this.name = name;
         this.population = population;
-        this.demographicPopulationDist = demographicPopulationDist;
+        this.demographics = demographics;
         this.electionVotes = electionVotes;
     }
     
@@ -93,7 +100,7 @@ public class Precinct {
     }
     
     public int getDemographicPop(Demographic maxDemographic){
-        return demographicPopulationDist.get(maxDemographic);
+        return demographics.get(maxDemographic);
     }
     
     public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
@@ -107,7 +114,7 @@ public class Precinct {
     private Demographic findLargestDemographic(){
         int maxPopulation = -1;
         Demographic maxDemographic = null;
-        for(Map.Entry<Demographic, Integer> entry : this.demographicPopulationDist.entrySet()){
+        for(Map.Entry<Demographic, Integer> entry : this.demographics.entrySet()){
             if (entry.getValue() > maxPopulation){
                 maxDemographic = entry.getKey();
                 maxPopulation = entry.getValue();
@@ -150,8 +157,8 @@ public class Precinct {
         this.population = population;
     }
     
-    public void setDemographicPopDist(Map<Demographic, Integer> demographicPopDist){
-        this.demographicPopulationDist = demographicPopDist;
+    public void setDemographicPopDist(Map<Demographic, Integer> demographics){
+        this.demographics = demographics;
     }
     
     public void setState(State state){
@@ -163,7 +170,7 @@ public class Precinct {
     }
     
     public Map<Demographic, Integer> getDemographicPopDist(){
-        return this.demographicPopulationDist;
+        return this.demographics;
     }
     
     @Override

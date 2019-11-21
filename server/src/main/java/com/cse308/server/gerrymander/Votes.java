@@ -9,6 +9,8 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.PoliticalParty;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import java.util.Map;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,12 +32,18 @@ import javax.persistence.Transient;
 @Table(name="votes")
 public class Votes {
     @Id
+    @Column(name="precinct_code")
     String precinctCode;
     
     @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(
+        name = "party_votes",
+        joinColumns=@JoinColumn(name = "precinct_code", referencedColumnName = "precinct_code")
+    )
+    @Column(name="votes")
     @MapKeyColumn(name = "politicalparty")
     @MapKeyEnumerated(EnumType.STRING)
-    Map<PoliticalParty, Integer> votes;
+    Map<PoliticalParty, Integer> partyVotes;
     
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "precinct")
@@ -43,14 +51,14 @@ public class Votes {
     
     public Votes(){} //hibernate seems to require empty constructors
     
-    public Votes(Map<PoliticalParty, Integer> votes, String precinctName){
-        this.votes = votes;
+    public Votes(Map<PoliticalParty, Integer> partyVotes, String precinctName){
+        this.partyVotes = partyVotes;
         this.precinctCode = precinctCode;
     }
     
     public int getTotalVotes(){
         int output = 0;
-        for (Integer voteNum : this.votes.values()){
+        for (Integer voteNum : this.partyVotes.values()){
             output += voteNum;
         }
         return output;
@@ -59,7 +67,7 @@ public class Votes {
     public PoliticalParty getWinningParty(){
         int curLargest = -1;
         PoliticalParty curParty = null;
-        for(Map.Entry<PoliticalParty, Integer> entry : this.votes.entrySet()){
+        for(Map.Entry<PoliticalParty, Integer> entry : this.partyVotes.entrySet()){
             if (entry.getValue() > curLargest){
                 curLargest = entry.getValue();
                 curParty = entry.getKey();
@@ -70,7 +78,7 @@ public class Votes {
     
     public int getWinningVotes(){
         int curLargest = -1;
-        for(Integer voteNum : this.votes.values()){
+        for(Integer voteNum : this.partyVotes.values()){
             if (voteNum > curLargest){
                 curLargest = voteNum;
             }
@@ -103,11 +111,11 @@ public class Votes {
     }
     
     public Map<PoliticalParty, Integer> getVotes(){
-        return this.votes;
+        return this.partyVotes;
     }
     
-    public void setVotes(Map<PoliticalParty, Integer> votes){
-        this.votes = votes;
+    public void setVotes(Map<PoliticalParty, Integer> partyVotes){
+        this.partyVotes = partyVotes;
     }
     
     public void setPrecinctCode(String precinctCode){
