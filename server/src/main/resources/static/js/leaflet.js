@@ -63,6 +63,7 @@ function initState(e) {
 				map.fitBounds(e.target.getBounds());
 				let selector = $("#state-pane");
 				$(selector).toggleClass('in');
+				L.geoJson(gallia, {style: style}).addTo(map);
 			},
 			"400": function(data){
 				console.log("error",data);

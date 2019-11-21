@@ -11,8 +11,11 @@ import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -22,15 +25,20 @@ import java.util.Map;
 public class Algorithm {
     StateDao stateDao = new StateDao();
     State state;
+    Set<Precinct> precincts;
     
     public State initState(StateName stateName){
-        List<State> results = stateDao.getStateById(stateName);
-        if(!results.isEmpty()){
-            this.state = results.get(0);
-            return this.state;
+        if(this.state == null || StateName.valueOf(this.state.getName()) != stateName){
+            List<State> results = stateDao.getStateById(stateName);
+            if(!results.isEmpty()){
+                this.state = results.get(0);
+                return this.state;
+            }else{
+                return null;
+            }    
         }else{
-            return null;
-        }    
+            return this.state;
+        }
     }
     
     public List<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
