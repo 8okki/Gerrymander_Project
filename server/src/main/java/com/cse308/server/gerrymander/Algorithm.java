@@ -37,6 +37,10 @@ public class Algorithm {
         return this.state.findVoteBlocs(blocThreshold, voteThreshold);
     }
     
+    public void runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum){
+        //this.state.setMMPairs(demographics, demographicMinimum, demographicMaximum);
+    }
+    
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){
         return this.state.getDistrictInfo(districtId, demographics);
     }
