@@ -32,7 +32,7 @@ public class AlgorithmService {
         return this.algo.runPhase0(blocThreshold, voteThreshold);
     }
     
-    public void runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum){
-        this.algo.runPhase1(demographicMinimum, demographicMaximum, demographics);
+    public void runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
+        this.algo.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
     }
 }

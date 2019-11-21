@@ -49,10 +49,10 @@ public class State {
     @Id
     private String name;
     private int population;
-    
+
     @OneToMany(mappedBy="state",fetch=FetchType.EAGER)
     private Set<Precinct> precincts;
-    
+
     @Transient
     private Set<Cluster> clusters;
 
@@ -71,7 +71,7 @@ public class State {
         }
         return voteBlocResults;
     }
-    
+
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographic){
         return null;
     }
@@ -110,7 +110,23 @@ public class State {
     }
 
     public void mergePairs() {
-        for(Cluster cluster : pairs.keySet()) {
+        if(pairs.isEmpty()) {
+            int currentMin = Integer.MAX_VALUE;
+            Cluster[] minClusters = new Cluster[2];
+
+            for (Cluster cluster : clusters) {
+                for (Cluster neighbor : cluster.getAdjacentClusters()) {
+                    int sum = cluster.getPopulation() + neighbor.getPopulation();
+                    if (sum < currentMin) {
+                        currentMin = sum;
+                        minClusters[0] = cluster;
+                        minClusters[1] = neighbor;
+                    }
+                }
+            }
+            pairs.put(minClusters[0], minClusters[1]);
+        }
+        for (Cluster cluster : pairs.keySet()) {
             if (!cluster.isMerged()) {
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
@@ -121,25 +137,25 @@ public class State {
     public String getName(){
         return this.name.toString();
     }
-    
+
     public int getPopulation(){
         return this.population;
     }
 
-    public void setName(String name) { 
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setPopulation(int population) { 
+    public void setPopulation(int population) {
         this.population = population;
     }
-    
-    public Set<Precinct> getPrecincts() { 
-        return this.precincts; 
+
+    public Set<Precinct> getPrecincts() {
+        return this.precincts;
     }
-    
-    public void setPrecincts(Set precincts) { 
-        this.precincts = precincts; 
+
+    public void setPrecincts(Set precincts) {
+        this.precincts = precincts;
     }
 
     public void initClusters(){
@@ -157,10 +173,10 @@ public class State {
             }
         }
     }
-    
+
     @Override
     public String toString(){
-        return "[Name: " + this.name.toString() + 
-                ", population: " + this.population + ",precincts: " + this.precincts + "]"; 
+        return "[Name: " + this.name.toString() +
+                ", population: " + this.population + ",precincts: " + this.precincts + "]";
     }
 }
