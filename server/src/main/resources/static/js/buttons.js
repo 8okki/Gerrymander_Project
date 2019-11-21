@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 $("#state-dropdown").onchange = function(e){
 
 };
@@ -9,7 +11,7 @@ function updateTableBody(newTableBody, oldTableBody){
 	let tableBody = oldTableBody;
 	tableBody.parentNode.replaceChild(newTableBody,tableBody);
 	tableBody = newTableBody;
-	tableBody.id = "bloc-table-body";
+	tableBody.id = "bloc-tbody";
 }
 
 $("#updateThresh").click(function(e){
@@ -32,18 +34,18 @@ $("#updateThresh").click(function(e){
 			"200": function (data) {
 				let results = data.results;
 				let newTableBody = document.createElement("tbody");
-				let tableBody = $("#bloc-table-body")[0];
+				let tableBody = $("#bloc-tbody")[0];
 
-				table.parentNode.replaceChild(newTableBody,tableBody);
+				tableBody.parentNode.replaceChild(newTableBody,tableBody);
 				tableBody = newTableBody;
-				tableBody.id = "bloc-table-body";
+				tableBody.id = "bloc-tbody";
 
 				for(result of results){
-                                    let row = table.insertRow(0);
-                                    row.insertCell(0).innerHTML = result.isVoteBloc;
-                                    row.insertCell(1).innerHTML = result.precinctName;
-                                    row.insertCell(2).innerHTML = result.demographic;
-                                    row.insertCell(3).innerHTML = result.winningParty.substring(0,3);
+            let row = table.insertRow(0);
+            row.insertCell(0).innerHTML = result.isVoteBloc;
+            row.insertCell(1).innerHTML = result.precinctName;
+            row.insertCell(2).innerHTML = result.demographic;
+            row.insertCell(3).innerHTML = result.winningParty.substring(0,3);
 				}
 			},
 			"400": function(data){
@@ -52,4 +54,7 @@ $("#updateThresh").click(function(e){
 		}
             });
 	}
+});
+
+
 });

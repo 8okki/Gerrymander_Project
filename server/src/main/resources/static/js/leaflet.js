@@ -1,5 +1,6 @@
 // global var
 var geojson;
+var currentState;
 
 // get color function
 function getColor(state) {
@@ -52,6 +53,7 @@ function initState(e) {
 		'contentType': "application/json",
 		'statusCode':{
 			"200": function (data) {
+				currentState = data.name;
 				map.fitBounds(e.target.getBounds());
 				let selector = $("#state-pane");
 				$(selector).toggleClass('in');
