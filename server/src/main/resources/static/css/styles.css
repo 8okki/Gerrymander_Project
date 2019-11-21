@@ -98,21 +98,20 @@
 
 /* States CSS */
 #election-results {
-  height: 30%;
   overflow: auto;
 }
 
 html > body #election-results {
   overflow: hidden;
-  height: 30%;
+  height: 240px;
 }
 
 #election-results tbody {
   display: block;
-  height: 30%;
+  height: 200px;
   width: 100%;
   overflow: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 #voting-data{
@@ -124,18 +123,18 @@ html > body #election-results {
 }
 
 #demo-results {
-  height: 30%;
+  margin-top: 10px;
   overflow: auto;
 }
 
 html > body #demo-results {
   overflow: hidden;
-  height: 30%;
+  height: 240px;
 }
 
 #demo-results tbody {
   display: block;
-  height: 30%;
+  height: 200px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
@@ -175,18 +174,17 @@ html > body #demo-results {
 }
 
 #bloc-results {
-  height: 440px;
   overflow: auto;
 }
 
 html > body #bloc-results {
   overflow: hidden;
-  height: 440px;
+  height: 500px;
 }
 
 #bloc-results tbody {
   display: block;
-  height: 400px;
+  height: 460px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
@@ -203,18 +201,17 @@ html > body #bloc-results {
 }
 
 #gerry-results {
-  height: 50%;
   overflow: auto;
 }
 
 html > body #gerry-results {
   overflow: hidden;
-  height: 50%;
+  height: 300px;;
 }
 
 #gerry-results tbody {
   display: block;
-  height: 50%;
+  height: 260px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;

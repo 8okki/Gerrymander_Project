@@ -44,10 +44,21 @@ $(document).ready(function () {
 
 						for (result of results) {
 							let row = tableBody.insertRow(0);
-							row.insertCell(0).innerHTML = result.isVoteBloc;
-							row.insertCell(1).innerHTML = result.precinctName;
-							row.insertCell(2).innerHTML = result.demographic;
-							row.insertCell(3).innerHTML = result.winningParty.substring(0, 3);
+
+							let t0 = document.createTextNode(result.precinctName)
+							let p0 = document.createElement("p");
+							p0.appendChild(t0);
+							row.insertCell(0).appendChild(p0);
+
+							let t1 = document.createTextNode(result.demographic)
+                            let p1 = document.createElement("p");
+                            p1.appendChild(t1);
+							row.insertCell(1).appendChild(p1);
+
+							let t2 = document.createTextNode(result.winningParty.substring(0, 3))
+                            let p2 = document.createElement("p");
+                            p2.appendChild(t2);
+							row.insertCell(2).appendChild(p2);
 						}
 					},
 					"400": function (data) {
