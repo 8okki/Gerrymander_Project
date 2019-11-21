@@ -7,9 +7,8 @@ package com.cse308.server.gerrymander;
 
 import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.result.DistrictInfo;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
+
+import java.util.*;
 
 /**
  *
@@ -17,7 +16,6 @@ import java.util.HashMap;
  */
 public class Cluster {
     
-    int id;
     int population;
     Set<Precinct> precincts;
     Map<Demographic, Integer> demographicPopDist;
@@ -47,18 +45,29 @@ public class Cluster {
         return output;
     }
 
-    public Map<Cluster, Cluster> findMMPair(float minRange, float maxRange, Demographic[] demographic){
+    public Cluster(Precinct precinct) {
+        population = precinct.getPopulation();
+        demographicPopDist = new HashMap<>();
+        for(Demographic demographic : precinct.getDemographicPopDist().keySet()){
+            demographicPopDist.put(demographic, precinct.getDemographicPopDist().get(demographic));
+        }
+        precincts.add(precinct);
+        adjClusters = new HashSet<>();
+    }
+
+    public Cluster findMMPair(float minRange, float maxRange, List<Demographic> demographics){
+        for(Cluster cluster : adjClusters) {
+            if(checkPair(cluster, demographics, minRange, maxRange)) {
+                return cluster;
+            }
+        }
         return null;
     }
     
-    public int getDemographicPopSum(Demographic[] demographics){
+    public int getDemographicPopSum(List<Demographic> demographics){
         int sum = 0;
-        for(int i = 0; i < demographics.length; i++){
-            for(Map.Entry<Demographic, Integer> entry : this.demographicPopDist.entrySet()){
-                if (demographics[i].equals(entry.getKey())){
-                    sum += entry.getValue();
-                }
-            }
+        for(Demographic demographic : demographics) {
+            sum += this.demographicPopDist.get(demographic);
         }
         return sum;
     }
@@ -66,13 +75,21 @@ public class Cluster {
     public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
         return null;
     }
-    
+
+    public Set<Precinct> getPrecincts(){
+        return this.precincts;
+    }
+
     private static float calculateRatio(int demographicPopSum, int populationSum){
-        return (float)demographicPopSum/populationSum;
+        return (float)demographicPopSum / populationSum;
     }
     
-    private boolean checkPair(Cluster cluster2, float ratio){
-        return false;
+    private boolean checkPair(Cluster cluster, List<Demographic> demographics, float minRange, float maxRange){
+        int pairDemographicPopSum = this.getDemographicPopSum(demographics) + cluster.getDemographicPopSum(demographics);
+        int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
+        float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
+
+        return ratio >= minRange && ratio <= maxRange;
     }
-    
+
 }

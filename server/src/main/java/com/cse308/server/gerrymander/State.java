@@ -9,11 +9,8 @@ import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -58,11 +55,12 @@ public class State {
     
     @Transient
     private Set<Cluster> clusters;
+
     @Transient
     private Map<Cluster,Cluster> mmPairs;
 
     public State() {}
-    
+
     public List<VoteBlocResult> findVoteBlocs(float blocThreshold, float voteThreshold){
         List<VoteBlocResult> voteBlocResults = new ArrayList<>();
         for(Precinct precinct : this.precincts){
@@ -78,8 +76,20 @@ public class State {
         return null;
     }
     
-    public Map<Cluster,Cluster> setMMPairs(float minRange, float maxRange, Demographic[] demographics){
-        return null;
+    public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
+        mmPairs = new HashMap<>();
+        for (Cluster cluster : clusters) {
+            if(!mmPairs.containsKey(cluster)) {
+                Cluster pair = cluster.findMMPair(minRange, maxRange, demographics);
+                if (pair != null) {
+                    mmPairs.put(cluster, pair);
+                    mmPairs.put(pair, cluster);
+                }
+            }
+        }
+        for(Cluster mmCluster : mmPairs.keySet()){
+            clusters.remove(mmCluster);
+        }
     }
     
     public String getName(){
@@ -89,9 +99,11 @@ public class State {
     public int getPopulation(){
         return this.population;
     }
+
     public void setName(String name) { 
         this.name = name;
     }
+
     public void setPopulation(int population) { 
         this.population = population;
     }
@@ -102,6 +114,22 @@ public class State {
     
     public void setPrecincts(Set precincts) { 
         this.precincts = precincts; 
+    }
+
+    public void initClusters(){
+        clusters = new HashSet<>();
+        Map<Precinct,Cluster> precinctsToClusters = new HashMap<>();
+        for(Precinct precinct : precincts){
+            Cluster cluster = new Cluster(precinct);
+            clusters.add(cluster);
+            precinctsToClusters.put(precinct, cluster);
+        }
+        for(Cluster cluster : clusters){
+            Precinct precinct = (Precinct) cluster.getPrecincts().toArray()[0];
+            for(Precinct neighbor : precinct.getNeighbors()){
+                cluster.getAdjacentClusters().add(precinctsToClusters.get(neighbor));
+            }
+        }
     }
     
     @Override

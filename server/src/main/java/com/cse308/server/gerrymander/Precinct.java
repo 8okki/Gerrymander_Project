@@ -110,7 +110,9 @@ public class Precinct {
         }
         return output;
     }
-    
+
+    public Set<Precinct> getNeighbors() { return neighbors; }
+
     private Demographic findLargestDemographic(){
         int maxPopulation = -1;
         Demographic maxDemographic = null;
@@ -153,6 +155,7 @@ public class Precinct {
     public void setName(String name) { 
         this.name = name;
     }
+
     public void setPopulation(int population) { 
         this.population = population;
     }
