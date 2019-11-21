@@ -88,6 +88,25 @@
   margin-top: 15px;
 }
 
+/* States CSS */
+#election-results {
+  height: 240px;
+  overflow: auto;
+}
+
+html > body #election-results {
+  overflow: hidden;
+  height: 240px;
+}
+
+#election-results tbody {
+  display: block;
+  height: 200px;
+  width: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
 
 /* Bloc Analysis CSS */
 .slider {
@@ -131,36 +150,12 @@ html > body #bloc-results {
   height: 440px;
 }
 
-#bloc-results table {
-  float: center;
-}
-
-#bloc-results thead tr {
-  position: relative;
-}
-
 #bloc-results tbody {
   display: block;
   height: 400px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
-}
-
-#bloc-results tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-
-#bloc-results tbody td {
-  border: 1px solid lightgray;
-}
-
-html > body #bloc-results thead {
-  display: table;
-  overflow: auto;
-  width: 100%;
 }
 
 
@@ -186,4 +181,28 @@ p {
 
 hr {
   margin: 10px;
+}
+
+table {
+  float: center;
+}
+
+thead tr {
+  position: relative;
+}
+
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+tbody td {
+  border: 1px solid lightgray;
+}
+
+html > body thead {
+  display: table;
+  overflow: auto;
+  width: 100%;
 }
