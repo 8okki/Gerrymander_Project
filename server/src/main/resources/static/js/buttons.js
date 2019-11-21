@@ -15,7 +15,7 @@ $(document).ready(function () {
 	}
 
 	$("#updateThresh").click(function (e) {
-		if (!currentState) {
+		if (currentState == null) {
 			window.alert("Please select a state first.");
 		} else {
 			let popSlider = $("#popSlider")[0];
