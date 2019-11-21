@@ -107,6 +107,14 @@ html > body #election-results {
   overflow-x: hidden;
 }
 
+#voting-data{
+  visibility: hidden;
+}
+
+#district-demo-data{
+  visibility: hidden;
+}
+
 #demo-results {
   height: 240px;
   overflow: auto;
