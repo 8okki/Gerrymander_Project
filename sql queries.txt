@@ -4,7 +4,7 @@ values ("AAA","BRATTON TOWNSHIP",661,"OHIO");
 insert into precincts (code,name,population,state)
 values ("BAA","LIMA 1-A",1200,"OHIO");
 
-insert into votes (precinct_code, precinctCode) values ("AAA", "AAA");
+insert into votes (precinct_code, precinctCode, precinct) values ("AAA", "AAA", "AAA");
 insert into votes_votes(votes_precinct_code,votes,politicalparty)
 values ("AAA",96,"DEMOCRATIC");
 insert into votes_votes(votes_precinct_code,votes,politicalparty)
@@ -80,3 +80,17 @@ insert into Precinct_demographicPopulationDist
 values ("BAA", 910, "ASIAN");
 
 insert into votes (precinct_code, precinct, precinctCode) values ("AAA","AAA","AAA");
+
+
+insert into demographics
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 110, "WHITE");
+insert into demographics
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 220, "BLACK");
+insert into demographics
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 110, "HISPANIC");
+insert into demographics
+(precinct_code,demographic_population_dist,demographic)
+values ("AAA", 110, "ASIAN");
