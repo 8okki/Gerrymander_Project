@@ -23,6 +23,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
@@ -63,10 +64,19 @@ public class Precinct {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographics;
     
-   /*@ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn()
-  */
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name="neighbors",
+        joinColumns=@JoinColumn(name="name"),
+        inverseJoinColumns=@JoinColumn(name="neighbor_name")
+    )
     private Set<Precinct> neighbors;
+    
+    @ManyToMany
+    @JoinTable(name="neighbors",
+        joinColumns=@JoinColumn(name="neighbor_name"),
+        inverseJoinColumns=@JoinColumn(name="name")
+    )
+    private Set<Precinct> neighborsOf;
     
     public Precinct(){}
     
@@ -114,7 +124,9 @@ public class Precinct {
         return output;
     }
 
-    public Set<Precinct> getNeighbors() { return neighbors; }
+    public Set<Precinct> getNeighbors() { 
+        return this.neighbors; 
+    }
 
     private Demographic findLargestDemographic(){
         int maxPopulation = -1;

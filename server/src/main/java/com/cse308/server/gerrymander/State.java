@@ -159,15 +159,17 @@ public class State {
     }
 
     public void initClusters(){
-        clusters = new HashSet<>();
+        this.clusters = new HashSet<>();
         Map<Precinct,Cluster> precinctsToClusters = new HashMap<>();
-        for(Precinct precinct : precincts){
+        for(Precinct precinct : this.precincts){
+            System.out.println(this.precincts);
             Cluster cluster = new Cluster(precinct);
-            clusters.add(cluster);
+            this.clusters.add(cluster);
             precinctsToClusters.put(precinct, cluster);
         }
         for(Cluster cluster : clusters){
             Precinct precinct = (Precinct) cluster.getPrecincts().toArray()[0];
+            System.out.println(precinct.getNeighbors());
             for(Precinct neighbor : precinct.getNeighbors()){
                 cluster.getAdjacentClusters().add(precinctsToClusters.get(neighbor));
             }

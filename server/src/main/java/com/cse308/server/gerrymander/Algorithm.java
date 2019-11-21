@@ -25,7 +25,6 @@ import java.util.Set;
 public class Algorithm {
     StateDao stateDao = new StateDao();
     State state;
-    Set<Precinct> precincts;
     
     public State initState(StateName stateName){
         if(this.state == null || StateName.valueOf(this.state.getName()) != stateName){
@@ -46,13 +45,15 @@ public class Algorithm {
     }
     
     public void runPhase1(float demographicMinimum, float demographicMaximum, List<Demographic> demographics, int targetDistrictNum){
-        state.initClusters();
-        float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
+        System.out.println("test");
+        this.state.initClusters();
+        System.out.println("helo");
+        float targetPopulation = (float) this.state.getPopulation() / targetDistrictNum;
 
-        while(state.getClusters().size() < targetDistrictNum) {
-            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
-            state.setPairs(targetPopulation);
-            state.mergePairs();
+        while(this.state.getClusters().size() < targetDistrictNum) {
+            this.state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
+            this.state.setPairs(targetPopulation);
+            this.state.mergePairs();
         }
     }
     

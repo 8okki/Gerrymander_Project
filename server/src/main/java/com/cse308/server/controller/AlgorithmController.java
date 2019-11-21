@@ -59,6 +59,7 @@ public class AlgorithmController {
                 return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
+            System.out.println(e);
             responseBody.addProperty("error", "Invalid request body");
             return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
         }

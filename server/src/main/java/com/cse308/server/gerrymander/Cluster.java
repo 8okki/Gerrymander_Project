@@ -51,6 +51,7 @@ public class Cluster {
     public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
 
     public Cluster(Precinct precinct) {
+        this.precincts = new HashSet<>();
         population = precinct.getPopulation();
         demographicPopDist = new HashMap<>();
         for(Demographic demographic : precinct.getDemographicPopDist().keySet()){
@@ -117,13 +118,11 @@ public class Cluster {
         int pairDemographicPopSum = this.getDemographicPopSum(demographics) + cluster.getDemographicPopSum(demographics);
         int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
         float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
-
         return ratio >= minRange && ratio <= maxRange;
     }
 
     private boolean isPair(Cluster cluster, float targetPopulation) {
         int populationSum = this.getPopulation() + cluster.getPopulation();
-
         return populationSum <= targetPopulation;
     }
 
