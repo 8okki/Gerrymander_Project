@@ -26,9 +26,9 @@ public class HibernateUtil {
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://130.245.171.129:3306/gerrymandering?serverTimezone=UTC");
-                settings.put(Environment.USER, "Mavericks");
-                settings.put(Environment.PASS, "logan_paulers");
+                settings.put(Environment.URL, "jdbc:mysql://mysql4.cs.stonybrook.edu:3306/mavericks?serverTimezone=UTC");
+                settings.put(Environment.USER, "jbuckley");
+                settings.put(Environment.PASS, "111089268");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
                 settings.put(Environment.SHOW_SQL, "true");
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
