@@ -2,6 +2,7 @@
 var geojson;
 var currentState;
 var stateIDs = {};
+var stateLoaded = {};
 
 // get color function
 function getColor(state) {
@@ -50,26 +51,28 @@ function resetHighlight(e) {
 function initState(e) {
 	let feature = e.sourceTarget.feature;
 	let stateName = feature.properties.name;
+    map.fitBounds(e.target.getBounds());
+	let selector = $("#state-pane");
+	$(selector).toggleClass('in');
 
-	$.ajax({
-		'type': "POST",
-		'dataType': 'json',
-		'url': "http://localhost:8080/initState",
-		'data': JSON.stringify({'stateName': stateName.toUpperCase()}),
-		'contentType': "application/json",
-		'statusCode':{
-			"200": function (data) {
-				currentState = data.name;
-				map.fitBounds(e.target.getBounds());
-				let selector = $("#state-pane");
-				$(selector).toggleClass('in');
-				L.geoJson(gallia, {style: style}).addTo(map);
-			},
-			"400": function(data){
-				console.log("error",data);
-			}
-		}
-	});
+    if(!stateLoaded[stateName]){
+        $.ajax({
+    		'type': "POST",
+    		'dataType': 'json',
+    		'url': "http://localhost:8080/initState",
+    		'data': JSON.stringify({'stateName': stateName.toUpperCase()}),
+    		'contentType': "application/json",
+    		'statusCode':{
+    			"200": function (data) {
+    			    currentState = data;
+    				stateLoaded[stateName] = true;
+    			},
+    			"400": function(data){
+    				console.log("error",data);
+    			}
+    		}
+    	});
+    }
 }
 
 // listeners
@@ -86,9 +89,10 @@ function onEachFeature(feature, layer) {
 	layer.on('mouseout', function () {
 			$("#voting-data").toggleClass("hide");
 			// $("#district-demo-data").toggleClass("hide");
-	  });
+	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
+	stateLoaded[feature.properties.name] = false;
 }
 
 // initialize the map on the "map" div with a given center and zoom
