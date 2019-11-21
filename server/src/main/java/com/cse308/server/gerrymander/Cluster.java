@@ -15,7 +15,6 @@ import java.util.*;
  * @author Mavericks
  */
 public class Cluster {
-    
     int population;
     Set<Precinct> precincts;
     Map<Demographic, Integer> demographicPopDist;

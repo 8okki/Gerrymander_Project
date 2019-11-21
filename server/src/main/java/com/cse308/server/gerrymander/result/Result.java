@@ -7,7 +7,7 @@ package com.cse308.server.gerrymander.result;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 public interface Result {
     

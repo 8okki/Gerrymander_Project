@@ -10,7 +10,7 @@ import com.cse308.server.gerrymander.enums.PoliticalParty;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 public class VoteBlocResult implements Result {
     boolean isVoteBloc;

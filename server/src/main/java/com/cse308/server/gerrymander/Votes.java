@@ -40,7 +40,6 @@ public class Votes {
         name = "party_votes",
         joinColumns=@JoinColumn(name = "precinct_name", referencedColumnName = "precinct_name")
     )
-    
     @Column(name="votes")
     @MapKeyColumn(name = "politicalparty")
     @MapKeyEnumerated(EnumType.STRING)
