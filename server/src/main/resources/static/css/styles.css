@@ -61,6 +61,14 @@
   background: white;
 }
 
+.hide{
+  visibility: hidden;
+}
+
+.progress{
+  margin-bottom: 1rem;
+}
+
 .contents {
   z-index: 3;
   position: absolute;
@@ -108,11 +116,11 @@ html > body #election-results {
 }
 
 #voting-data{
-  visibility: hidden;
+  margin-top: 1rem;
 }
 
 #district-demo-data{
-  visibility: hidden;
+  margin-top: 1rem;
 }
 
 #demo-results {
