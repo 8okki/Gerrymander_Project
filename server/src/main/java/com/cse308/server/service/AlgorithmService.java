@@ -33,7 +33,6 @@ public class AlgorithmService {
     }
     
     public void runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
-        System.out.println("hello!");
-        this.algo.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
+        this.algo.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
     }
 }

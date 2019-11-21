@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  *
- * @author Jakob
+ * @author Mavericks
  */
 public class DistrictInfo implements Result {
     

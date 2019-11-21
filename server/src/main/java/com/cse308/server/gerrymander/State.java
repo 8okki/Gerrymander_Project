@@ -50,7 +50,6 @@ public class State {
     private String name;
     private int population;
 
-
     @OneToMany(mappedBy="state",fetch=FetchType.EAGER)
     private Set<Precinct> precincts;
 
@@ -72,12 +71,22 @@ public class State {
         }
         return voteBlocResults;
     }
-
-    public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographic){
-        return null;
+    
+    public void initClusters(){
+        this.clusters = new HashSet<>();
+        Map<Precinct,Cluster> precinctsToClusters = new HashMap<>();
+        for(Precinct precinct : this.precincts){
+            Cluster cluster = new Cluster(precinct);
+            this.clusters.add(cluster);
+            precinctsToClusters.put(precinct, cluster);
+        }
+        for(Cluster cluster : clusters){
+            Precinct precinct = (Precinct) cluster.getPrecincts().toArray()[0];
+            for(Precinct neighbor : precinct.getNeighbors()){
+                cluster.getAdjacentClusters().add(precinctsToClusters.get(neighbor));
+            }
+        }
     }
-
-    public Set<Cluster> getClusters() { return clusters; }
 
     public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
         pairs = new HashMap<>();
@@ -114,7 +123,6 @@ public class State {
         if(pairs.isEmpty()) {
             int currentMin = Integer.MAX_VALUE;
             Cluster[] minClusters = new Cluster[2];
-
             for (Cluster cluster : clusters) {
                 for (Cluster neighbor : cluster.getAdjacentClusters()) {
                     int sum = cluster.getPopulation() + neighbor.getPopulation();
@@ -158,23 +166,13 @@ public class State {
     public void setPrecincts(Set precincts) {
         this.precincts = precincts;
     }
+    
+    public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographic){
+        return null;
+    }
 
-    public void initClusters(){
-        this.clusters = new HashSet<>();
-        Map<Precinct,Cluster> precinctsToClusters = new HashMap<>();
-        for(Precinct precinct : this.precincts){
-            System.out.println(this.precincts);
-            Cluster cluster = new Cluster(precinct);
-            this.clusters.add(cluster);
-            precinctsToClusters.put(precinct, cluster);
-        }
-        for(Cluster cluster : clusters){
-            Precinct precinct = (Precinct) cluster.getPrecincts().toArray()[0];
-            System.out.println(precinct.getNeighbors());
-            for(Precinct neighbor : precinct.getNeighbors()){
-                cluster.getAdjacentClusters().add(precinctsToClusters.get(neighbor));
-            }
-        }
+    public Set<Cluster> getClusters() { 
+        return clusters; 
     }
 
     @Override

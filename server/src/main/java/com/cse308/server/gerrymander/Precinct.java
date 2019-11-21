@@ -47,11 +47,11 @@ public class Precinct {
     private String code;
     private int population;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="state", nullable=false)
     private State state;
     
-    @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Votes electionVotes;
     
     @ElementCollection(fetch=FetchType.EAGER)
