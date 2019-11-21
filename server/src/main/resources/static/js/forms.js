@@ -3,6 +3,7 @@ $('#homeBtn').click(function() {
 	map.setView(new L.LatLng(39.8283, -98.5795), 5.2)
 })
 
+
 $('[name="paneToggle"]').click(function() {
 	let selector = $(this).data("target");
 	$(selector).toggleClass('in');
@@ -43,5 +44,5 @@ $(function() {
 });
 
 $('#gerryBtn').click(function() {
-	
+
 })

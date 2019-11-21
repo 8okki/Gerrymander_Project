@@ -43,7 +43,7 @@ function resetHighlight(e) {
 function initState(e) {
 	let feature = e.sourceTarget.feature;
 	let stateName = feature.properties.name;
-	
+
 	$.ajax({
 		'type': "POST",
 		'dataType': 'json',
@@ -53,7 +53,7 @@ function initState(e) {
 		'statusCode':{
 			"200": function (data) {
 				map.fitBounds(e.target.getBounds());
-				let selector = $([name="paneToggle"]).data("target");
+				let selector = $("#state-pane");
 				$(selector).toggleClass('in');
 			},
 			"400": function(data){
@@ -83,7 +83,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// add highlighting	
+// add highlighting
 geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
 
 /*L.marker([51.5, -0.09]).addTo(map)
