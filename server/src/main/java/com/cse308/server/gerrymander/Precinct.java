@@ -6,34 +6,26 @@
 package com.cse308.server.gerrymander;
 
 import com.cse308.server.gerrymander.enums.Demographic;
-import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
-import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
 
 /**
  *

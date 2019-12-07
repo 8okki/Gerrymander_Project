@@ -10,13 +10,7 @@ import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
-import com.cse308.server.hibernate.repository.StateRepository;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -59,7 +53,11 @@ public class Algorithm {
             this.state.mergePairs();
         }
     }
-    
+
+    public void runPhase2(){
+
+    }
+
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){
         return this.state.getDistrictInfo(districtId, demographics);
     }
