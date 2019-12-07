@@ -64,7 +64,7 @@ public class Precinct {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographics;
     
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="neighbors",
         joinColumns=@JoinColumn(name="name"),
         inverseJoinColumns=@JoinColumn(name="neighbor_name")

@@ -45,7 +45,7 @@ public class Votes {
     @MapKeyEnumerated(EnumType.STRING)
     Map<PoliticalParty, Integer> partyVotes;
     
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "precinct")
     private Precinct precinct;
     

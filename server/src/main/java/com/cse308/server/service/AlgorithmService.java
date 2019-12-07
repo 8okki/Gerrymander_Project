@@ -13,6 +13,7 @@ import com.cse308.server.gerrymander.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,7 +23,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AlgorithmService {
-    Algorithm algo = new Algorithm();
+    @Autowired
+    Algorithm algo;
     
     public State initState(StateName stateName){
         return this.algo.initState(stateName);

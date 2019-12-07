@@ -10,27 +10,32 @@ import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.DistrictInfo;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
+import com.cse308.server.hibernate.repository.StateRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author Mavericks
  */
-
+@Controller
 public class Algorithm {
-    StateDao stateDao = new StateDao();
+    @Autowired
+    StateDao stateDao;
+    
     State state;
     
     public State initState(StateName stateName){
         if(this.state == null || StateName.valueOf(this.state.getName()) != stateName){
-            List<State> results = stateDao.getStateById(stateName);
-            if(!results.isEmpty()){
-                this.state = results.get(0);
+            State result = stateDao.getStateById(stateName.name());
+            if(result != null){
+                this.state = result;
                 return this.state;
             }else{
                 return null;
