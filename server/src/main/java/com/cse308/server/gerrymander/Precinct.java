@@ -63,8 +63,19 @@ public class Precinct {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographics;
     
-    @Transient
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="neighbors",
+        joinColumns=@JoinColumn(name="name"),
+        inverseJoinColumns=@JoinColumn(name="neighbor_name")
+    )
     private Set<Precinct> neighbors;
+    
+    @ManyToMany
+    @JoinTable(name="neighbors",
+        joinColumns=@JoinColumn(name="neighbor_name"),
+        inverseJoinColumns=@JoinColumn(name="name")
+    )
+    private Set<Precinct> neighborsOf;
     
     public Precinct(){}
     
@@ -179,15 +190,15 @@ public class Precinct {
         return this.demographics;
     }
     
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Precinct)) return false;
         Precinct p  = (Precinct) o;
         return Objects.equals(p.name, this.name);
-    }
+    }*/
     
-    @Override
+    /*@Override
     public String toString(){
         return "[name:" + this.name + ",dist:" + this.getDemographicPopDist() + ",election:" + this.getElectionVotes() + "]";
     }
@@ -196,5 +207,5 @@ public class Precinct {
     public int hashCode() {
         return Objects.hash(this.name);
     }
-    
+    */
 }

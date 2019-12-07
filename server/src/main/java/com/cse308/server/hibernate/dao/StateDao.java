@@ -37,6 +37,10 @@ public class StateDao {
                 return null;
         }
         Set<Precinct> precincts = precinctDao.getPrecinctsByState(stateName);
+        /*for(Precinct p : precincts){
+            System.out.print("" + p + ":");
+            System.out.println(p.getNeighbors());
+        }*/
         state.setPrecincts(precincts);
         return state;
     }
