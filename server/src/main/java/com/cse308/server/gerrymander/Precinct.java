@@ -47,9 +47,8 @@ public class Precinct {
     private String code;
     private int population;
     
-    @ManyToOne
-    @JoinColumn(name="state", nullable=false)
-    private State state;
+    @Column(name = "state")
+    private String state;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Votes electionVotes;
@@ -64,19 +63,8 @@ public class Precinct {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographics;
     
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="neighbors",
-        joinColumns=@JoinColumn(name="name"),
-        inverseJoinColumns=@JoinColumn(name="neighbor_name")
-    )
+    @Transient
     private Set<Precinct> neighbors;
-    
-    @ManyToMany
-    @JoinTable(name="neighbors",
-        joinColumns=@JoinColumn(name="neighbor_name"),
-        inverseJoinColumns=@JoinColumn(name="name")
-    )
-    private Set<Precinct> neighborsOf;
     
     public Precinct(){}
     
@@ -155,7 +143,7 @@ public class Precinct {
         return this.population;
     }
     
-    public State getState(){
+    public String getState(){
         return this.state;
     }
     
@@ -179,7 +167,7 @@ public class Precinct {
         this.demographics = demographics;
     }
     
-    public void setState(State state){
+    public void setState(String state){
         this.state = state;
     }
     

@@ -50,7 +50,7 @@ public class State {
     private String name;
     private int population;
 
-    @OneToMany(mappedBy="state",fetch=FetchType.LAZY)
+    @Transient
     private Set<Precinct> precincts;
 
     @Transient
