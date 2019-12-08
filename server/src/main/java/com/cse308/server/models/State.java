@@ -64,7 +64,7 @@ public class State {
         this.clusters = new HashSet<>();
         Map<Precinct,Cluster> precinctsToClusters = new HashMap<>();
         for(Precinct precinct : this.precincts){
-            Cluster cluster = new Cluster(precinct);
+            Cluster cluster = new Cluster(this, precinct);
             this.clusters.add(cluster);
             precinctsToClusters.put(precinct, cluster);
         }

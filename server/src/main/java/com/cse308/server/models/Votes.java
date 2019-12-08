@@ -31,7 +31,7 @@ import javax.persistence.Table;
 public class Votes {
     @Id
     @Column(name="precinct_code")
-    String precinctName;
+    private String precinctName;
     
     @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(
@@ -41,7 +41,7 @@ public class Votes {
     @Column(name="votes")
     @MapKeyColumn(name = "politicalparty")
     @MapKeyEnumerated(EnumType.STRING)
-    Map<PoliticalParty, Integer> partyVotes;
+    private Map<PoliticalParty, Integer> partyVotes;
     
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "precinct")

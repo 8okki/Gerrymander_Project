@@ -7,24 +7,13 @@ package com.cse308.server.models;
 
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.result.VoteBlocResult;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.MapKeyColumn;
-import javax.persistence.MapKeyEnumerated;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
 
 
 /**
@@ -150,9 +139,7 @@ public class Precinct {
         return this.population;
     }
     
-    public String getState(){
-        return this.state;
-    }
+    public String getState(){ return this.state; }
     
     public Votes getElectionVotes(){
         return this.electionVotes;
@@ -177,31 +164,9 @@ public class Precinct {
     public void setState(String state){
         this.state = state;
     }
-    
-    public void setElectionVotes(Votes electionVotes){
-        this.electionVotes = electionVotes;
-    }
-    
+
     public Map<Demographic, Integer> getDemographicPopDist(){
         return this.demographics;
     }
-    
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Precinct)) return false;
-        Precinct p  = (Precinct) o;
-        return Objects.equals(p.name, this.name);
-    }*/
-    
-    /*@Override
-    public String toString(){
-        return "[name:" + this.name + ",dist:" + this.getDemographicPopDist() + ",election:" + this.getElectionVotes() + "]";
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.name);
-    }
-    */
+
 }
