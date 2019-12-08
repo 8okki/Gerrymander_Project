@@ -28,8 +28,9 @@ public class Precinct {
     private String name;
     private int population;
     
-    @Column(name = "state")
-    private String state;
+    @ManyToOne
+    @JoinColumn(name="state", nullable=false)
+    private State state;
     
     @Column(name = "geojson", columnDefinition="LONGTEXT")
     private String geojson;
@@ -138,9 +139,11 @@ public class Precinct {
     public int getPopulation(){
         return this.population;
     }
-    
-    public String getState(){ return this.state; }
-    
+
+    public State getState(){
+        return this.state;
+    }
+
     public Votes getElectionVotes(){
         return this.electionVotes;
     }
@@ -161,7 +164,7 @@ public class Precinct {
         this.demographics = demographics;
     }
     
-    public void setState(String state){
+    public void setState(State state){
         this.state = state;
     }
 
