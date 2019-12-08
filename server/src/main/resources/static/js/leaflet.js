@@ -78,17 +78,17 @@ function initState(e) {
     }
 }
 
-function onEachFeature1(feature, layer) {
+function onEachFeatureDistrict(feature, layer) {
 	layer.on({
 		mouseover: highlightFeature,
 		mouseout: resetHighlight//,
 		// click: initState
 	});
 	layer.on('mouseover', function () {
-
+			$("#district-election-results").toggleClass("hide");
     });
 	layer.on('mouseout', function () {
-
+			$("#district-election-results").toggleClass("hide");
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
@@ -102,7 +102,7 @@ async function initCongressionalDistricts(stateName){
 		'url': "http://localhost:8080/data/" + stateName.toUpperCase() + "_DISTRICTS.json",
 		'statusCode':{
 			"200": function(data){
-				congressionalDistricts = L.geoJson(data, {style: style, onEachFeature:onEachFeature1}).addTo(map);
+				congressionalDistricts = L.geoJson(data, {style: style, onEachFeature:onEachFeatureDistrict}).addTo(map);
 				districtLoadedFlag = true;
 			}
 		}
@@ -148,6 +148,7 @@ var zoomlevel = map.getZoom();
     if (zoomlevel < 7){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
+						$("#district-election-results").addClass("hide");
         }
 				// else {
         //     console.log("no districts layer active");
