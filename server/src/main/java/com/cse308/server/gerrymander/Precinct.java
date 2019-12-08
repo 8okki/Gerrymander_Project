@@ -35,12 +35,15 @@ import javax.persistence.Table;
 @Table(name="precincts")
 public class Precinct {
     @Id
-    private String name;
     private String code;
+    private String name;
     private int population;
     
     @Column(name = "state")
     private String state;
+    
+    @Column(name = "geojson")
+    private String geojson;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Votes electionVotes;
@@ -48,7 +51,7 @@ public class Precinct {
     @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(
         name = "demographics",
-        joinColumns=@JoinColumn(name = "precinct_name", referencedColumnName = "name")
+        joinColumns=@JoinColumn(name = "precinct_code", referencedColumnName = "code")
     )
     @Column(name = "population")
     @MapKeyColumn(name = "demographic")
@@ -57,15 +60,15 @@ public class Precinct {
     
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="neighbors",
-        joinColumns=@JoinColumn(name="name"),
-        inverseJoinColumns=@JoinColumn(name="neighbor_name")
+        joinColumns=@JoinColumn(name="code"),
+        inverseJoinColumns=@JoinColumn(name="neighbor_code")
     )
     private Set<Precinct> neighbors;
     
     @ManyToMany
     @JoinTable(name="neighbors",
-        joinColumns=@JoinColumn(name="neighbor_name"),
-        inverseJoinColumns=@JoinColumn(name="name")
+        joinColumns=@JoinColumn(name="neighbor_code"),
+        inverseJoinColumns=@JoinColumn(name="code")
     )
     private Set<Precinct> neighborsOf;
     

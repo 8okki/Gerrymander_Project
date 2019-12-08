@@ -30,13 +30,13 @@ import javax.persistence.Table;
 @Table(name="votes")
 public class Votes {
     @Id
-    @Column(name="precinct_name")
+    @Column(name="precinct_code")
     String precinctName;
     
     @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(
         name = "party_votes",
-        joinColumns=@JoinColumn(name = "precinct_name", referencedColumnName = "precinct_name")
+        joinColumns=@JoinColumn(name = "precinct_code", referencedColumnName = "precinct_code")
     )
     @Column(name="votes")
     @MapKeyColumn(name = "politicalparty")
