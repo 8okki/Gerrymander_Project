@@ -33,7 +33,9 @@ public class Precinct {
     private State state;
     
     @Column(name = "geojson", columnDefinition="LONGTEXT")
-    private String geojson;
+    private String geoJson;
+
+    private Geometry geometry;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Votes electionVotes;
@@ -61,9 +63,60 @@ public class Precinct {
         inverseJoinColumns=@JoinColumn(name="code")
     )
     private Set<Precinct> neighborsOf;
-    
+
+
+    /* Getters & Setters */
+    public String getCode(){
+        return this.code;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public int getPopulation(){
+        return this.population;
+    }
+
+    public State getState(){
+        return this.state;
+    }
+
+    public Votes getElectionVotes(){
+        return this.electionVotes;
+    }
+
+    public Map<Demographic, Integer> getDemographicPopDist(){
+        return this.demographics;
+    }
+
+    public int getDemographicPop(Demographic maxDemographic){ return demographics.get(maxDemographic); }
+
+    public String getGeoJson() {
+        return geoJson;
+    }
+
+    public Geometry getGeometry() {
+        return geometry;
+    }
+
+    public Set<Precinct> getNeighbors() { return this.neighbors; }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setState(State state){
+        this.state = state;
+    }
+
+
+    /* Constructors */
     public Precinct(){}
-    
     public Precinct(String code, String name, int population, Map<Demographic, Integer> demographics, Votes electionVotes){
         this.code = code;
         this.name = name;
@@ -71,11 +124,9 @@ public class Precinct {
         this.demographics = demographics;
         this.electionVotes = electionVotes;
     }
-    
-    public void setNeighbors(Set<Precinct> neighbors){
-        this.neighbors = neighbors;
-    }
-    
+
+
+    /* Phase 0 */
     public VoteBlocResult findVoteBloc(float blocThreshold, float voteThreshold){
         Demographic maxDemographic = findDemographicBloc(blocThreshold);
         if(maxDemographic != null){
@@ -96,20 +147,12 @@ public class Precinct {
         }
     }
     
-    public int getDemographicPop(Demographic maxDemographic){
-        return demographics.get(maxDemographic);
-    }
-    
     public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
         Map<Demographic, Integer> output = new HashMap<Demographic, Integer>();
         for(Demographic demographic : demographics){
             output.put(demographic,getDemographicPop(demographic));
         }
         return output;
-    }
-
-    public Set<Precinct> getNeighbors() { 
-        return this.neighbors; 
     }
 
     private Demographic findLargestDemographic(){
@@ -128,48 +171,12 @@ public class Precinct {
         return (float)largestDemographicPop/totalPop;
     }
 
-    public String getCode(){
-        return this.code;
-    }
-    
-    public String getName(){
-        return this.name;
-    }
-    
-    public int getPopulation(){
-        return this.population;
-    }
 
-    public State getState(){
-        return this.state;
-    }
-
-    public Votes getElectionVotes(){
-        return this.electionVotes;
-    }
-    
-    public void setCode(String code) { 
-        this.code = code;
-    }
-    
-    public void setName(String name) { 
-        this.name = name;
-    }
-
-    public void setPopulation(int population) { 
-        this.population = population;
-    }
-    
-    public void setDemographicPopDist(Map<Demographic, Integer> demographics){
-        this.demographics = demographics;
-    }
-    
-    public void setState(State state){
-        this.state = state;
-    }
-
-    public Map<Demographic, Integer> getDemographicPopDist(){
-        return this.demographics;
+    /* Phase 2 */
+    public double getPopulationDensity() {
+        if (geometry !=null && geometry.getArea() != 0)
+            return getPopulation() / geometry.getArea();
+        return -1;
     }
 
 }
