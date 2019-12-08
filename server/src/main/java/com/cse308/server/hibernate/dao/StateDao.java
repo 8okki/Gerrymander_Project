@@ -6,16 +6,10 @@
 package com.cse308.server.hibernate.dao;
 
 import com.cse308.server.gerrymander.Precinct;
-import java.util.logging.Logger;
 
 import com.cse308.server.gerrymander.State;
-import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.hibernate.repository.StateRepository;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

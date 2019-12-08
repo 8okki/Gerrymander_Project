@@ -5,8 +5,6 @@ import com.cse308.server.gerrymander.Precinct;
 import com.cse308.server.gerrymander.State;
 import com.cse308.server.gerrymander.Votes;
 import java.util.Properties;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

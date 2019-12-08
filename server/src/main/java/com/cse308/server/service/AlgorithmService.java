@@ -10,8 +10,6 @@ import com.cse308.server.gerrymander.State;
 import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.StateName;
 import com.cse308.server.gerrymander.result.VoteBlocResult;
-import com.cse308.server.hibernate.dao.StateDao;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +34,9 @@ public class AlgorithmService {
     
     public void runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
         this.algo.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+    }
+
+    public void runPhase2() {
+
     }
 }

@@ -5,7 +5,6 @@
  */
 package com.cse308.server.controller;
 
-import com.cse308.server.gerrymander.Algorithm;
 import com.cse308.server.gerrymander.State;
 import com.cse308.server.gerrymander.enums.Demographic;
 import com.cse308.server.gerrymander.enums.StateName;
@@ -17,20 +16,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
-//import com.google.gson.Gson;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;    
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -89,7 +80,7 @@ public class AlgorithmController {
         JsonObject responseBody = new JsonObject();
         try {
             JsonArray demographicsAsStrings = input.get("demographics").getAsJsonArray();
-            List<Demographic> demographics = new ArrayList<Demographic>();
+            List<Demographic> demographics = new ArrayList<>();
             for(JsonElement demographic : demographicsAsStrings){
                 demographics.add(Demographic.valueOf(demographic.getAsString()));
             }
@@ -103,5 +94,11 @@ public class AlgorithmController {
             responseBody.addProperty("error", "Invalid request body");
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
-    } 
+    }
+
+    @PostMapping(value = "/runPhase2", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> phase2Request(@RequestBody JsonObject input){
+
+        return null;
+    }
 }
