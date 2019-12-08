@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToOne;
@@ -39,10 +40,11 @@ public class Precinct {
     private String name;
     private int population;
     
-    @Column(name = "state")
-    private String state;
+    @ManyToOne
+    @JoinColumn(name="state", nullable=false)
+    private State state;
     
-    @Column(name = "geojson")
+    @Column(name = "geojson", columnDefinition="LONGTEXT")
     private String geojson;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
@@ -150,7 +152,7 @@ public class Precinct {
         return this.population;
     }
     
-    public String getState(){
+    public State getState(){
         return this.state;
     }
     
@@ -174,7 +176,7 @@ public class Precinct {
         this.demographics = demographics;
     }
     
-    public void setState(String state){
+    public void setState(State state){
         this.state = state;
     }
     

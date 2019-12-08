@@ -11,9 +11,11 @@ import com.cse308.server.result.VoteBlocResult;
 
 import java.util.*;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -38,7 +40,7 @@ public class State {
     private String name;
     private int population;
 
-    @Transient
+    @OneToMany(mappedBy="state",fetch=FetchType.LAZY)
     private Set<Precinct> precincts;
 
     @Transient
@@ -166,6 +168,6 @@ public class State {
     @Override
     public String toString(){
         return "[Name: " + this.name.toString() +
-                ", population: " + this.population + ",precincts: " + this.precincts + "]";
+                ", population: " + this.population + "]";
     }
 }
