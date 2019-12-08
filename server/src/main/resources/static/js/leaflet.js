@@ -4,6 +4,7 @@ var currentState;
 var congressionalDistricts;
 var stateIDs = {};
 var stateLoaded = {};
+var districtLoadedFlag = false;
 
 // get color function
 function getColor(state) {
@@ -102,6 +103,7 @@ async function initCongressionalDistricts(stateName){
 		'statusCode':{
 			"200": function(data){
 				congressionalDistricts = L.geoJson(data, {style: style, onEachFeature:onEachFeature1}).addTo(map);
+				districtLoadedFlag = true;
 			}
 		}
 	});
@@ -116,12 +118,10 @@ function onEachFeature(feature, layer) {
 	});
 	layer.on('mouseover', function () {
 			$("#voting-data").toggleClass("hide");
-
 			// $("#district-demo-data").toggleClass("hide");
     });
 	layer.on('mouseout', function () {
 			$("#voting-data").toggleClass("hide");
-
 			// $("#district-demo-data").toggleClass("hide");
 	});
 	layer._leaflet_id = feature.id;
@@ -143,16 +143,6 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 // add highlighting
 geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
 
-// function sleep(ms) {
-//   return new Promise(resolve => setTimeout(resolve, ms));
-// }
-//
-// async function wait1msec() {
-//   await sleep(30000);
-// }
-//
-// wait1msec();
-
 map.on('zoomend', function() {
 var zoomlevel = map.getZoom();
     if (zoomlevel < 7){
@@ -167,7 +157,7 @@ var zoomlevel = map.getZoom();
         if (map.hasLayer(congressionalDistricts)){
 						console.log("districts layer already added");
         }
-				else {
+				else if(districtLoadedFlag == true){
         	map.addLayer(congressionalDistricts);
         }
     }
