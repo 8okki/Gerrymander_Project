@@ -42,7 +42,7 @@ public class Precinct {
     @Column(name = "state")
     private String state;
     
-    @Column(name = "geojson")
+    @Column(name = "geojson", columnDefinition="TEXT")
     private String geojson;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
