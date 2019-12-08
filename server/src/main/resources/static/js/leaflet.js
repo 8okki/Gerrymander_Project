@@ -1,6 +1,7 @@
 // global var
 var geojson;
 var currentState;
+var congressionalDistricts;
 var stateIDs = {};
 var stateLoaded = {};
 
@@ -66,6 +67,7 @@ function initState(e) {
     			"200": function (data) {
     			    currentState = data;
     				stateLoaded[stateName] = true;
+					initCongressionalDistricts(stateName);
     			},
     			"400": function(data){
     				console.log("error",data);
@@ -73,6 +75,19 @@ function initState(e) {
     		}
     	});
     }
+}
+
+async function initCongressionalDistricts(stateName){
+	$.ajax({
+		'type': "GET",
+		'dataType': 'json',
+		'url': "http://localhost:8080/data/" + stateName.toUpperCase() + "_DISTRICTS.json",
+		'statusCode':{
+			"200": function(data){
+				congressionalDistricts = L.geoJson(data, {style: style}).addTo(map);
+			}
+		}
+	});
 }
 
 // listeners
