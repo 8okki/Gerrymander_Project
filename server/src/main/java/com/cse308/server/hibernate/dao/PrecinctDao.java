@@ -5,7 +5,7 @@
  */
 package com.cse308.server.hibernate.dao;
 
-import com.cse308.server.gerrymander.Precinct;
+import com.cse308.server.models.Precinct;
 import com.cse308.server.hibernate.repository.PrecinctRepository;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;

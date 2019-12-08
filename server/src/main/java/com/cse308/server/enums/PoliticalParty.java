@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cse308.server.gerrymander.result;
+package com.cse308.server.enums;
 
 /**
  *
- * @author Mavericks
+ * @author Jakob
  */
-public interface Result {
-    
+public enum PoliticalParty {
+    DEMOCRATIC,
+    REPUBLICAN
 }
