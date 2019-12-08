@@ -134,6 +134,7 @@ public class Precinct {
     private static float calculateRatio(int largestDemographicPop, int totalPop){
         return (float)largestDemographicPop/totalPop;
     }
+
     public String getCode(){
         return this.code;
     }
