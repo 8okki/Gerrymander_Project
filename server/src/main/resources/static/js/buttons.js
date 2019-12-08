@@ -14,7 +14,7 @@ $(document).ready(function () {
 		tableBody.id = "bloc-tbody";
 	}
 
-	$("#updateThresh").click(function (e) {
+	$("#updateThresh").click(async function (e) {
 		if (currentState == null) {
 			window.alert("Please select a state first.");
 		} else {

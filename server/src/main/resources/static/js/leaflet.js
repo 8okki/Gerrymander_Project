@@ -55,7 +55,7 @@ function initState(e) {
     map.fitBounds(e.target.getBounds());
 	let selector = $("#state-pane");
 	$(selector).toggleClass('in');
-
+	console.log("test");
     if(!stateLoaded[stateName]){
         $.ajax({
     		'type': "POST",
