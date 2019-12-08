@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.HashMap;
 import javax.persistence.*;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.Polygon;
 
 
 /**
@@ -31,9 +30,6 @@ public class Precinct {
     @ManyToOne
     @JoinColumn(name="state", nullable=false)
     private State state;
-    
-    @Column(name = "geojson", columnDefinition="LONGTEXT")
-    private String geoJson;
 
     private Geometry geometry;
     
@@ -92,10 +88,6 @@ public class Precinct {
 
     public int getDemographicPop(Demographic maxDemographic){ return demographics.get(maxDemographic); }
 
-    public String getGeoJson() {
-        return geoJson;
-    }
-
     public Geometry getGeometry() {
         return geometry;
     }
@@ -114,6 +106,7 @@ public class Precinct {
         this.state = state;
     }
 
+    public void setGeometry(Geometry geometry) { this.geometry = geometry; }
 
     /* Constructors */
     public Precinct(){}
@@ -174,7 +167,7 @@ public class Precinct {
 
     /* Phase 2 */
     public double getPopulationDensity() {
-        if (geometry !=null && geometry.getArea() != 0)
+        if (geometry != null && geometry.getArea() != 0)
             return getPopulation() / geometry.getArea();
         return -1;
     }

@@ -34,7 +34,7 @@ public class AlgorithmController {
     @Autowired
     AlgorithmService algoService;
     
-    @PostMapping(value = "/initState", 
+    @PostMapping(value = "/initState",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> initStateRequest(@RequestBody JsonObject stateJson) {
@@ -57,7 +57,23 @@ public class AlgorithmController {
             return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
         }
     }
-    
+
+    @PostMapping(value = "/initGeometry",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> initGeometryRequest(@RequestBody JsonObject stateJson) {
+        JsonObject responseBody = new JsonObject();
+        try {
+            StateName stateName = StateName.valueOf(stateJson.get("stateName").getAsString());
+            algoService.initGeometry(stateName);
+            return new ResponseEntity<>(responseBody,HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping(value = "/runPhase0", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> phase0Request(@RequestBody JsonObject input){
         JsonObject responseBody = new JsonObject();

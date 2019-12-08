@@ -10,14 +10,7 @@ import com.cse308.server.result.DistrictInfo;
 import com.cse308.server.result.VoteBlocResult;
 
 import java.util.*;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  *

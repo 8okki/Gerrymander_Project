@@ -7,13 +7,12 @@ package com.cse308.server.models;
 
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.result.DistrictInfo;
+import static com.cse308.server.enums.PoliticalParty.DEMOCRATIC;
+import static com.cse308.server.enums.PoliticalParty.REPUBLICAN;
 
 import java.util.*;
 import org.locationtech.jts.algorithm.MinimumBoundingCircle;
 import org.locationtech.jts.geom.*;
-
-import static com.cse308.server.enums.PoliticalParty.DEMOCRATIC;
-import static com.cse308.server.enums.PoliticalParty.REPUBLICAN;
 
 /**
  *

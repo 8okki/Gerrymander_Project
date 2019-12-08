@@ -11,6 +11,8 @@ import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
 import com.cse308.server.result.VoteBlocResult;
 import java.util.List;
+
+import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,9 @@ public class AlgorithmService {
     public State initState(StateName stateName){
         return this.algo.initState(stateName);
     }
-    
+
+    public void initGeometry(StateName stateName) { this.algo.initGeometry(stateName); }
+
     public List<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
         return this.algo.runPhase0(blocThreshold, voteThreshold);
     }

@@ -40,7 +40,11 @@ public class Algorithm {
             return this.state;
         }
     }
-    
+
+    public void initGeometry(StateName stateName) {
+
+    }
+
     public List<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
         return this.state.findVoteBlocs(blocThreshold, voteThreshold);
     }
