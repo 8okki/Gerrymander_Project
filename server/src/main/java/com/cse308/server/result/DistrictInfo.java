@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cse308.server.gerrymander.result;
+package com.cse308.server.result;
 
-import com.cse308.server.gerrymander.enums.Demographic;
+import com.cse308.server.enums.Demographic;
 import java.util.Map;
 
 /**

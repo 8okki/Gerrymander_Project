@@ -5,11 +5,11 @@
  */
 package com.cse308.server.service;
 
-import com.cse308.server.gerrymander.Algorithm;
-import com.cse308.server.gerrymander.State;
-import com.cse308.server.gerrymander.enums.Demographic;
-import com.cse308.server.gerrymander.enums.StateName;
-import com.cse308.server.gerrymander.result.VoteBlocResult;
+import com.cse308.server.algorithm.Algorithm;
+import com.cse308.server.models.State;
+import com.cse308.server.enums.Demographic;
+import com.cse308.server.enums.StateName;
+import com.cse308.server.result.VoteBlocResult;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

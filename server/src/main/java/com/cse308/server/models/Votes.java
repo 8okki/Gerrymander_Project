@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cse308.server.gerrymander;
+package com.cse308.server.models;
 
-import com.cse308.server.gerrymander.enums.Demographic;
-import com.cse308.server.gerrymander.enums.PoliticalParty;
-import com.cse308.server.gerrymander.result.VoteBlocResult;
+import com.cse308.server.enums.Demographic;
+import com.cse308.server.enums.PoliticalParty;
+import com.cse308.server.result.VoteBlocResult;
 import java.util.Map;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;

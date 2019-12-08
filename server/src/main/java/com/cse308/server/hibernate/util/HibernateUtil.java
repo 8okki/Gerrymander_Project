@@ -1,9 +1,9 @@
 package com.cse308.server.hibernate.util;
 
 
-import com.cse308.server.gerrymander.Precinct;
-import com.cse308.server.gerrymander.State;
-import com.cse308.server.gerrymander.Votes;
+import com.cse308.server.models.Precinct;
+import com.cse308.server.models.State;
+import com.cse308.server.models.Votes;
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;

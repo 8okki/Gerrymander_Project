@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cse308.server.gerrymander;
+package com.cse308.server.models;
 
-import com.cse308.server.gerrymander.enums.Demographic;
-import com.cse308.server.gerrymander.result.DistrictInfo;
+import com.cse308.server.enums.Demographic;
+import com.cse308.server.result.DistrictInfo;
 
 import java.util.*;
 
@@ -20,7 +20,8 @@ public class Cluster {
     Map<Demographic, Integer> demographicPopDist;
     Set<Cluster> adjClusters;
     boolean isMerged;
-    
+
+
     public int getPopulation(){
         return this.population;
     }

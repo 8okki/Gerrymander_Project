@@ -5,10 +5,10 @@
  */
 package com.cse308.server.controller;
 
-import com.cse308.server.gerrymander.State;
-import com.cse308.server.gerrymander.enums.Demographic;
-import com.cse308.server.gerrymander.enums.StateName;
-import com.cse308.server.gerrymander.result.VoteBlocResult;
+import com.cse308.server.models.State;
+import com.cse308.server.enums.Demographic;
+import com.cse308.server.enums.StateName;
+import com.cse308.server.result.VoteBlocResult;
 import com.cse308.server.service.AlgorithmService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

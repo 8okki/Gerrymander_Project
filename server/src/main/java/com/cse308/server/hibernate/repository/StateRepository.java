@@ -5,7 +5,7 @@
  */
 package com.cse308.server.hibernate.repository;
 
-import com.cse308.server.gerrymander.State;
+import com.cse308.server.models.State;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

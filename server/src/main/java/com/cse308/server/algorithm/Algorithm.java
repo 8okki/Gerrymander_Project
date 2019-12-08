@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cse308.server.gerrymander;
+package com.cse308.server.algorithm;
 
-import com.cse308.server.gerrymander.enums.Demographic;
-import com.cse308.server.gerrymander.enums.StateName;
-import com.cse308.server.gerrymander.result.DistrictInfo;
-import com.cse308.server.gerrymander.result.VoteBlocResult;
+import com.cse308.server.enums.Demographic;
+import com.cse308.server.enums.StateName;
+import com.cse308.server.result.DistrictInfo;
+import com.cse308.server.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
 import java.util.List;
+
+import com.cse308.server.models.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
