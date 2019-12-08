@@ -77,6 +77,23 @@ function initState(e) {
     }
 }
 
+function onEachFeature1(feature, layer) {
+	layer.on({
+		mouseover: highlightFeature,
+		mouseout: resetHighlight//,
+		// click: initState
+	});
+	layer.on('mouseover', function () {
+			$("#voting-data").toggleClass("hide");
+    });
+	layer.on('mouseout', function () {
+			$("#voting-data").toggleClass("hide");
+	});
+	layer._leaflet_id = feature.id;
+	stateIDs[feature.properties.name] = feature.id;
+	stateLoaded[feature.properties.name] = false;
+}
+
 async function initCongressionalDistricts(stateName){
 	$.ajax({
 		'type': "GET",
@@ -84,7 +101,7 @@ async function initCongressionalDistricts(stateName){
 		'url': "http://localhost:8080/data/" + stateName.toUpperCase() + "_DISTRICTS.json",
 		'statusCode':{
 			"200": function(data){
-				congressionalDistricts = L.geoJson(data, {style: style}).addTo(map);
+				congressionalDistricts = L.geoJson(data, {style: style, onEachFeature:onEachFeature1}).addTo(map);
 			}
 		}
 	});
@@ -99,10 +116,12 @@ function onEachFeature(feature, layer) {
 	});
 	layer.on('mouseover', function () {
 			$("#voting-data").toggleClass("hide");
+
 			// $("#district-demo-data").toggleClass("hide");
     });
 	layer.on('mouseout', function () {
 			$("#voting-data").toggleClass("hide");
+
 			// $("#district-demo-data").toggleClass("hide");
 	});
 	layer._leaflet_id = feature.id;
@@ -123,6 +142,27 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 // add highlighting
 geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).addTo(map);
+
+map.on('zoomend', function() {
+var zoomlevel = map.getZoom();
+    if (zoomlevel  <7){
+        if (map.hasLayer(congressionalDistricts)) {
+            map.removeLayer(congressionalDistricts);
+        }
+				// else {
+        //     console.log("no districts layer active");
+        // }
+    }
+    if (zoomlevel >= 7){
+        if (map.hasLayer(congressionalDistricts)){
+            console.log("districts layer already added");
+        }
+				// else {
+        //     map.addLayer(congressionalDistricts);
+        // }
+    }
+//console.log("Current Zoom Level =" + zoomlevel)
+});
 
 /*L.marker([51.5, -0.09]).addTo(map)
     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
