@@ -86,6 +86,10 @@ public class Cluster {
 
     public int getExternalEdges() { return externalEdges; }
 
+    public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
+        return null;
+    }
+
     public boolean isMerged() { return isMerged; }
 
     public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
@@ -95,20 +99,69 @@ public class Cluster {
     public Cluster(State state, Precinct precinct) {
         this.state = state;
         precincts = new HashSet<>();
-        precincts.add(precinct);
-        precinct.setCurrentCluster(this);
-
-        population = precinct.getPopulation();
-        demographicPopDist = new HashMap<>();
-        for(Demographic demographic : precinct.getDemographicPopDist().keySet()){
-            demographicPopDist.put(demographic, precinct.getDemographicPopDist().get(demographic));
-        }
-
-        repVote = precinct.getElectionVotes().getVotes().get(REPUBLICAN);
-        demVote = precinct.getElectionVotes().getVotes().get(DEMOCRATIC);
-
         adjClusters = new HashSet<>();
         borderPrecincts = new HashSet<>();
+        demographicPopDist = new HashMap<>();
+        for(Demographic demographic : Demographic.values())
+            demographicPopDist.put(demographic, 0);
+
+        addPrecinct(precinct);
+    }
+
+
+    /* Basic Functions */
+    public void addPrecinct(Precinct precinct) {
+        // Add target precinct & its data
+        precincts.add(precinct);
+        precinct.setCurrentCluster(this);
+        population += precinct.getPopulation();
+        repVote += precinct.getElectionVotes().getVotes().get(REPUBLICAN);
+        demVote += precinct.getElectionVotes().getVotes().get(DEMOCRATIC);
+        for(Demographic demographic : precinct.getDemographicPopDist().keySet()) {
+            int demoPop = demographicPopDist.get(demographic) + precinct.getDemographicPopDist().get(demographic);
+            demographicPopDist.put(demographic, demoPop);
+        }
+
+        // Update edge counts
+        Set<Precinct> newInternalNeighbors = getInternalNeighbors(precinct);
+        int newInternalEdges = newInternalNeighbors.size();
+        internalEdges += newInternalEdges;
+        externalEdges += (precinct.getNeighbors().size() - 2 * newInternalEdges);
+
+        // Update border precincts
+        newInternalNeighbors.removeIf(this::isBorderPrecinct);
+        borderPrecincts.removeAll(newInternalNeighbors);
+        borderPrecincts.add(precinct);
+
+        multiPolygonUpdated = false;
+        convexHullUpdated = false;
+        boundingCircleUpdated = false;
+    }
+
+    public void removePrecinct(Precinct precinct) {
+        // Remove target precinct & its data
+        precincts.remove(precinct);
+        population -= precinct.getPopulation();
+        repVote -= precinct.getElectionVotes().getVotes().get(REPUBLICAN);
+        demVote -= precinct.getElectionVotes().getVotes().get(DEMOCRATIC);
+        for(Demographic demographic : precinct.getDemographicPopDist().keySet()) {
+            int demoPop = demographicPopDist.get(demographic) - precinct.getDemographicPopDist().get(demographic);
+            demographicPopDist.put(demographic, demoPop);
+        }
+
+        // Update edge counts
+        Set<Precinct> lostInternalNeighbors = getInternalNeighbors(precinct);
+        int lostInternalEdges = lostInternalNeighbors.size();
+        internalEdges -= lostInternalEdges;
+        externalEdges -= (precinct.getNeighbors().size() - 2 * lostInternalEdges);
+
+        // Update border precincts
+        borderPrecincts.addAll(lostInternalNeighbors);
+        borderPrecincts.remove(precinct);
+
+        multiPolygonUpdated = false;
+        convexHullUpdated = false;
+        boundingCircleUpdated = false;
     }
 
 
@@ -158,10 +211,6 @@ public class Cluster {
         }
         return sum;
     }
-    
-    public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
-        return null;
-    }
 
     private static float calculateRatio(int demographicPopSum, int populationSum){
         return (float)demographicPopSum / populationSum;
@@ -182,37 +231,28 @@ public class Cluster {
 
     /* Phase 2 */
     public void anneal() {
-        // Find all candidate precincts
+        // Find all candidate neighbors
         Set<Precinct> candidates = getExternalNeighbors();
 
-        // Find best move and execute it
+        // Find best move
         Move move = findBestMove(candidates);
 
+        // Execute the move
         if (move != null)
             move.execute();
     }
 
-    public Set<Precinct> getExternalNeighbors() {
-        Set<Precinct> externals = new HashSet<>();
-        for (Precinct precinct : borderPrecincts) {
-            Set<Precinct> neighbors = precinct.getNeighbors();
-            neighbors.removeAll(getInternalNeighbors(precinct));
-            externals.addAll(neighbors);
-        }
-        return externals;
-    }
-
-    public Move findBestMove(Set<Precinct> candidates) {
+    public Move findBestMove(Set<Precinct> precincts) {
         Move bestMove = null;
         double bestScore = 0;
 
-        Move currentMove ;
+        Move currentMove;
         double score;
-        for (Precinct candidate : candidates) {
+        for (Precinct precinct : precincts) {
             Cluster to = this;
-            Cluster from = candidate.getCurrentCluster();
+            Cluster from = precinct.getCurrentCluster();
 
-            currentMove = new Move(candidate, from, to);
+            currentMove = new Move(precinct, from, to);
             currentMove.execute();
             score = state.getClusterScoreFunction().calculateMeasure(this);
             if (score >= bestScore) {
@@ -225,50 +265,12 @@ public class Cluster {
         return bestMove;
     }
 
-    public void addPrecinct(Precinct precinct) {
-        // Add target precinct & its data
-        precincts.add(precinct);
-        precinct.setCurrentCluster(this);
-        population += precinct.getPopulation();
-        repVote += precinct.getElectionVotes().getVotes().get(REPUBLICAN);
-        demVote += precinct.getElectionVotes().getVotes().get(DEMOCRATIC);
-
-        // Update edge counts
-        Set<Precinct> newInternalNeighbors = getInternalNeighbors(precinct);
-        int newInternalEdges = newInternalNeighbors.size();
-        internalEdges += newInternalEdges;
-        externalEdges += (precinct.getNeighbors().size() - 2 * newInternalEdges);
-
-        // Update border precincts
-        newInternalNeighbors.removeIf(this::isBorderPrecinct);
-        borderPrecincts.removeAll(newInternalNeighbors);
-        borderPrecincts.add(precinct);
-
-        this.multiPolygonUpdated = false;
-        this.convexHullUpdated = false;
-        this.boundingCircleUpdated = false;
-    }
-
-    public void removePrecinct(Precinct precinct) {
-        // Remove target precinct & its data
-        precincts.remove(precinct);
-        population -= precinct.getPopulation();
-        repVote -= precinct.getElectionVotes().getVotes().get(REPUBLICAN);
-        demVote -= precinct.getElectionVotes().getVotes().get(DEMOCRATIC);
-
-        // Update edge counts
-        Set<Precinct> lostInternalNeighbors = getInternalNeighbors(precinct);
-        int lostInternalEdges = lostInternalNeighbors.size();
-        internalEdges -= lostInternalEdges;
-        externalEdges -= (precinct.getNeighbors().size() - 2 * lostInternalEdges);
-
-        // Update border precincts
-        borderPrecincts.addAll(lostInternalNeighbors);
-        borderPrecincts.remove(precinct);
-
-        this.multiPolygonUpdated = false;
-        this.convexHullUpdated = false;
-        this.boundingCircleUpdated = false;
+    public Set<Precinct> getExternalNeighbors() {
+        Set<Precinct> externals = new HashSet<>();
+        for (Precinct precinct : borderPrecincts)
+            externals.addAll(precinct.getNeighbors());
+        externals.removeAll(precincts);
+        return externals;
     }
 
     public Set<Precinct> getInternalNeighbors(Precinct precinct) {
@@ -286,7 +288,6 @@ public class Cluster {
         for (Precinct neighbor : precinct.getNeighbors())
             if (neighbor.getCurrentCluster() != this)
                 return true;
-
         return false;
     }
 

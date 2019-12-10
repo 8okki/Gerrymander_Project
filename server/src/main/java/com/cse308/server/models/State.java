@@ -57,7 +57,7 @@ public class State {
         return this.population;
     }
 
-    public DistrictInfo getClusterInfo(int ClusterId, Demographic[] demographic){
+    public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographic){
         return null;
     }
 
@@ -186,12 +186,14 @@ public class State {
 
     public double anneal() {
         double prevScore = 0, newScore = 0;
+
         while (!isStagnant(prevScore, newScore)) {
             prevScore = newScore;
             Cluster worstCluster = getLowestScoreCluster();
             worstCluster.anneal();
             newScore = objectiveFunction();
         }
+
         return newScore;
     }
 
@@ -212,8 +214,10 @@ public class State {
 
     public double objectiveFunction() {
         double score = 0;
+
         for (Cluster cluster : clusters)
             score += clusterScores.get(cluster);
+
         return score;
     }
 

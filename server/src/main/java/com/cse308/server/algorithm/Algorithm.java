@@ -38,7 +38,9 @@ public class Algorithm {
     
     State state;
 
-
+    public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){
+        return this.state.getDistrictInfo(districtId, demographics);
+    }
 
     /* Initialize */
     public State initState(StateName stateName){
@@ -102,9 +104,4 @@ public class Algorithm {
         state.initClusterScores();
         double score = state.anneal();
     }
-
-
-//    public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){
-//        return this.state.getDistrictInfo(districtId, demographics);
-//    }
 }
