@@ -31,6 +31,8 @@ public class Precinct {
     @JoinColumn(name="state", nullable=false)
     private State state;
 
+    private Cluster currentCluster;
+
     private Geometry geometry;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
@@ -63,19 +65,19 @@ public class Precinct {
 
     /* Getters & Setters */
     public String getCode(){
-        return this.code;
+        return code;
     }
 
     public String getName(){
-        return this.name;
+        return name;
     }
 
     public int getPopulation(){
-        return this.population;
+        return population;
     }
 
     public State getState(){
-        return this.state;
+        return state;
     }
 
     public Votes getElectionVotes(){
@@ -92,7 +94,9 @@ public class Precinct {
         return geometry;
     }
 
-    public Set<Precinct> getNeighbors() { return this.neighbors; }
+    public Set<Precinct> getNeighbors() { return neighbors; }
+
+    public Cluster getCurrentCluster() { return currentCluster; }
 
     public void setCode(String code) {
         this.code = code;
@@ -108,8 +112,11 @@ public class Precinct {
 
     public void setGeometry(Geometry geometry) { this.geometry = geometry; }
 
+    public void setCurrentCluster(Cluster cluster) { this.currentCluster = cluster; }
+
     /* Constructors */
     public Precinct(){}
+
     public Precinct(String code, String name, int population, Map<Demographic, Integer> demographics, Votes electionVotes){
         this.code = code;
         this.name = name;

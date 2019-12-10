@@ -4,14 +4,14 @@ import com.cse308.server.models.Cluster;
 import com.cse308.server.models.Precinct;
 
 public class Move {
-    private Cluster to;
-    private Cluster from;
     private Precinct precinct;
+    private Cluster from;
+    private Cluster to;
 
-    public Move(Cluster to, Cluster from, Precinct precinct) {
-        this.to = to;
-        this.from = from;
+    public Move(Precinct precinct, Cluster from, Cluster to) {
         this.precinct = precinct;
+        this.from = from;
+        this.to = to;
     }
 
     public void execute() {

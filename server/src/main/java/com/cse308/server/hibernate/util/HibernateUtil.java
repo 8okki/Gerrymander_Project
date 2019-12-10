@@ -13,8 +13,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
-    //add entitymanager?
-    
+
     private static SessionFactory sessionFactory;
     
     public static SessionFactory getSessionFactory() {

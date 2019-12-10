@@ -5,6 +5,7 @@
  */
 package com.cse308.server.models;
 
+import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.result.DistrictInfo;
 import static com.cse308.server.enums.PoliticalParty.DEMOCRATIC;
@@ -95,6 +96,7 @@ public class Cluster {
         this.state = state;
         precincts = new HashSet<>();
         precincts.add(precinct);
+        precinct.setCurrentCluster(this);
 
         population = precinct.getPopulation();
         demographicPopDist = new HashMap<>();
@@ -131,11 +133,17 @@ public class Cluster {
 
     public void merge(Cluster cluster) {
         this.population += cluster.getPopulation();
+
         for (Demographic demographic : demographicPopDist.keySet()){
             int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
             demographicPopDist.put(demographic, sum);
         }
-        this.precincts.addAll(cluster.getPrecincts());
+
+        for (Precinct precinct : cluster.getPrecincts()) {
+            precinct.setCurrentCluster(this);
+            precincts.add(precinct);
+        }
+
         for(Cluster neighbor : cluster.getAdjacentClusters()){
             if(!this.adjClusters.contains(neighbor)){
                 adjClusters.add(neighbor);
@@ -174,20 +182,48 @@ public class Cluster {
 
 
     /* Phase 2 */
-    public Set<Precinct> getInternalNeighbors(Precinct precinct) {
-        Set<Precinct> internalNeighbors = new HashSet<>();
-        for(Precinct neighbor : precinct.getNeighbors())
-            if(precincts.contains(neighbor))
-                internalNeighbors.add(neighbor);
+    public void anneal() {
+        // Find all candidate precincts
+        Set<Precinct> candidates = getExternalNeighbors();
 
-        return internalNeighbors;
+        // Find best move and execute it
+        Move move = findBestMove(candidates);
+
+        if (move != null)
+            move.execute();
     }
 
-    public boolean isBorderPrecinct(Precinct precinct) {
-        for (Precinct neighbor : precinct.getNeighbors())
-            if (!precincts.contains(neighbor))
-                return true;
-        return false;
+    public Set<Precinct> getExternalNeighbors() {
+        Set<Precinct> externals = new HashSet<>();
+        for (Precinct precinct : borderPrecincts) {
+            Set<Precinct> neighbors = precinct.getNeighbors();
+            neighbors.removeAll(getInternalNeighbors(precinct));
+            externals.addAll(neighbors);
+        }
+        return externals;
+    }
+
+    public Move findBestMove(Set<Precinct> candidates) {
+        Move bestMove = null;
+        double bestScore = 0;
+
+        Move currentMove ;
+        double score;
+        for (Precinct candidate : candidates) {
+            Cluster to = this;
+            Cluster from = candidate.getCurrentCluster();
+
+            currentMove = new Move(candidate, from, to);
+            currentMove.execute();
+            score = state.getClusterScoreFunction().calculateMeasure(this);
+            if (score >= bestScore) {
+                bestMove = currentMove;
+                bestScore = score;
+            }
+            currentMove.undo();
+        }
+
+        return bestMove;
     }
 
     public void addPrecinct(Precinct precinct) {
@@ -233,6 +269,25 @@ public class Cluster {
         this.multiPolygonUpdated = false;
         this.convexHullUpdated = false;
         this.boundingCircleUpdated = false;
+    }
+
+    public Set<Precinct> getInternalNeighbors(Precinct precinct) {
+        Set<Precinct> internalNeighbors = new HashSet<>();
+
+        for(Precinct neighbor : precinct.getNeighbors())
+            if(neighbor.getCurrentCluster() == this)
+                internalNeighbors.add(neighbor);
+
+        return internalNeighbors;
+    }
+
+    public boolean isBorderPrecinct(Precinct precinct) {
+        // BorderPrecinct = precinct located at the boundary of this cluster
+        for (Precinct neighbor : precinct.getNeighbors())
+            if (neighbor.getCurrentCluster() != this)
+                return true;
+
+        return false;
     }
 
 

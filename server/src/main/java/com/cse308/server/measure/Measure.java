@@ -1,4 +1,4 @@
-package com.cse308.server.algorithm;
+package com.cse308.server.measure;
 
 
 import com.cse308.server.models.Cluster;
