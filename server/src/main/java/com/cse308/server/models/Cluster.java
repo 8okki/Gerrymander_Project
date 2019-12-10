@@ -132,16 +132,14 @@ public class Cluster {
     }
 
     public void merge(Cluster cluster) {
-        this.population += cluster.getPopulation();
+
+        for (Precinct precinct : cluster.getPrecincts()) {
+            addPrecinct(precinct);
+        }
 
         for (Demographic demographic : demographicPopDist.keySet()){
             int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
             demographicPopDist.put(demographic, sum);
-        }
-
-        for (Precinct precinct : cluster.getPrecincts()) {
-            precinct.setCurrentCluster(this);
-            precincts.add(precinct);
         }
 
         for(Cluster neighbor : cluster.getAdjacentClusters()){
@@ -149,6 +147,7 @@ public class Cluster {
                 adjClusters.add(neighbor);
             }
         }
+
         cluster.setIsMerged(true);
     }
 
@@ -229,6 +228,7 @@ public class Cluster {
     public void addPrecinct(Precinct precinct) {
         // Add target precinct & its data
         precincts.add(precinct);
+        precinct.setCurrentCluster(this);
         population += precinct.getPopulation();
         repVote += precinct.getElectionVotes().getVotes().get(REPUBLICAN);
         demVote += precinct.getElectionVotes().getVotes().get(DEMOCRATIC);

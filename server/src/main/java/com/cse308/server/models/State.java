@@ -221,6 +221,7 @@ public class State {
         return prevScore == newScore;
     }
 
+
     @Override
     public String toString(){
         return "[Name: " + this.name.toString() +
