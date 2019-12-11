@@ -114,6 +114,7 @@ public class Precinct {
 
     public void setCurrentCluster(Cluster cluster) { this.currentCluster = cluster; }
 
+
     /* Constructors */
     public Precinct(){}
 
