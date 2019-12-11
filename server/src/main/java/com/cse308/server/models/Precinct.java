@@ -31,8 +31,13 @@ public class Precinct {
     @JoinColumn(name="state", nullable=false)
     private State state;
 
+    @Transient
     private Cluster currentCluster;
 
+    @Column(name="geojson")
+    private String geojson;
+    
+    @Transient
     private Geometry geometry;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
@@ -90,6 +95,10 @@ public class Precinct {
 
     public int getDemographicPop(Demographic maxDemographic){ return demographics.get(maxDemographic); }
 
+    public String getGeojson(){
+        return this.geojson;
+    }
+        
     public Geometry getGeometry() {
         return geometry;
     }
@@ -110,6 +119,10 @@ public class Precinct {
         this.state = state;
     }
 
+    public void setGeojson(String geojson){
+        this.geojson = geojson;
+    }
+    
     public void setGeometry(Geometry geometry) { this.geometry = geometry; }
 
     public void setCurrentCluster(Cluster cluster) { this.currentCluster = cluster; }

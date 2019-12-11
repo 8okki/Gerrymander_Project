@@ -44,7 +44,10 @@ public class State {
     @Transient
     private Map<Cluster,Cluster> pairs;
 
+    @Transient
     private MeasureFunction clusterScoreFunction;
+    
+    @Transient
     private Map<Cluster, Double> clusterScores;
 
 
