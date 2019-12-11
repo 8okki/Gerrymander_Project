@@ -69,6 +69,20 @@ function initState(e) {
     			    currentState = data;
     				stateLoaded[stateName] = true;
 					initCongressionalDistricts(stateName);
+					$.ajax({
+						'type': "POST",
+						'dataType': 'json',
+						'url': "http://localhost:8080/initGeometry",
+						'data': JSON.stringify({}),
+						'contentType': "application/json",
+						'statusCode':{
+							"200": function (data) {
+							},
+							"400": function(data){
+								console.log("error: failed to load geometry");
+							}
+						}
+					});
     			},
     			"400": function(data){
     				console.log("error",data);

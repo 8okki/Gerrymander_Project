@@ -59,12 +59,11 @@ public class Algorithm {
     public void initGeometry() {
         try {
             Set<Precinct> precincts = state.getPrecincts();
-            String boundaryJson = "";
-
             WKTReader reader = new WKTReader();
-            for (Precinct precinct : precincts)
+            for (Precinct precinct : precincts){
+                String boundaryJson = precinct.getGeojson();
                 precinct.setGeometry(reader.read(boundaryJson));
-
+            }   
         } catch (ParseException e) {
             e.printStackTrace();
         }
