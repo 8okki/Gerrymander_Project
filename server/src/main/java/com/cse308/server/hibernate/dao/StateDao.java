@@ -5,11 +5,9 @@
  */
 package com.cse308.server.hibernate.dao;
 
-import com.cse308.server.models.Precinct;
 
 import com.cse308.server.models.State;
 import com.cse308.server.hibernate.repository.StateRepository;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

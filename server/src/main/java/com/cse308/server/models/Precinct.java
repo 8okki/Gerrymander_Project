@@ -7,25 +7,12 @@ package com.cse308.server.models;
 
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.result.VoteBlocResult;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
-import javax.persistence.MapKeyEnumerated;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import org.locationtech.jts.geom.Geometry;
 
 
 /**
@@ -43,9 +30,10 @@ public class Precinct {
     @ManyToOne
     @JoinColumn(name="state", nullable=false)
     private State state;
-    
-    @Column(name = "geojson", columnDefinition="LONGTEXT")
-    private String geojson;
+
+    private Cluster currentCluster;
+
+    private Geometry geometry;
     
     @OneToOne(mappedBy="precinct",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Votes electionVotes;
@@ -73,9 +61,62 @@ public class Precinct {
         inverseJoinColumns=@JoinColumn(name="code")
     )
     private Set<Precinct> neighborsOf;
-    
+
+
+    /* Getters & Setters */
+    public String getCode(){
+        return code;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public int getPopulation(){
+        return population;
+    }
+
+    public State getState(){
+        return state;
+    }
+
+    public Votes getElectionVotes(){
+        return this.electionVotes;
+    }
+
+    public Map<Demographic, Integer> getDemographicPopDist(){
+        return this.demographics;
+    }
+
+    public int getDemographicPop(Demographic maxDemographic){ return demographics.get(maxDemographic); }
+
+    public Geometry getGeometry() {
+        return geometry;
+    }
+
+    public Set<Precinct> getNeighbors() { return neighbors; }
+
+    public Cluster getCurrentCluster() { return currentCluster; }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setState(State state){
+        this.state = state;
+    }
+
+    public void setGeometry(Geometry geometry) { this.geometry = geometry; }
+
+    public void setCurrentCluster(Cluster cluster) { this.currentCluster = cluster; }
+
+    /* Constructors */
     public Precinct(){}
-    
+
     public Precinct(String code, String name, int population, Map<Demographic, Integer> demographics, Votes electionVotes){
         this.code = code;
         this.name = name;
@@ -83,11 +124,9 @@ public class Precinct {
         this.demographics = demographics;
         this.electionVotes = electionVotes;
     }
-    
-    public void setNeighbors(Set<Precinct> neighbors){
-        this.neighbors = neighbors;
-    }
-    
+
+
+    /* Phase 0 */
     public VoteBlocResult findVoteBloc(float blocThreshold, float voteThreshold){
         Demographic maxDemographic = findDemographicBloc(blocThreshold);
         if(maxDemographic != null){
@@ -108,20 +147,12 @@ public class Precinct {
         }
     }
     
-    public int getDemographicPop(Demographic maxDemographic){
-        return demographics.get(maxDemographic);
-    }
-    
     public Map<Demographic, Integer> getDemographicDist(Demographic[] demographics){
         Map<Demographic, Integer> output = new HashMap<Demographic, Integer>();
         for(Demographic demographic : demographics){
             output.put(demographic,getDemographicPop(demographic));
         }
         return output;
-    }
-
-    public Set<Precinct> getNeighbors() { 
-        return this.neighbors; 
     }
 
     private Demographic findLargestDemographic(){
@@ -140,70 +171,12 @@ public class Precinct {
         return (float)largestDemographicPop/totalPop;
     }
 
-    public String getCode(){
-        return this.code;
-    }
-    
-    public String getName(){
-        return this.name;
-    }
-    
-    public int getPopulation(){
-        return this.population;
-    }
-    
-    public State getState(){
-        return this.state;
-    }
-    
-    public Votes getElectionVotes(){
-        return this.electionVotes;
-    }
-    
-    public void setCode(String code) { 
-        this.code = code;
-    }
-    
-    public void setName(String name) { 
-        this.name = name;
+
+    /* Phase 2 */
+    public double getPopulationDensity() {
+        if (geometry != null && geometry.getArea() != 0)
+            return getPopulation() / geometry.getArea();
+        return -1;
     }
 
-    public void setPopulation(int population) { 
-        this.population = population;
-    }
-    
-    public void setDemographicPopDist(Map<Demographic, Integer> demographics){
-        this.demographics = demographics;
-    }
-    
-    public void setState(State state){
-        this.state = state;
-    }
-    
-    public void setElectionVotes(Votes electionVotes){
-        this.electionVotes = electionVotes;
-    }
-    
-    public Map<Demographic, Integer> getDemographicPopDist(){
-        return this.demographics;
-    }
-    
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Precinct)) return false;
-        Precinct p  = (Precinct) o;
-        return Objects.equals(p.name, this.name);
-    }*/
-    
-    /*@Override
-    public String toString(){
-        return "[name:" + this.name + ",dist:" + this.getDemographicPopDist() + ",election:" + this.getElectionVotes() + "]";
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.name);
-    }
-    */
 }

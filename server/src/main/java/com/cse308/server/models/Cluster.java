@@ -5,35 +5,67 @@
  */
 package com.cse308.server.models;
 
+import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.result.DistrictInfo;
+import static com.cse308.server.enums.PoliticalParty.DEMOCRATIC;
+import static com.cse308.server.enums.PoliticalParty.REPUBLICAN;
 
 import java.util.*;
+import org.locationtech.jts.algorithm.MinimumBoundingCircle;
+import org.locationtech.jts.geom.*;
 
 /**
  *
  * @author Mavericks
  */
 public class Cluster {
-    int population;
-    Set<Precinct> precincts;
-    Map<Demographic, Integer> demographicPopDist;
-    Set<Cluster> adjClusters;
-    boolean isMerged;
+    private State state;
+    private Set<Precinct> precincts;
+    private Set<Precinct> borderPrecincts;
+    private Set<Cluster> adjClusters;
 
+    private int population;
+    private Map<Demographic, Integer> demographicPopDist;
+
+    private int repVote;
+    private int demVote;
+
+    private int internalEdges;
+    private int externalEdges;
+
+    private MultiPolygon multiPolygon;
+    private Geometry boundingCircle;
+    private Geometry convexHull;
+
+    private boolean boundingCircleUpdated;
+    private boolean multiPolygonUpdated;
+    private boolean convexHullUpdated;
+
+    private boolean isMerged;
+
+
+    /* Getters & Setters */
+    public State getState() { return state; }
+
+    public Set<Precinct> getPrecincts(){
+        return this.precincts;
+    }
+
+    public Set<Precinct> getBorderPrecincts() { return borderPrecincts; }
+
+    public Set<Cluster> getAdjacentClusters(){
+        return this.adjClusters;
+    }
 
     public int getPopulation(){
         return this.population;
     }
-    
-    public Set<Cluster> getAdjacentClusters(){
-        return this.adjClusters;
-    }
-    
+
     public Map<Demographic, Integer> getDemographicPopDist(){
         return this.demographicPopDist;
     }
-    
+
     public Map<Demographic, Integer> getDemographicPopDist(Demographic[] demographics){
         HashMap<Demographic, Integer> output = new HashMap<Demographic, Integer>();
         for(int i = 0; i < demographics.length; i++){
@@ -46,21 +78,94 @@ public class Cluster {
         return output;
     }
 
+    public int getRepVote() { return repVote; }
+
+    public int getDemVote() { return demVote; }
+
+    public int getInternalEdges() { return internalEdges; }
+
+    public int getExternalEdges() { return externalEdges; }
+
+    public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
+        return null;
+    }
+
     public boolean isMerged() { return isMerged; }
 
     public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
 
-    public Cluster(Precinct precinct) {
-        this.precincts = new HashSet<>();
-        population = precinct.getPopulation();
-        demographicPopDist = new HashMap<>();
-        for(Demographic demographic : precinct.getDemographicPopDist().keySet()){
-            demographicPopDist.put(demographic, precinct.getDemographicPopDist().get(demographic));
-        }
-        precincts.add(precinct);
+
+    /* Constructor */
+    public Cluster(State state, Precinct precinct) {
+        this.state = state;
+        precincts = new HashSet<>();
         adjClusters = new HashSet<>();
+        borderPrecincts = new HashSet<>();
+        demographicPopDist = new HashMap<>();
+        for(Demographic demographic : Demographic.values())
+            demographicPopDist.put(demographic, 0);
+
+        addPrecinct(precinct);
     }
 
+
+    /* Basic Functions */
+    public void addPrecinct(Precinct precinct) {
+        // Add target precinct & its data
+        precincts.add(precinct);
+        precinct.setCurrentCluster(this);
+        population += precinct.getPopulation();
+        repVote += precinct.getElectionVotes().getVotes().get(REPUBLICAN);
+        demVote += precinct.getElectionVotes().getVotes().get(DEMOCRATIC);
+        for(Demographic demographic : precinct.getDemographicPopDist().keySet()) {
+            int demoPop = demographicPopDist.get(demographic) + precinct.getDemographicPopDist().get(demographic);
+            demographicPopDist.put(demographic, demoPop);
+        }
+
+        // Update edge counts
+        Set<Precinct> newInternalNeighbors = getInternalNeighbors(precinct);
+        int newInternalEdges = newInternalNeighbors.size();
+        internalEdges += newInternalEdges;
+        externalEdges += (precinct.getNeighbors().size() - 2 * newInternalEdges);
+
+        // Update border precincts
+        newInternalNeighbors.removeIf(this::isBorderPrecinct);
+        borderPrecincts.removeAll(newInternalNeighbors);
+        borderPrecincts.add(precinct);
+
+        multiPolygonUpdated = false;
+        convexHullUpdated = false;
+        boundingCircleUpdated = false;
+    }
+
+    public void removePrecinct(Precinct precinct) {
+        // Remove target precinct & its data
+        precincts.remove(precinct);
+        population -= precinct.getPopulation();
+        repVote -= precinct.getElectionVotes().getVotes().get(REPUBLICAN);
+        demVote -= precinct.getElectionVotes().getVotes().get(DEMOCRATIC);
+        for(Demographic demographic : precinct.getDemographicPopDist().keySet()) {
+            int demoPop = demographicPopDist.get(demographic) - precinct.getDemographicPopDist().get(demographic);
+            demographicPopDist.put(demographic, demoPop);
+        }
+
+        // Update edge counts
+        Set<Precinct> lostInternalNeighbors = getInternalNeighbors(precinct);
+        int lostInternalEdges = lostInternalNeighbors.size();
+        internalEdges -= lostInternalEdges;
+        externalEdges -= (precinct.getNeighbors().size() - 2 * lostInternalEdges);
+
+        // Update border precincts
+        borderPrecincts.addAll(lostInternalNeighbors);
+        borderPrecincts.remove(precinct);
+
+        multiPolygonUpdated = false;
+        convexHullUpdated = false;
+        boundingCircleUpdated = false;
+    }
+
+
+    /* Phase 1 */
     public Cluster findMMPair(float minRange, float maxRange, List<Demographic> demographics){
         for(Cluster cluster : adjClusters) {
             if(!cluster.isMerged() && isMMPair(cluster, demographics, minRange, maxRange)) {
@@ -80,17 +185,22 @@ public class Cluster {
     }
 
     public void merge(Cluster cluster) {
-        this.population += cluster.getPopulation();
+
+        for (Precinct precinct : cluster.getPrecincts()) {
+            addPrecinct(precinct);
+        }
+
         for (Demographic demographic : demographicPopDist.keySet()){
             int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
             demographicPopDist.put(demographic, sum);
         }
-        this.precincts.addAll(cluster.getPrecincts());
+
         for(Cluster neighbor : cluster.getAdjacentClusters()){
             if(!this.adjClusters.contains(neighbor)){
                 adjClusters.add(neighbor);
             }
         }
+
         cluster.setIsMerged(true);
     }
 
@@ -100,14 +210,6 @@ public class Cluster {
             sum += this.demographicPopDist.get(demographic);
         }
         return sum;
-    }
-    
-    public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
-        return null;
-    }
-
-    public Set<Precinct> getPrecincts(){
-        return this.precincts;
     }
 
     private static float calculateRatio(int demographicPopSum, int populationSum){
@@ -126,4 +228,107 @@ public class Cluster {
         return populationSum <= targetPopulation;
     }
 
+
+    /* Phase 2 */
+    public void anneal() {
+        // Find all candidate neighbors
+        Set<Precinct> candidates = getExternalNeighbors();
+
+        // Find best move
+        Move move = findBestMove(candidates);
+
+        // Execute the move
+        if (move != null)
+            move.execute();
+    }
+
+    public Move findBestMove(Set<Precinct> precincts) {
+        Move bestMove = null;
+        double bestScore = 0;
+
+        Move currentMove;
+        double score;
+        for (Precinct precinct : precincts) {
+            Cluster to = this;
+            Cluster from = precinct.getCurrentCluster();
+
+            currentMove = new Move(precinct, from, to);
+            currentMove.execute();
+            score = state.getClusterScoreFunction().calculateMeasure(this);
+            if (score >= bestScore) {
+                bestMove = currentMove;
+                bestScore = score;
+            }
+            currentMove.undo();
+        }
+
+        return bestMove;
+    }
+
+    public Set<Precinct> getExternalNeighbors() {
+        Set<Precinct> externals = new HashSet<>();
+        for (Precinct precinct : borderPrecincts)
+            externals.addAll(precinct.getNeighbors());
+        externals.removeAll(precincts);
+        return externals;
+    }
+
+    public Set<Precinct> getInternalNeighbors(Precinct precinct) {
+        Set<Precinct> internalNeighbors = new HashSet<>();
+
+        for(Precinct neighbor : precinct.getNeighbors())
+            if(neighbor.getCurrentCluster() == this)
+                internalNeighbors.add(neighbor);
+
+        return internalNeighbors;
+    }
+
+    public boolean isBorderPrecinct(Precinct precinct) {
+        // BorderPrecinct = precinct located at the boundary of this cluster
+        for (Precinct neighbor : precinct.getNeighbors())
+            if (neighbor.getCurrentCluster() != this)
+                return true;
+        return false;
+    }
+
+
+    /* Geometric Functions */
+    public MultiPolygon computeMulti() {
+        Polygon[] polygons = new Polygon[getPrecincts().size()];
+
+        Iterator<Precinct> piter = getPrecincts().iterator();
+        for(int ii = 0; ii < polygons.length; ii++) {
+            Geometry poly = piter.next().getGeometry();
+            if (poly instanceof Polygon)
+                polygons[ii] = (Polygon) poly;
+            else
+                polygons[ii] = (Polygon) poly.convexHull();
+        }
+        MultiPolygon mp = new MultiPolygon(polygons, new GeometryFactory());
+        this.multiPolygon = mp;
+        this.multiPolygonUpdated = true;
+        return mp;
+    }
+
+    public MultiPolygon getMulti() {
+        if (this.multiPolygonUpdated && this.multiPolygon != null)
+            return this.multiPolygon;
+        return computeMulti();
+    }
+
+    public Geometry getConvexHull() {
+        if (convexHullUpdated && convexHull !=null)
+            return convexHull;
+        convexHull = multiPolygon.convexHull();
+        this.convexHullUpdated = true;
+        return convexHull;
+    }
+
+    public Geometry getBoundingCircle() {
+        if (boundingCircleUpdated && boundingCircle !=null)
+            return boundingCircle;
+        boundingCircle = new MinimumBoundingCircle(getMulti()).getCircle();
+        this.boundingCircleUpdated = true;
+        return boundingCircle;
+    }
 }

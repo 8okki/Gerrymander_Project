@@ -62,7 +62,7 @@
 }
 
 .hide{
-  visibility: hidden;
+  display: none;
 }
 
 .progress{
@@ -119,6 +119,10 @@ html > body #election-results {
 }
 
 #district-demo-data{
+  margin-top: 1rem;
+}
+
+#district-election-results{
   margin-top: 1rem;
 }
 

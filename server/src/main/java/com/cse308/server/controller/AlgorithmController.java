@@ -5,6 +5,7 @@
  */
 package com.cse308.server.controller;
 
+import com.cse308.server.measure.Measure;
 import com.cse308.server.models.State;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
@@ -34,7 +35,7 @@ public class AlgorithmController {
     @Autowired
     AlgorithmService algoService;
     
-    @PostMapping(value = "/initState", 
+    @PostMapping(value = "/initState",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> initStateRequest(@RequestBody JsonObject stateJson) {
@@ -57,7 +58,22 @@ public class AlgorithmController {
             return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
         }
     }
-    
+
+    @PostMapping(value = "/initGeometry",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> initGeometryRequest(@RequestBody JsonObject stateJson) {
+        JsonObject responseBody = new JsonObject();
+        try {
+            algoService.initGeometry();
+            return new ResponseEntity<>(responseBody,HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping(value = "/runPhase0", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> phase0Request(@RequestBody JsonObject input){
         JsonObject responseBody = new JsonObject();
@@ -98,7 +114,19 @@ public class AlgorithmController {
 
     @PostMapping(value = "/runPhase2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> phase2Request(@RequestBody JsonObject input){
+        JsonObject responseBody = new JsonObject();
+        try{
+            JsonArray measuresAsStrings = input.get("measures").getAsJsonArray();
+            List<Measure> measures = new ArrayList<>();
+            for(JsonElement measure : measuresAsStrings)
+                measures.add(Measure.valueOf(measure.getAsString()));
 
-        return null;
+            algoService.runPhase2(measures);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
     }
 }
