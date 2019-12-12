@@ -196,6 +196,13 @@ public class State {
         return newScore;
     }
 
+    public void calculateScores() {
+        for (Cluster cluster : clusters) {
+            double score = clusterScoreFunction.calculateMeasure(cluster);
+            clusterScores.put(cluster, score);
+        }
+    }
+
     public Cluster getLowestScoreCluster() {
         Cluster worstCluster = null;
         double minScore = Double.POSITIVE_INFINITY;
@@ -209,13 +216,6 @@ public class State {
         }
 
         return worstCluster;
-    }
-
-    public void calculateScores() {
-        for (Cluster cluster : clusters) {
-            double score = clusterScoreFunction.calculateMeasure(cluster);
-            clusterScores.put(cluster, score);
-        }
     }
 
     public double objectiveFunction() {
