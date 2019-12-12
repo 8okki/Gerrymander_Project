@@ -11,3 +11,4 @@ tutorials/hibernate
 preprocessing/shapely/*.json
 preprocessing/data/*
 preprocessing/testshp/*
+/tutorials/demo/nbproject/

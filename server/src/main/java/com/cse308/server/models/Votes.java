@@ -3,26 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cse308.server.gerrymander;
+package com.cse308.server.models;
 
-import com.cse308.server.gerrymander.enums.Demographic;
-import com.cse308.server.gerrymander.enums.PoliticalParty;
-import com.cse308.server.gerrymander.result.VoteBlocResult;
+import com.cse308.server.enums.Demographic;
+import com.cse308.server.enums.PoliticalParty;
+import com.cse308.server.result.VoteBlocResult;
 import java.util.Map;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyColumn;
-import javax.persistence.MapKeyEnumerated;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  *
@@ -32,20 +19,20 @@ import javax.persistence.Transient;
 @Table(name="votes")
 public class Votes {
     @Id
-    @Column(name="precinct_name")
-    String precinctName;
+    @Column(name="precinct_code")
+    private String precinctName;
     
     @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(
         name = "party_votes",
-        joinColumns=@JoinColumn(name = "precinct_name", referencedColumnName = "precinct_name")
+        joinColumns=@JoinColumn(name = "precinct_code", referencedColumnName = "precinct_code")
     )
     @Column(name="votes")
     @MapKeyColumn(name = "politicalparty")
     @MapKeyEnumerated(EnumType.STRING)
-    Map<PoliticalParty, Integer> partyVotes;
+    private Map<PoliticalParty, Integer> partyVotes;
     
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "precinct")
     private Precinct precinct;
     

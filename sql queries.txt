@@ -79,18 +79,23 @@ insert into Precinct_demographicPopulationDist
 (Precinct_code,demographicPopulationDist,demographic)
 values ("BAA", 910, "ASIAN");
 
-insert into votes (precinct_code, precinct, precinctCode) values ("AAA","AAA","AAA");
+insert into votes (precinct_name, precinct) values ("BRATTON TOWNSHIP","BRATTON TOWNSHIP");
 
 
+insert into party_votes(precinct_name,votes,politicalparty)
+values ("BRATTON TOWNSHIP",96,"DEMOCRATIC");
+insert into party_votes(precinct_name,votes,politicalparty)
+values ("BRATTON TOWNSHIP",532,"REPUBLICAN");
+
 insert into demographics
-(precinct_code,demographic_population_dist,demographic)
-values ("AAA", 110, "WHITE");
+(precinct_name,population,demographic)
+values ("BRATTON TOWNSHIP", 110, "WHITE");
 insert into demographics
-(precinct_code,demographic_population_dist,demographic)
-values ("AAA", 220, "BLACK");
+(precinct_name,population,demographic)
+values ("BRATTON TOWNSHIP", 220, "BLACK");
 insert into demographics
-(precinct_code,demographic_population_dist,demographic)
-values ("AAA", 110, "HISPANIC");
+(precinct_name,population,demographic)
+values ("BRATTON TOWNSHIP", 110, "HISPANIC");
 insert into demographics
-(precinct_code,demographic_population_dist,demographic)
-values ("AAA", 110, "ASIAN");
+(precinct_name,population,demographic)
+values ("BRATTON TOWNSHIP", 110, "ASIAN");

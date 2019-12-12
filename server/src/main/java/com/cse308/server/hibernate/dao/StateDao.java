@@ -5,23 +5,35 @@
  */
 package com.cse308.server.hibernate.dao;
 
-import com.cse308.server.gerrymander.State;
-import com.cse308.server.gerrymander.enums.StateName;
-import com.cse308.server.hibernate.util.HibernateUtil;
-import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
+
+import com.cse308.server.models.State;
+import com.cse308.server.hibernate.repository.StateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Mavericks
  */
+@Service
 public class StateDao {
-    public List<State> getStateById(StateName stateName) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createNamedQuery("State_findByName",
-                State.class).setParameter("ID", stateName.toString());
-            return query.getResultList();
+    @Autowired 
+	private PrecinctDao precinctDao;
+	
+    @Autowired
+    private StateRepository stateRepo;
+    
+    public State getStateById(String stateName) {
+        State state = stateRepo.getOne(stateName);
+        if (state == null){
+                return null;
         }
+        //Set<Precinct> precincts = precinctDao.getPrecinctsByState(stateName);
+        /*for(Precinct p : precincts){
+            System.out.print("" + p + ":");
+            System.out.println(p.getNeighbors());
+        }*/
+        //state.setPrecincts(precincts);
+        return state;
     }
 }
