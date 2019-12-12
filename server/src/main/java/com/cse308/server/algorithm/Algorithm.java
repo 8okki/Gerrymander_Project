@@ -100,7 +100,6 @@ public class Algorithm {
             weightFunctions.put(measure, weightFunction);
 
         state.setScoreFunction(new DefaultMeasure(weightFunctions));
-        state.initClusterScores();
         double score = state.anneal();
     }
 }
