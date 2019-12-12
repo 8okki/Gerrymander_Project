@@ -120,7 +120,6 @@ public class AlgorithmController {
             List<Measure> measures = new ArrayList<>();
             for(JsonElement measure : measuresAsStrings)
                 measures.add(Measure.valueOf(measure.getAsString()));
-
             algoService.runPhase2(measures);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {

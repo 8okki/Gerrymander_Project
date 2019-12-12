@@ -179,25 +179,28 @@ public class State {
 
 
     /* Phase 2 */
-    public void initClusterScores() {
-        clusterScores = new HashMap<>();
-        for (Cluster cluster : clusters) {
-            double score = clusterScoreFunction.calculateMeasure(cluster);
-            clusterScores.put(cluster, score);
-        }
-    }
-
     public double anneal() {
+        clusterScores = new HashMap<>();
+        calculateScores();
+
         double prevScore = 0, newScore = 0;
 
         while (!isStagnant(prevScore, newScore)) {
             prevScore = newScore;
             Cluster worstCluster = getLowestScoreCluster();
             worstCluster.anneal();
+            calculateScores();
             newScore = objectiveFunction();
         }
 
         return newScore;
+    }
+
+    public void calculateScores() {
+        for (Cluster cluster : clusters) {
+            double score = clusterScoreFunction.calculateMeasure(cluster);
+            clusterScores.put(cluster, score);
+        }
     }
 
     public Cluster getLowestScoreCluster() {
