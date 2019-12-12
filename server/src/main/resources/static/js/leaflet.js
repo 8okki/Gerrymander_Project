@@ -2,9 +2,11 @@
 var geojson;
 var currentState;
 var congressionalDistricts;
+var precincts;
 var stateIDs = {};
 var stateLoaded = {};
 var districtLoadedFlag = false;
+var precinctLoadedFlag = false;
 
 // get color function
 function getColor(state) {
@@ -77,12 +79,14 @@ function initState(e) {
 						'contentType': "application/json",
 						'statusCode':{
 							"200": function (data) {
+								console.log("geometry loaded");
 							},
 							"400": function(data){
 								console.log("error: failed to load geometry");
 							}
 						}
 					});
+					initPrecincts();
     			},
     			"400": function(data){
     				console.log("error",data);
@@ -95,7 +99,7 @@ function initState(e) {
 function onEachFeatureDistrict(feature, layer) {
 	layer.on({
 		mouseover: highlightFeature,
-		mouseout: resetHighlight//,
+		mouseout: resetHighlight//,	
 		// click: initState
 	});
 	layer.on('mouseover', function () {
@@ -118,6 +122,20 @@ async function initCongressionalDistricts(stateName){
 			"200": function(data){
 				congressionalDistricts = L.geoJson(data, {style: style, onEachFeature:onEachFeatureDistrict}).addTo(map);
 				districtLoadedFlag = true;
+			}
+		}
+	});
+}
+
+async function initPrecincts(stateName){
+	$.ajax({
+		'type': "GET",
+		'dataType': 'json',
+		'url': "http://localhost:8080/data/" + currentState["name"].toUpperCase() + "_PRECINCTS.json",
+		'statusCode':{
+			"200": function(data){
+				precincts = L.geoJson(data, {style: style}).addTo(map);
+				precinctLoadedFlag = true;
 			}
 		}
 	});
