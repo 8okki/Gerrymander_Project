@@ -10,6 +10,7 @@ import com.cse308.server.models.State;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
 import com.cse308.server.result.Phase1Result;
+import com.cse308.server.result.Phase2Result;
 import com.cse308.server.result.VoteBlocResult;
 import com.cse308.server.service.AlgorithmService;
 import com.google.gson.Gson;
@@ -144,7 +145,9 @@ public class AlgorithmController {
                     measures.add(measure);
                 }
             }
-            algoService.runPhase2(measures);
+            Phase2Result result = algoService.runPhase2(measures);
+            JsonElement jsonResult = new Gson().toJsonTree(result);
+            responseBody.add("result", jsonResult);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.toString());

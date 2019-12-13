@@ -89,10 +89,6 @@ public class State {
 
     public void setScoreFunction(MeasureFunction function) { this.clusterScoreFunction = function; }
 
-    public void setPairs(Map<Cluster, Cluster> pairs) {
-        this.pairs = pairs;
-    }
-
     /* Constructor */
     public State() {}
 
@@ -125,6 +121,10 @@ public class State {
                 cluster.getAdjacentClusters().add(neighbor.getCurrentCluster());
         }
 
+    }
+
+    public void resetPairs() {
+        this.pairs = new HashMap<>();
     }
 
     public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
@@ -205,22 +205,33 @@ public class State {
 
 
     /* Phase 2 */
-    public double anneal() {
+    public double[] anneal() {
         // Initialize scores
         clusterScores = new HashMap<>();
         updateScores();
+        double initial = objectiveFunction();
 
         // Anneal each cluster until converges
-        double prevScore = 0, newScore = 0;
-        while (!isStagnant(prevScore, newScore)) {
+        double prevScore, newScore = 0;
+        int stag_count = 0;
+        while (stag_count <= 20) {
             prevScore = newScore;
+
             Cluster worstCluster = getLowestScoreCluster();
             worstCluster.anneal();
             updateScores();
             newScore = objectiveFunction();
+
+            System.out.println(newScore);
+
+            if(isStagnant(prevScore, newScore))
+                stag_count++;
+            else
+                stag_count = 0;
         }
 
-        return newScore;
+        double[] result = {initial, newScore};
+        return result;
     }
 
     public void updateScores() {
@@ -250,10 +261,9 @@ public class State {
         return score;
     }
 
-    public boolean isStagnant(double prevScore, double newScore) {
-        return prevScore == newScore;
+    public boolean isStagnant(double prevScore, double newScore){
+        return Math.abs(prevScore - newScore) < 0.0005;
     }
-
 
     @Override
     public String toString(){
