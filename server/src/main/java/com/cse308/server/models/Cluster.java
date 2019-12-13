@@ -206,11 +206,12 @@ public class Cluster {
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
 
-        adjClusters.addAll(cluster.getAdjacentClusters());
         for(Cluster neighbor : cluster.getAdjacentClusters()){
             neighbor.getAdjacentClusters().add(this);
             neighbor.getAdjacentClusters().remove(cluster);
         }
+
+        adjClusters.addAll(cluster.getAdjacentClusters());
 
 //        System.out.println("C1 - After: " + adjClusters.size());
 //        System.out.println("C2 - After: " + cluster.getAdjacentClusters().size());

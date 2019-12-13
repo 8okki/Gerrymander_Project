@@ -142,8 +142,8 @@
 		}
 	});
 
-    $("#runGerry").click(async function(e){
-        runPhase1();
-    });
+//    $("#runGerry").click(function(e){
+//        runPhase1();
+//    });
 
 });

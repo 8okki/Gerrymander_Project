@@ -101,7 +101,7 @@ public class Algorithm {
             state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
             state.setPairs(targetPopulation);
             state.mergePairs();
-            System.out.println(state.getClusters().size());
+            System.out.println("CURRENT SIZE - " + state.getClusters().size());
         }
 
         // Creating Result objects

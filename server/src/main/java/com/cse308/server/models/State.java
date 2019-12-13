@@ -109,15 +109,19 @@ public class State {
 
     /* Phase 1 */
     public void initClusters(){
-        this.clusters = new HashSet<>();
-        for(Precinct precinct : this.precincts)
-            this.clusters.add(new Cluster(this, precinct));
+        clusters = new HashSet<>();
+        for(Precinct precinct : precincts){
+            clusters.add(new Cluster(this, precinct));
+            System.out.println(precincts.size() + " " + clusters.size());
+        }
+
 
         for(Cluster cluster : clusters){
             Precinct precinct = (Precinct) cluster.getPrecincts().toArray()[0];
             for(Precinct neighbor : precinct.getNeighbors())
                 cluster.getAdjacentClusters().add(neighbor.getCurrentCluster());
         }
+
     }
 
     public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
