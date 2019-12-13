@@ -1,4 +1,4 @@
-$(document).ready(function () {
+ $(document).ready(function () {
 
 	$("#state-dropdown").onchange = function (e) {
 
