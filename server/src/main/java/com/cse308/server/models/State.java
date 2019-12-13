@@ -151,30 +151,13 @@ public class State {
         }
     }
 
-    public void mergePairs() {
-        // If no pairs are pre-made, manually make one pair based on population
-        if(pairs.isEmpty())
-            manuallyMakePair();
-
-        // Merge all pairs
-        for (Cluster cluster : pairs.keySet()) {
-            System.out.println(cluster.isMerged() + " " + clusters.size());
-            if (!cluster.isMerged()) {
-                cluster.merge(pairs.get(cluster));
-                clusters.add(cluster);
-                System.out.println(clusters.size());
-            }
-        }
-    }
-
     public void manuallyMakePair(){
         int currentMin = Integer.MAX_VALUE;
         Cluster[] minClusters = new Cluster[2];
         for (Cluster cluster : clusters) {
             for (Cluster neighbor : cluster.getAdjacentClusters()) {
-                if(neighbor.isMerged())
-                    continue;
-
+//                if(neighbor.isMerged())
+//                    continue;
                 int sum = cluster.getPopulation() + neighbor.getPopulation();
                 if (sum < currentMin) {
                     currentMin = sum;
@@ -183,10 +166,23 @@ public class State {
                 }
             }
         }
-        System.out.println(minClusters[0].getPopulation() + minClusters[1].getPopulation());
         clusters.remove(minClusters[0]);
         clusters.remove(minClusters[1]);
         pairs.put(minClusters[0], minClusters[1]);
+    }
+
+    public void mergePairs() {
+        // If no pairs are pre-made, manually make one pair based on population
+        if(pairs.isEmpty())
+            manuallyMakePair();
+
+        // Merge all pairs
+        for (Cluster cluster : pairs.keySet()) {
+            if (!cluster.isMerged()) {
+                cluster.merge(pairs.get(cluster));
+                clusters.add(cluster);
+            }
+        }
     }
 
 

@@ -97,7 +97,7 @@ public class Algorithm {
         float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
 
         // Create initial clusters
-        while(state.getClusters().size() >= targetDistrictNum) {
+        while(state.getClusters().size() > targetDistrictNum) {
             state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
             state.setPairs(targetPopulation);
             state.mergePairs();

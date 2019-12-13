@@ -92,8 +92,9 @@ public class Cluster {
 
     public boolean isMerged() { return isMerged; }
 
-    public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
+    public void setAdjClusters(Set<Cluster> adjClusters) { this.adjClusters = adjClusters; }
 
+    public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
 
     /* Constructor */
     public Cluster(State state, Precinct precinct) {
@@ -185,25 +186,34 @@ public class Cluster {
     }
 
     public void merge(Cluster cluster) {
-        for (Precinct precinct : cluster.getPrecincts()) {
+        for (Precinct precinct : cluster.getPrecincts())
             addPrecinct(precinct);
-        }
 
         for (Demographic demographic : demographicPopDist.keySet()){
             int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
             demographicPopDist.put(demographic, sum);
         }
 
-        cluster.getAdjacentClusters().remove(this);
-        adjClusters.remove(cluster);
-        for(Cluster neighbor : cluster.getAdjacentClusters()){
-            neighbor.getAdjacentClusters().remove(cluster);
-            neighbor.getAdjacentClusters().add(this);
-            adjClusters.add(neighbor);
-        }
-        cluster.getAdjacentClusters().removeAll(adjClusters);
+        unlink(cluster);
 
         cluster.setIsMerged(true);
+    }
+
+    public void unlink(Cluster cluster){
+//        System.out.println("C1 - Before: " + adjClusters.size());
+//        System.out.println("C2 - Before: " + cluster.getAdjacentClusters().size());
+
+        cluster.getAdjacentClusters().remove(this);
+        adjClusters.remove(cluster);
+
+        adjClusters.addAll(cluster.getAdjacentClusters());
+        for(Cluster neighbor : cluster.getAdjacentClusters()){
+            neighbor.getAdjacentClusters().add(this);
+            neighbor.getAdjacentClusters().remove(cluster);
+        }
+
+//        System.out.println("C1 - After: " + adjClusters.size());
+//        System.out.println("C2 - After: " + cluster.getAdjacentClusters().size());
     }
 
     public int getDemographicPopSum(List<Demographic> demographics){
