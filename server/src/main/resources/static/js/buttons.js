@@ -105,7 +105,7 @@
 		if (currentState == null) {
 			window.alert("Please select a state first.");
 		} else {
-			let demographics = ["WHITE","ASIAN","BLACK"];
+			let demographics = ["WHITE", "ASIAN", "BLACK"];
 			let demographicMinimum = 0.13;
 			let demographicMaximum = 0.75;
 			let targetDistrictNum = 10;
@@ -134,9 +134,36 @@
 		}
 	});
 
-//    $("#runGerry").click(function(e){
-//        runPhase1();
-//    });
+    $("#runAnneal").click(function (e) {
+        if (currentState == null) {
+            window.alert("Please run phase 1 first.");
+        } else {
+            let measureWeights = {
+                'GERRYMANDER_DEMOCRATIC' : 1,
+             }
+
+            $.ajax({
+                'type': "POST",
+                'dataType': 'json',
+                'url': "http://localhost:8080/runPhase2",
+                'data': JSON.stringify({
+                    "measureWeights" : measureWeights
+                }),
+                'contentType': "application/json",
+                'statusCode': {
+                    "200": function (data) {
+                        let result = data.result;
+                        console.log("Before: " + result.before);
+                        console.log("After: " + result.after);
+                        console.log("Diff: " + (result.after - result.before));
+                    },
+                    "400": function (data) {
+                        console.log("error", data);
+                    }
+                }
+            });
+        }
+    });
 
 $("#runAnneal").click(function (e) {
 

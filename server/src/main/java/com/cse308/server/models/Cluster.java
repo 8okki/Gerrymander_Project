@@ -203,8 +203,8 @@ public class Cluster {
     }
 
     public void unlink(Cluster cluster){
-        System.out.println("Before: " + this);
-        System.out.println("Before: " + cluster);
+//        System.out.println("Before: " + this);
+//        System.out.println("Before: " + cluster);
 
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
@@ -216,8 +216,8 @@ public class Cluster {
         }
         cluster.setAdjClusters(new HashSet<>());
 
-        System.out.println("After: " + this);
-        System.out.println("After: " + cluster);
+//        System.out.println("After: " + this);
+//        System.out.println("After: " + cluster);
     }
 
     public int getDemographicPopSum(List<Demographic> demographics){

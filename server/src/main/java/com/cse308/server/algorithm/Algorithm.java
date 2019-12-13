@@ -12,6 +12,7 @@ import com.cse308.server.measure.Measure;
 import com.cse308.server.models.Cluster;
 import com.cse308.server.models.Precinct;
 import com.cse308.server.result.DistrictInfo;
+import com.cse308.server.result.Phase2Result;
 import com.cse308.server.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
 import com.cse308.server.models.State;
@@ -29,6 +30,10 @@ import org.locationtech.jts.io.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.locationtech.jts.io.WKTReader;
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.FeatureCollection;
+import org.wololo.geojson.GeoJSONFactory;
+import org.wololo.jts2geojson.GeoJSONReader;
 
 /**
  *
@@ -61,13 +66,11 @@ public class Algorithm {
     }
 
     public void initGeometry() {
-        try {
-            Set<Precinct> precincts = state.getPrecincts();
-            WKTReader reader = new WKTReader();
-            for (Precinct precinct : precincts)
-                precinct.setGeometry(reader.read(precinct.getGeojson()));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Set<Precinct> precincts = state.getPrecincts();
+        GeoJSONReader reader = new GeoJSONReader();
+        for (Precinct precinct : precincts){
+            Feature feature = (Feature) GeoJSONFactory.create(precinct.getGeojson());
+            precinct.setGeometry(reader.read(feature.getGeometry()));
         }
     }
     
@@ -98,7 +101,7 @@ public class Algorithm {
 
         // Create initial clusters
         while(state.getClusters().size() > targetDistrictNum) {
-            state.setPairs(new HashMap<>());
+            state.resetPairs();
 //            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
 //            state.setPairs(targetPopulation);
             state.mergePairs();
@@ -117,10 +120,10 @@ public class Algorithm {
     }
 
     /* Phase 2 */
-    public double runPhase2(List<Measure> measures){
+    public Phase2Result runPhase2(List<Measure> measures){
         DefaultMeasure measureFunction = new DefaultMeasure(measures);
         state.setScoreFunction(measureFunction);
-        double score = state.anneal();
-        return score;
+        double[] scores = state.anneal();
+        return new Phase2Result(scores[0], scores[1]);
     }
 }
