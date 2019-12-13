@@ -129,10 +129,6 @@ public class Precinct {
     public void setState(State state){
         this.state = state;
     }
-
-    public void setGeojson(String geojson){
-        this.geojson = geojson;
-    }
     
     public void setGeometry(Geometry geometry) { this.geometry = geometry; }
 

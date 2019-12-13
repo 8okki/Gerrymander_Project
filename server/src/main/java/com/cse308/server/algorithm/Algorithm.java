@@ -63,11 +63,8 @@ public class Algorithm {
         try {
             Set<Precinct> precincts = state.getPrecincts();
             WKTReader reader = new WKTReader();
-            int counter = 0;
-            for (Precinct precinct : precincts){
-                String boundaryJson = precinct.getGeojson();
-                precinct.setGeometry(reader.read(boundaryJson));
-            }
+            for (Precinct precinct : precincts)
+                precinct.setGeometry(reader.read(precinct.getGeojson()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -95,39 +92,30 @@ public class Algorithm {
 
     /* Phase 1 */
     public List<Phase1Result> runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
-        this.state.initClusters();
-        float targetPopulation = (float) this.state.getPopulation() / targetDistrictNum;
+        state.initClusters();
+        float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
 
-        while(this.state.getClusters().size() < targetDistrictNum) {
-            this.state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
-            this.state.setPairs(targetPopulation);
-            this.state.mergePairs();
+        while(state.getClusters().size() < targetDistrictNum) {
+            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
+            state.setPairs(targetPopulation);
+            state.mergePairs();
         }
+
 		List<Phase1Result> results = new ArrayList<>();
-		for(Cluster c : this.state.getClusters()){
+		for(Cluster c : state.getClusters()){
 			List<String> precinctCodes = new ArrayList<>();
-			for(Precinct p : c.getPrecincts()){
+			for(Precinct p : c.getPrecincts())
 				precinctCodes.add(p.getCode());
-			}
 			results.add(new Phase1Result(precinctCodes));
 		}
 		return results;
     }
 
     /* Phase 2 */
-    public void runPhase2(List<Measure> measures){
-        Map<Measure, Function<Cluster, Double>> weightFunctions = new HashMap<>();
-
-        Function<Cluster, Double> weightFunction = new Function<Cluster, Double>() {
-            @Override
-            public Double apply(Cluster cluster) {
-                return 1.0;
-            }
-        };
-        for (Measure measure : measures)
-            weightFunctions.put(measure, weightFunction);
-
-        state.setScoreFunction(new DefaultMeasure(weightFunctions));
+    public double runPhase2(List<Measure> measures){
+        DefaultMeasure measureFunction = new DefaultMeasure(measures);
+        state.setScoreFunction(measureFunction);
         double score = state.anneal();
+        return score;
     }
 }

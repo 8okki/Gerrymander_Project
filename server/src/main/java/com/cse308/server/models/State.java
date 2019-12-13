@@ -5,7 +5,6 @@
  */
 package com.cse308.server.models;
 
-import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.measure.MeasureFunction;
 import com.cse308.server.result.DistrictInfo;
@@ -180,23 +179,24 @@ public class State {
 
     /* Phase 2 */
     public double anneal() {
+        // Initialize scores
         clusterScores = new HashMap<>();
-        calculateScores();
+        updateScores();
 
+        // Anneal each cluster until converges
         double prevScore = 0, newScore = 0;
-
         while (!isStagnant(prevScore, newScore)) {
             prevScore = newScore;
             Cluster worstCluster = getLowestScoreCluster();
             worstCluster.anneal();
-            calculateScores();
+            updateScores();
             newScore = objectiveFunction();
         }
 
         return newScore;
     }
 
-    public void calculateScores() {
+    public void updateScores() {
         for (Cluster cluster : clusters) {
             double score = clusterScoreFunction.calculateMeasure(cluster);
             clusterScores.put(cluster, score);
@@ -206,7 +206,6 @@ public class State {
     public Cluster getLowestScoreCluster() {
         Cluster worstCluster = null;
         double minScore = Double.POSITIVE_INFINITY;
-
         for (Cluster cluster : clusters) {
             double score = clusterScores.get(cluster);
             if (score < minScore) {
@@ -214,16 +213,13 @@ public class State {
                 minScore = score;
             }
         }
-
         return worstCluster;
     }
 
     public double objectiveFunction() {
         double score = 0;
-
         for (Cluster cluster : clusters)
             score += clusterScores.get(cluster);
-
         return score;
     }
 

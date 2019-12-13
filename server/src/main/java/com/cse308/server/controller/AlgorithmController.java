@@ -17,7 +17,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -134,10 +137,14 @@ public class AlgorithmController {
     public ResponseEntity<?> phase2Request(@RequestBody JsonObject input){
         JsonObject responseBody = new JsonObject();
         try{
-            JsonArray measuresAsStrings = input.get("measures").getAsJsonArray();
+            JsonObject measureWeightsJson = input.get("measureWeights").getAsJsonObject();
             List<Measure> measures = new ArrayList<>();
-            for(JsonElement measure : measuresAsStrings)
-                measures.add(Measure.valueOf(measure.getAsString()));
+            for(Measure measure : Measure.values()) {
+                if (measureWeightsJson.has(measure.name())) {
+                    measure.weight = measureWeightsJson.get(measure.name()).getAsDouble();
+                    measures.add(measure);
+                }
+            }
             algoService.runPhase2(measures);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
