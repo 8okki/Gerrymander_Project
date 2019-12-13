@@ -1,4 +1,4 @@
-$(document).ready(function () {
+ $(document).ready(function () {
 
 	$("#state-dropdown").onchange = function (e) {
 
@@ -49,6 +49,7 @@ $(document).ready(function () {
 							let p0 = document.createElement("p");
 							p0.appendChild(t0);
 							row.insertCell(0).appendChild(p0);
+							// console.log(t0)
 
 							let t1 = document.createTextNode(result.precinctName)
 							let p1 = document.createElement("p");
