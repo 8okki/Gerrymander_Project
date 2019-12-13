@@ -58,14 +58,13 @@ public class Algorithm {
             return state;
         }
     }
+
     public void initGeometry() {
         try {
             Set<Precinct> precincts = state.getPrecincts();
             WKTReader reader = new WKTReader();
-            for (Precinct precinct : precincts){
-                String boundaryJson = precinct.getGeojson();
-                precinct.setGeometry(reader.read(boundaryJson));
-            }   
+            for (Precinct precinct : precincts)
+                precinct.setGeometry(reader.read(precinct.getGeojson()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -86,6 +85,7 @@ public class Algorithm {
             this.state.setPairs(targetPopulation);
             this.state.mergePairs();
         }
+
 		List<Phase1Result> results = new ArrayList<>();
 		for(Cluster c : this.state.getClusters()){
 			List<String> precinctCodes = new ArrayList<>();
@@ -98,19 +98,10 @@ public class Algorithm {
     }
 
     /* Phase 2 */
-    public void runPhase2(List<Measure> measures){
-        Map<Measure, Function<Cluster, Double>> weightFunctions = new HashMap<>();
-
-        Function<Cluster, Double> weightFunction = new Function<Cluster, Double>() {
-            @Override
-            public Double apply(Cluster cluster) {
-                return 1.0;
-            }
-        };
-        for (Measure measure : measures)
-            weightFunctions.put(measure, weightFunction);
-
-        state.setScoreFunction(new DefaultMeasure(weightFunctions));
+    public double runPhase2(Map<Measure, Double> measureWeights){
+        DefaultMeasure measureFunction = DefaultMeasure.DefaultMeasureWithWeights(measureWeights);
+        state.setScoreFunction(measureFunction);
         double score = state.anneal();
+        return score;
     }
 }

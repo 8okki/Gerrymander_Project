@@ -23,7 +23,7 @@ public class DefaultMeasure implements MeasureFunction {
         newMeasureSet.updateConstantWeights(weights);
         return newMeasureSet;
     }
-    public void updateConstantWeights(Map<Measure,Double> weights) {
+    public void updateConstantWeights(Map<Measure, Double> weights) {
         this.weightFunctions = new HashMap<>();
         for (Measure measure : weights.keySet()) {
             this.weightFunctions.put(measure, (cluster) -> weights.get(measure));

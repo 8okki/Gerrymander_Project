@@ -180,11 +180,12 @@ public class State {
 
     /* Phase 2 */
     public double anneal() {
+        // Initialize scores
         clusterScores = new HashMap<>();
         calculateScores();
 
+        // Anneal each cluster until converges
         double prevScore = 0, newScore = 0;
-
         while (!isStagnant(prevScore, newScore)) {
             prevScore = newScore;
             Cluster worstCluster = getLowestScoreCluster();

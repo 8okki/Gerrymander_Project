@@ -13,6 +13,7 @@ import com.cse308.server.enums.StateName;
 import com.cse308.server.result.Phase1Result;
 import com.cse308.server.result.VoteBlocResult;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class AlgorithmService {
         return this.algo.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
     }
 
-    public void runPhase2(List<Measure> measures) {
-        this.algo.runPhase2(measures);
+    public void runPhase2(Map<Measure, Double> measureWeights) {
+        this.algo.runPhase2(measureWeights);
     }
 }
