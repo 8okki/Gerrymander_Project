@@ -44,4 +44,8 @@ public class AlgorithmService {
     public void runPhase2(List<Measure> measures) {
         this.algo.runPhase2(measures);
     }
+
+    public void initNeighbors() {
+        this.algo.initNeighbors();
+    }
 }

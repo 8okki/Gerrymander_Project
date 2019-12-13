@@ -19,6 +19,7 @@ import com.cse308.server.result.Phase1Result;
 import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,12 +63,28 @@ public class Algorithm {
         try {
             Set<Precinct> precincts = state.getPrecincts();
             WKTReader reader = new WKTReader();
+            int counter = 0;
             for (Precinct precinct : precincts){
                 String boundaryJson = precinct.getGeojson();
                 precinct.setGeometry(reader.read(boundaryJson));
-            }   
+            }
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void initNeighbors() {
+        Set<Precinct> precincts = state.getPrecincts();
+        for (Precinct precinct : precincts){
+            Set<Precinct> neighbors = new HashSet<>();
+            for (Precinct p : state.getPrecincts()){
+                for (String neighborCode : precinct.getNeighborCodes()){
+                    if (neighborCode.equals(p.getCode())){
+                        neighbors.add(p);
+                    }
+                }
+            }
+            precinct.setNeighbors(neighbors);
         }
     }
 
