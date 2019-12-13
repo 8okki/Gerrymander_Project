@@ -53,20 +53,25 @@ public class Precinct {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Demographic, Integer> demographics;
     
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="neighbors",
-        joinColumns=@JoinColumn(name="code"),
-        inverseJoinColumns=@JoinColumn(name="neighbor_code")
-    )
-    private Set<Precinct> neighbors;
     
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(
+        name = "neighbors",
+        joinColumns=@JoinColumn(name = "code")
+    )
+    @Column(name = "neighbor_code")
+    private Set<String> neighborCodes;
+    
+    @Transient
+    private Set<Precinct> neighbors;
+    /*
     @ManyToMany
     @JoinTable(name="neighbors",
         joinColumns=@JoinColumn(name="neighbor_code"),
         inverseJoinColumns=@JoinColumn(name="code")
     )
     private Set<Precinct> neighborsOf;
-
+    */
 
     /* Getters & Setters */
     public String getCode(){
@@ -105,6 +110,8 @@ public class Precinct {
 
     public Set<Precinct> getNeighbors() { return neighbors; }
 
+    public Set<String> getNeighborCodes() { return neighborCodes; }
+    
     public Cluster getCurrentCluster() { return currentCluster; }
 
     public void setCode(String code) {
@@ -115,6 +122,10 @@ public class Precinct {
         this.name = name;
     }
 
+    public void setNeighbors(Set<Precinct> neighbors){
+        this.neighbors = neighbors;
+    }
+    
     public void setState(State state){
         this.state = state;
     }
@@ -181,6 +192,9 @@ public class Precinct {
         return (float)largestDemographicPop/totalPop;
     }
 
+    public void addNeighbor(Precinct p){
+        this.neighbors.add(p);
+    }
 
     /* Phase 2 */
     public double getPopulationDensity() {
