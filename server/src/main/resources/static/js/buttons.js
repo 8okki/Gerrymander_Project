@@ -174,9 +174,10 @@ $("#runAnneal").click(function (e) {
 		tableBody = newTableBody;
 		tableBody.id = "demo-tbody";
 
+		$(".gerry-demo[value='White']").prop('checked', true);
 
 		gerryDemoCheckBoxes = $(".gerry-demo")
-		
+
 		//for every demographic that is checked
 		for (button of gerryDemoCheckBoxes){
 			if($(button).prop("checked") == true){
@@ -199,6 +200,7 @@ $("#runAnneal").click(function (e) {
 			}
 
 	}
+	$(".gerry-demo[value='White']").prop('checked', false);
 
 });
 
