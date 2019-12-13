@@ -41,6 +41,57 @@ function highlightFeature(e){
 	);
 }
 
+function onHoverPrecinct(e){
+	let layer = e.target;
+	let feature = layer.feature;
+	let properties = feature.properties;
+	let tableBody = $("#precinct-votes-table")[0];
+	let newTableBody = document.createElement("tbody");
+
+	tableBody.parentNode.replaceChild(newTableBody, tableBody);
+	tableBody = newTableBody;
+	tableBody.id = "precinct-votes-table";
+	
+	let code = properties["PRECODE"];
+	let rep = properties["PRES16D"];
+	let dem = properties["PRES16R"];
+	let votes = properties["TOTVOTE16"];
+	let parties = {"DEM":dem,"REP":rep};
+	
+	for(party of Object.keys(parties)){
+		let row = tableBody.insertRow(0);
+		
+		let t0 = document.createTextNode(code);
+		let p0 = document.createElement("p");
+		p0.appendChild(t0);
+		row.insertCell(0).appendChild(p0);
+		
+		let t1 = document.createTextNode(party);
+		let p1 = document.createElement("p");
+		p1.appendChild(t1);
+		row.insertCell(1).appendChild(p1);
+
+		let t2 = document.createTextNode(parties[party]);
+		let p2 = document.createElement("p");
+		p2.appendChild(t2);
+		row.insertCell(2).appendChild(p2);
+
+		let t3 = document.createTextNode((parties[party]/votes)*100 + "%");
+		let p3 = document.createElement("p");
+		p3.appendChild(t3);
+		row.insertCell(3).appendChild(p3);
+	}
+	
+	layer.setStyle(
+		{
+			weight: 5,
+			color:"#666",
+			dashArray: '',
+			fillOpacity: 0.7
+		}
+	);
+}
+
 function hoverFeature(e){
 	$("#voting-data").toggleClass("hide");
 	$("#district-demo-data").toggleClass("hide");
@@ -151,7 +202,7 @@ async function initCongressionalDistricts(stateName){
 
 function onEachFeaturePrecinct(feature, layer) {
 	layer.on({
-		mouseover: highlightFeature,
+		mouseover: onHoverPrecinct,
 		mouseout: resetHighlight//,
 		// click: initState
 	});
