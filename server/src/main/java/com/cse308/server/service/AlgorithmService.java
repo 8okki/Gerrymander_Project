@@ -42,7 +42,7 @@ public class AlgorithmService {
         return this.algo.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
     }
 
-    public void runPhase2(Map<Measure, Double> measureWeights) {
-        this.algo.runPhase2(measureWeights);
+    public void runPhase2(List<Measure> measures) {
+        this.algo.runPhase2(measures);
     }
 }

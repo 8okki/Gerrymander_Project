@@ -13,6 +13,7 @@ import org.locationtech.jts.geom.MultiPolygon;
  */
 public enum Measure implements MeasureFunction {
 
+    // Types of measure
     PARTISAN_FAIRNESS{
         @Override
         /**
@@ -224,6 +225,9 @@ public enum Measure implements MeasureFunction {
             return 1.0 - ((inefficient_V * 1.0) / tv);
         }
     };
+
+    // Weight for each measure type
+    public double weight;
 
     public abstract double calculateMeasure(Cluster cluster);
 

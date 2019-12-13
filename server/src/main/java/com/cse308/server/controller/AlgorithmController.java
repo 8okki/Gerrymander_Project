@@ -123,11 +123,14 @@ public class AlgorithmController {
         JsonObject responseBody = new JsonObject();
         try{
             JsonObject measureWeightsJson = input.get("measureWeights").getAsJsonObject();
-            Map<Measure, Double> measureWeights = new HashMap<>();
-            for(Measure measure : Measure.values())
-                if(measureWeightsJson.has(measure.name()))
-                    measureWeights.put(measure, measureWeightsJson.get(measure.name()).getAsDouble());
-            algoService.runPhase2(measureWeights);
+            List<Measure> measures = new ArrayList<>();
+            for(Measure measure : Measure.values()) {
+                if (measureWeightsJson.has(measure.name())) {
+                    measure.weight = measureWeightsJson.get(measure.name()).getAsDouble();
+                    measures.add(measure);
+                }
+            }
+            algoService.runPhase2(measures);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.toString());
