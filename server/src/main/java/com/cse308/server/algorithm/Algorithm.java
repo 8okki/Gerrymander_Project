@@ -97,11 +97,12 @@ public class Algorithm {
         float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
 
         // Create initial clusters
-        while(state.getClusters().size() >= targetDistrictNum) {
-            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
-            state.setPairs(targetPopulation);
+        while(state.getClusters().size() > targetDistrictNum) {
+            state.setPairs(new HashMap<>());
+//            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
+//            state.setPairs(targetPopulation);
             state.mergePairs();
-            System.out.println(state.getClusters().size());
+            System.out.println("CURRENT SIZE - " + state.getClusters().size());
         }
 
         // Creating Result objects

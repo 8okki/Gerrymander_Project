@@ -20,6 +20,8 @@ import org.locationtech.jts.geom.*;
  * @author Mavericks
  */
 public class Cluster {
+    public int id;
+
     private State state;
     private Set<Precinct> precincts;
     private Set<Precinct> borderPrecincts;
@@ -92,11 +94,13 @@ public class Cluster {
 
     public boolean isMerged() { return isMerged; }
 
+    public void setAdjClusters(Set<Cluster> adjClusters) { this.adjClusters = adjClusters; }
+
     public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
 
-
     /* Constructor */
-    public Cluster(State state, Precinct precinct) {
+    public Cluster(int id, State state, Precinct precinct) {
+        this.id = id;
         this.state = state;
         precincts = new HashSet<>();
         adjClusters = new HashSet<>();
@@ -185,25 +189,35 @@ public class Cluster {
     }
 
     public void merge(Cluster cluster) {
-        for (Precinct precinct : cluster.getPrecincts()) {
+        for (Precinct precinct : cluster.getPrecincts())
             addPrecinct(precinct);
-        }
 
         for (Demographic demographic : demographicPopDist.keySet()){
             int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
             demographicPopDist.put(demographic, sum);
         }
 
-        cluster.getAdjacentClusters().remove(this);
-        adjClusters.remove(cluster);
-        for(Cluster neighbor : cluster.getAdjacentClusters()){
-            neighbor.getAdjacentClusters().remove(cluster);
-            neighbor.getAdjacentClusters().add(this);
-            adjClusters.add(neighbor);
-        }
-        cluster.getAdjacentClusters().removeAll(adjClusters);
+        unlink(cluster);
 
         cluster.setIsMerged(true);
+    }
+
+    public void unlink(Cluster cluster){
+        System.out.println("Before: " + this);
+        System.out.println("Before: " + cluster);
+
+        cluster.getAdjacentClusters().remove(this);
+        adjClusters.remove(cluster);
+
+        for(Cluster neighbor : cluster.getAdjacentClusters()){
+            neighbor.getAdjacentClusters().add(this);
+            neighbor.getAdjacentClusters().remove(cluster);
+            adjClusters.add(neighbor);
+        }
+        cluster.setAdjClusters(new HashSet<>());
+
+        System.out.println("After: " + this);
+        System.out.println("After: " + cluster);
     }
 
     public int getDemographicPopSum(List<Demographic> demographics){
@@ -230,6 +244,13 @@ public class Cluster {
         return populationSum <= targetPopulation;
     }
 
+    public String toString(){
+        String str = id + " - ";
+        for(Cluster neighbor : adjClusters){
+            str += neighbor.id + ", ";
+        }
+        return str;
+    }
 
     /* Phase 2 */
     public void anneal() {

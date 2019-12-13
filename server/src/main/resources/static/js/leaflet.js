@@ -117,32 +117,32 @@ function initGeometry(){
         }
     });
 }
-
-function runPhase1(){
-    let demographics = ['WHITE', 'BLACK'];
-    let demographicMinimum = 0.25;
-    let demographicMaximum = 0.75;
-    let targetDistrictNum = 16;
-
-    $.ajax({
-            'type': "POST",
-            'dataType': 'json',
-            'url': "http://localhost:8080/runPhase1",
-            'data': JSON.stringify({'demographics' : demographics,
-                                    'demographicMinimum' : demographicMinimum,
-                                    'demographicMaximum' : demographicMaximum,
-                                    'targetDistrictNum' : targetDistrictNum}),
-            'contentType': "application/json",
-            'statusCode':{
-                "200": function (data) {
-                    console.log(data.results);
-                },
-                "400": function(data){
-                    console.log("error: failed to run phase1");
-                }
-            }
-        });
-}
+//
+//function runPhase1(){
+//    let demographics = ['WHITE', 'BLACK'];
+//    let demographicMinimum = 0.25;
+//    let demographicMaximum = 0.75;
+//    let targetDistrictNum = 16;
+//
+//    $.ajax({
+//            'type': "POST",
+//            'dataType': 'json',
+//            'url': "http://localhost:8080/runPhase1",
+//            'data': JSON.stringify({'demographics' : demographics,
+//                                    'demographicMinimum' : demographicMinimum,
+//                                    'demographicMaximum' : demographicMaximum,
+//                                    'targetDistrictNum' : targetDistrictNum}),
+//            'contentType': "application/json",
+//            'statusCode':{
+//                "200": function (data) {
+//                    console.log(data.results);
+//                },
+//                "400": function(data){
+//                    console.log("error: failed to run phase1");
+//                }
+//            }
+//        });
+//}
 
 function onEachFeatureDistrict(feature, layer) {
 	layer.on({
