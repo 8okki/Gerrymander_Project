@@ -20,6 +20,8 @@ import org.locationtech.jts.geom.*;
  * @author Mavericks
  */
 public class Cluster {
+    public int id;
+
     private State state;
     private Set<Precinct> precincts;
     private Set<Precinct> borderPrecincts;
@@ -97,7 +99,8 @@ public class Cluster {
     public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
 
     /* Constructor */
-    public Cluster(State state, Precinct precinct) {
+    public Cluster(int id, State state, Precinct precinct) {
+        this.id = id;
         this.state = state;
         precincts = new HashSet<>();
         adjClusters = new HashSet<>();
@@ -200,8 +203,8 @@ public class Cluster {
     }
 
     public void unlink(Cluster cluster){
-//        System.out.println("C1 - Before: " + adjClusters.size());
-//        System.out.println("C2 - Before: " + cluster.getAdjacentClusters().size());
+        System.out.println("Before: " + this);
+        System.out.println("Before: " + cluster);
 
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
@@ -209,12 +212,12 @@ public class Cluster {
         for(Cluster neighbor : cluster.getAdjacentClusters()){
             neighbor.getAdjacentClusters().add(this);
             neighbor.getAdjacentClusters().remove(cluster);
+            adjClusters.add(neighbor);
         }
+        cluster.setAdjClusters(new HashSet<>());
 
-        adjClusters.addAll(cluster.getAdjacentClusters());
-
-//        System.out.println("C1 - After: " + adjClusters.size());
-//        System.out.println("C2 - After: " + cluster.getAdjacentClusters().size());
+        System.out.println("After: " + this);
+        System.out.println("After: " + cluster);
     }
 
     public int getDemographicPopSum(List<Demographic> demographics){
@@ -241,6 +244,13 @@ public class Cluster {
         return populationSum <= targetPopulation;
     }
 
+    public String toString(){
+        String str = id + " - ";
+        for(Cluster neighbor : adjClusters){
+            str += neighbor.id + ", ";
+        }
+        return str;
+    }
 
     /* Phase 2 */
     public void anneal() {
