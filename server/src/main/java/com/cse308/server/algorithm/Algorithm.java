@@ -58,7 +58,6 @@ public class Algorithm {
             return state;
         }
     }
-
     public void initGeometry() {
         try {
             Set<Precinct> precincts = state.getPrecincts();
@@ -89,9 +88,8 @@ public class Algorithm {
 		List<Phase1Result> results = new ArrayList<>();
 		for(Cluster c : state.getClusters()){
 			List<String> precinctCodes = new ArrayList<>();
-			for(Precinct p : c.getPrecincts()){
+			for(Precinct p : c.getPrecincts())
 				precinctCodes.add(p.getCode());
-			}
 			results.add(new Phase1Result(precinctCodes));
 		}
 		return results;

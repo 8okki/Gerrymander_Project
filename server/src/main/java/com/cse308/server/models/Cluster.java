@@ -244,7 +244,7 @@ public class Cluster {
 
     public Move findBestMove(Set<Precinct> precincts) {
         Move bestMove = null;
-        double bestScore = 0;
+        double bestScore = Double.MIN_VALUE;
 
         Move currentMove;
         double score;
@@ -275,11 +275,9 @@ public class Cluster {
 
     public Set<Precinct> getInternalNeighbors(Precinct precinct) {
         Set<Precinct> internalNeighbors = new HashSet<>();
-
         for(Precinct neighbor : precinct.getNeighbors())
             if(neighbor.getCurrentCluster() == this)
                 internalNeighbors.add(neighbor);
-
         return internalNeighbors;
     }
 
