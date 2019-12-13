@@ -204,4 +204,27 @@ $("#runAnneal").click(function (e) {
 
 });
 
+let democratic2016percent = 43.6;
+let republican2016percent = 51.7;
+let democratic2012percent = 50.7;
+let republican2012percent = 47.7;
+let democratic2008percent = 51.5;
+let republican2008percent = 46.9;
+
+$('input[name=electionYear]').change(
+    function(){
+        if ($(this).is(':checked')) {
+            if($(this).val()==2016){
+							
+						}
+						else if($(this).val()==2012){
+							alert(2012);
+						}
+						else if($(this).val()==2008){
+							alert(2008);
+						}
+
+        }
+    });
+
 });
