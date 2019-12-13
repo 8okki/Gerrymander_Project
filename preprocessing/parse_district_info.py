@@ -10,7 +10,9 @@ with open("../data/Ohio_District_all.csv") as f, open("out_district_info.json","
 	for line in lines:
 		split_line = line.split(",")
 		demo = split_line[2]
-		if "white" in demo.lower():
+		if "total pop" in demo.lower():
+			demo = "TOTPOP"
+		elif "white" in demo.lower():
 			demo = "NH_WHITE"
 		elif "black" in demo.lower():
 			demo = "NH_BLACK"

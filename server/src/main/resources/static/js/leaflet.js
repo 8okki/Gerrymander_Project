@@ -96,39 +96,40 @@ function onHoverDistrict(e){
 	let layer = e.target;
 	let feature = layer.feature;
 	let properties = feature.properties;
-	let tableBody = $("#precinct-votes-table")[0];
+	let tableBody = $("#district-demo-table")[0];
 	let newTableBody = document.createElement("tbody");
 
 	tableBody.parentNode.replaceChild(newTableBody, tableBody);
 	tableBody = newTableBody;
-	tableBody.id = "precinct-votes-table";
+	tableBody.id = "district-demo-table";
 	
+	let district = properties["NAMELSAD"].replace("Congressional ","");
+	let pop = properties["TOTPOP"];
 	let white = properties["NH_WHITE"];
 	let black = properties["NH_BLACK"];
 	let asian = properties["NH_ASIAN"];
 	let hispanic = properties["HISPANIC"];
 	
-	let demos = ["White":white,"Black":black,"Asian":asian,"Hispanic":hispanic];
+	let demos = {"White":white,"Black":black,"Asian":asian,"Hispanic":hispanic};
 	
 	for(demo of Object.keys(demos)){
 		let row = tableBody.insertRow(0);
-		
-		let t0 = document.createTextNode(code);
+		let t0 = document.createTextNode(district);
 		let p0 = document.createElement("p");
 		p0.appendChild(t0);
 		row.insertCell(0).appendChild(p0);
 		
-		let t1 = document.createTextNode(party);
+		let t1 = document.createTextNode(demo);
 		let p1 = document.createElement("p");
 		p1.appendChild(t1);
 		row.insertCell(1).appendChild(p1);
 
-		let t2 = document.createTextNode(parties[party]);
+		let t2 = document.createTextNode(demos[demo]);
 		let p2 = document.createElement("p");
 		p2.appendChild(t2);
 		row.insertCell(2).appendChild(p2);
 
-		let t3 = document.createTextNode((parties[party]/votes)*100 + "%");
+		let t3 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
 		let p3 = document.createElement("p");
 		p3.appendChild(t3);
 		row.insertCell(3).appendChild(p3);
@@ -223,15 +224,15 @@ function initGeometry(){
 
 function onEachFeatureDistrict(feature, layer) {
 	layer.on({
-		mouseover: highlightFeature,
+		mouseover: onHoverDistrict,
 		mouseout: resetHighlight//,
 		// click: initState
 	});
 	layer.on('mouseover', function () {
-			$("#district-election-results").toggleClass("hide");
+			$("#district-demo-data").toggleClass("hide");
     });
 	layer.on('mouseout', function () {
-			$("#district-election-results").toggleClass("hide");
+			$("#district-demo-data").toggleClass("hide");
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
@@ -314,7 +315,7 @@ var zoomlevel = map.getZoom();
     if (zoomlevel < 7){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
-						$("#district-election-results").addClass("hide");
+						$("#district-demo-data").addClass("hide");
         }
 				// else {
         //     console.log("no districts layer active");
@@ -327,7 +328,7 @@ var zoomlevel = map.getZoom();
 				else if(precinctLoadedFlag == true){
 					map.addLayer(precincts);
         	map.removeLayer(congressionalDistricts);
-					$("#district-election-results").addClass("hide");
+					$("#district-demo-data").addClass("hide");
         }
     }
     else if (zoomlevel >= 7 && zoomlevel < 9){
