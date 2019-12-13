@@ -204,4 +204,11 @@ $("#runAnneal").click(function (e) {
 
 });
 
+$('input[name=electionYear]').change(
+    function(){
+        if ($(this).is(':checked')) {
+            alert($(this).val());
+        }
+    });
+
 });
