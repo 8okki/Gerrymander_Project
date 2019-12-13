@@ -12,6 +12,8 @@ import com.cse308.server.result.VoteBlocResult;
 
 import java.util.*;
 import javax.persistence.*;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 
 /**
  *

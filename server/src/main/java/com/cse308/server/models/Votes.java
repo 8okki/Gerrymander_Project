@@ -10,6 +10,8 @@ import com.cse308.server.enums.PoliticalParty;
 import com.cse308.server.result.VoteBlocResult;
 import java.util.Map;
 import javax.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -23,6 +25,7 @@ public class Votes {
     private String precinctName;
     
     @ElementCollection(fetch=FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @CollectionTable(
         name = "party_votes",
         joinColumns=@JoinColumn(name = "precinct_code", referencedColumnName = "precinct_code")
