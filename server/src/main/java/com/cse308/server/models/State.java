@@ -262,7 +262,7 @@ public class State {
     }
 
     public boolean isStagnant(double prevScore, double newScore){
-        return Math.abs(prevScore - newScore) < 0.0005;
+        return Math.abs(prevScore - newScore) < 0.0001;
     }
 
     @Override

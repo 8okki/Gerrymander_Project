@@ -4,8 +4,7 @@ package com.cse308.server.measure;
 import com.cse308.server.models.Cluster;
 import com.cse308.server.models.Precinct;
 import com.cse308.server.models.State;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.*;
 
 /**
  *

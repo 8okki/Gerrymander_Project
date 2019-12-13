@@ -139,7 +139,8 @@
             window.alert("Please run phase 1 first.");
         } else {
             let measureWeights = {
-                'GERRYMANDER_DEMOCRATIC' : 1,
+                'REOCK_COMPACTNESS' : 1,
+                'CONVEX_HULL_COMPACTNESS' : 1
              }
 
             $.ajax({

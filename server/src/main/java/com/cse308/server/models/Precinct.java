@@ -12,9 +12,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
 import javax.persistence.*;
+
+import com.vividsolutions.jts.geom.Geometry;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.locationtech.jts.geom.Geometry;
 
 
 /**

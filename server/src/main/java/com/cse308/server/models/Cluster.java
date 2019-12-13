@@ -12,8 +12,9 @@ import static com.cse308.server.enums.PoliticalParty.DEMOCRATIC;
 import static com.cse308.server.enums.PoliticalParty.REPUBLICAN;
 
 import java.util.*;
-import org.locationtech.jts.algorithm.MinimumBoundingCircle;
-import org.locationtech.jts.geom.*;
+
+import com.vividsolutions.jts.geom.*;
+import com.vividsolutions.jts.algorithm.MinimumBoundingCircle;
 
 /**
  *
@@ -318,22 +319,24 @@ public class Cluster {
         Polygon[] polygons = new Polygon[getPrecincts().size()];
 
         Iterator<Precinct> piter = getPrecincts().iterator();
-        for(int ii = 0; ii < polygons.length; ii++) {
+        for(int i = 0; i < polygons.length; i++) {
             Geometry poly = piter.next().getGeometry();
             if (poly instanceof Polygon)
-                polygons[ii] = (Polygon) poly;
-            else
-                polygons[ii] = (Polygon) poly.convexHull();
+                polygons[i] = (Polygon) poly;
+            else {
+                System.out.println(poly);
+                polygons[i] = (Polygon) poly.convexHull();
+            }
         }
-        MultiPolygon mp = new MultiPolygon(polygons, new GeometryFactory());
-        this.multiPolygon = mp;
-        this.multiPolygonUpdated = true;
-        return mp;
+        multiPolygon = new MultiPolygon(polygons, new GeometryFactory());
+        multiPolygonUpdated = true;
+
+        return multiPolygon;
     }
 
     public MultiPolygon getMulti() {
         if (this.multiPolygonUpdated && this.multiPolygon != null)
-            return this.multiPolygon;
+            return multiPolygon;
         return computeMulti();
     }
 
@@ -341,7 +344,7 @@ public class Cluster {
         if (convexHullUpdated && convexHull !=null)
             return convexHull;
         convexHull = multiPolygon.convexHull();
-        this.convexHullUpdated = true;
+        convexHullUpdated = true;
         return convexHull;
     }
 
@@ -349,7 +352,7 @@ public class Cluster {
         if (boundingCircleUpdated && boundingCircle !=null)
             return boundingCircle;
         boundingCircle = new MinimumBoundingCircle(getMulti()).getCircle();
-        this.boundingCircleUpdated = true;
+        boundingCircleUpdated = true;
         return boundingCircle;
     }
 }
