@@ -9,6 +9,7 @@ import com.cse308.server.measure.Measure;
 import com.cse308.server.models.State;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
+import com.cse308.server.result.Phase1Result;
 import com.cse308.server.result.VoteBlocResult;
 import com.cse308.server.service.AlgorithmService;
 import com.google.gson.Gson;
@@ -103,7 +104,9 @@ public class AlgorithmController {
             float demographicMinimum = input.get("demographicMinimum").getAsFloat();
             float demographicMaximum = input.get("demographicMaximum").getAsFloat();
             int targetDistrictNum = input.get("targetDistrictNum").getAsInt();
-            algoService.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+            List<Phase1Result> results = algoService.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+            JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(results);
+            responseBody.add("results",jsonResults);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.toString());
