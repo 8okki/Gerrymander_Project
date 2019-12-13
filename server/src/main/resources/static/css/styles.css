@@ -17,8 +17,12 @@
   background: #537780;
 }
 
-.m2{
-  margin-left: 20px;
+.measure1{
+  float: left;
+}
+
+.measure2{
+  float: right;
 }
 
 .nav-btn {
