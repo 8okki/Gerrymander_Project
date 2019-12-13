@@ -10,8 +10,8 @@ package com.cse308.server.enums;
  * @author Jakob
  */
 public enum Demographic {
-    ASIAN,
     BLACK,
+    ASIAN,
     HISPANIC,
     WHITE
 }

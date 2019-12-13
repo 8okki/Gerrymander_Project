@@ -62,21 +62,6 @@ public class AlgorithmController {
         }
     }
     
-    @PostMapping(value = "/initNeighbors",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> initNeighborsRequest(@RequestBody JsonObject stateJson) {
-        JsonObject responseBody = new JsonObject();
-        try {
-            algoService.initNeighbors();
-            return new ResponseEntity<>(responseBody,HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println(e);
-            responseBody.addProperty("error", "Invalid request body");
-            return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
-        }
-    }
-    
     @PostMapping(value = "/initGeometry",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -84,6 +69,21 @@ public class AlgorithmController {
         JsonObject responseBody = new JsonObject();
         try {
             algoService.initGeometry();
+            return new ResponseEntity<>(responseBody,HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/initNeighbors",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> initNeighborsRequest(@RequestBody JsonObject stateJson) {
+        JsonObject responseBody = new JsonObject();
+        try {
+            algoService.initNeighbors();
             return new ResponseEntity<>(responseBody,HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);

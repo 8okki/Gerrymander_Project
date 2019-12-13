@@ -74,5 +74,8 @@ $(document).ready(function () {
 		}
 	});
 
+    $("#runGerry").click(async function(e){
+        runPhase1();
+    });
 
 });

@@ -152,6 +152,7 @@ public class State {
     public void mergePairs() {
         // If no pairs are pre-made, manually make one pair based on population
         if(pairs.isEmpty()) {
+            System.out.println("Pairs empty");
             int currentMin = Integer.MAX_VALUE;
             Cluster[] minClusters = new Cluster[2];
             for (Cluster cluster : clusters) {

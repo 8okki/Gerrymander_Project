@@ -34,6 +34,10 @@ public class AlgorithmService {
 
     public void initGeometry() { this.algo.initGeometry(); }
 
+    public void initNeighbors() {
+        this.algo.initNeighbors();
+    }
+
     public List<VoteBlocResult> runPhase0(float blocThreshold, float voteThreshold){
         return this.algo.runPhase0(blocThreshold, voteThreshold);
     }
@@ -44,9 +48,5 @@ public class AlgorithmService {
 
     public void runPhase2(List<Measure> measures) {
         this.algo.runPhase2(measures);
-    }
-
-    public void initNeighbors() {
-        this.algo.initNeighbors();
     }
 }

@@ -58,8 +58,8 @@ function initState(e) {
     map.fitBounds(e.target.getBounds());
 	let selector = $("#state-pane");
 	$(selector).toggleClass('in');
-	console.log("test");
     if(!stateLoaded[stateName]){
+        console.log('Init state sent');
         $.ajax({
     		'type': "POST",
     		'dataType': 'json',
@@ -71,21 +71,25 @@ function initState(e) {
     			    currentState = data;
     				stateLoaded[stateName] = true;
 					initCongressionalDistricts(stateName);
+					console.log('state loaded');
+					console.log('Init neighbor sent');
 					$.ajax({
-						'type': "POST",
-						'dataType': 'json',
-						'url': "http://localhost:8080/initGeometry",
-						'data': JSON.stringify({}),
-						'contentType': "application/json",
-						'statusCode':{
-							"200": function (data) {
-								console.log("geometry loaded");
-							},
-							"400": function(data){
-								console.log("error: failed to load geometry");
-							}
-						}
-					});
+                        'type': "POST",
+                        'dataType': 'json',
+                        'url': "http://localhost:8080/initNeighbors",
+                        'data': JSON.stringify({}),
+                        'contentType': "application/json",
+                        'statusCode':{
+                            "200": function (data) {
+                                console.log("neighbors loaded");
+                                console.log('Init geometry sent');
+                                initGeometry();
+                            },
+                            "400": function(data){
+                                console.log("error: failed to load neighbors");
+                            }
+                        }
+                    });
 					initPrecincts();
     			},
     			"400": function(data){
@@ -94,6 +98,50 @@ function initState(e) {
     		}
     	});
     }
+}
+
+function initGeometry(){
+    $.ajax({
+        'type': "POST",
+        'dataType': 'json',
+        'url': "http://localhost:8080/initGeometry",
+        'data': JSON.stringify({}),
+        'contentType': "application/json",
+        'statusCode':{
+            "200": function (data) {
+                console.log("geometry loaded");
+            },
+            "400": function(data){
+                console.log("error: failed to load geometry");
+            }
+        }
+    });
+}
+
+function runPhase1(){
+    let demographics = ['WHITE', 'BLACK'];
+    let demographicMinimum = 0.25;
+    let demographicMaximum = 0.75;
+    let targetDistrictNum = 16;
+
+    $.ajax({
+            'type': "POST",
+            'dataType': 'json',
+            'url': "http://localhost:8080/runPhase1",
+            'data': JSON.stringify({'demographics' : demographics,
+                                    'demographicMinimum' : demographicMinimum,
+                                    'demographicMaximum' : demographicMaximum,
+                                    'targetDistrictNum' : targetDistrictNum}),
+            'contentType': "application/json",
+            'statusCode':{
+                "200": function (data) {
+                    console.log(data.results);
+                },
+                "400": function(data){
+                    console.log("error: failed to run phase1");
+                }
+            }
+        });
 }
 
 function onEachFeatureDistrict(feature, layer) {

@@ -59,6 +59,7 @@ public class Algorithm {
             return state;
         }
     }
+
     public void initGeometry() {
         try {
             Set<Precinct> precincts = state.getPrecincts();
@@ -95,12 +96,15 @@ public class Algorithm {
         state.initClusters();
         float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
 
-        while(state.getClusters().size() < targetDistrictNum) {
+        // Create initial clusters
+        while(state.getClusters().size() >= targetDistrictNum) {
             state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
             state.setPairs(targetPopulation);
             state.mergePairs();
+//            System.out.println(state.getClusters().size());
         }
 
+        // Creating Result objects
 		List<Phase1Result> results = new ArrayList<>();
 		for(Cluster c : state.getClusters()){
 			List<String> precinctCodes = new ArrayList<>();
