@@ -51,21 +51,21 @@ function onHoverPrecinct(e){
 	tableBody.parentNode.replaceChild(newTableBody, tableBody);
 	tableBody = newTableBody;
 	tableBody.id = "precinct-votes-table";
-	
+
 	let code = properties["PRECODE"];
 	let rep = properties["PRES16R"];
 	let dem = properties["PRES16D"];
 	let votes = properties["TOTVOTE16"];
 	let parties = {"DEM":dem,"REP":rep};
-	
+
 	for(party of Object.keys(parties)){
 		let row = tableBody.insertRow(0);
-		
+
 		let t0 = document.createTextNode(code);
 		let p0 = document.createElement("p");
 		p0.appendChild(t0);
 		row.insertCell(0).appendChild(p0);
-		
+
 		let t1 = document.createTextNode(party);
 		let p1 = document.createElement("p");
 		p1.appendChild(t1);
@@ -76,12 +76,12 @@ function onHoverPrecinct(e){
 		p2.appendChild(t2);
 		row.insertCell(2).appendChild(p2);
 
-		let t3 = document.createTextNode((parties[party]/votes)*100 + "%");
+		let t3 = document.createTextNode(Math.round((parties[party]/votes)*100*10)/10 + "%");
 		let p3 = document.createElement("p");
 		p3.appendChild(t3);
 		row.insertCell(3).appendChild(p3);
 	}
-	
+
 	layer.setStyle(
 		{
 			weight: 5,
@@ -289,14 +289,6 @@ function onEachFeature(feature, layer) {
 		mouseover: highlightFeature,
 		mouseout: resetHighlight,
 		click: initState
-	});
-	layer.on('mouseover', function () {
-			$("#voting-data").toggleClass("hide");
-			// $("#district-demo-data").toggleClass("hide");
-    });
-	layer.on('mouseout', function () {
-			$("#voting-data").toggleClass("hide");
-			// $("#district-demo-data").toggleClass("hide");
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
