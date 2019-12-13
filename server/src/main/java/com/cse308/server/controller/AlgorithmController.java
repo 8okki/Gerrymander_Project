@@ -47,7 +47,6 @@ public class AlgorithmController {
         try {
             StateName stateName = StateName.valueOf(stateJson.get("stateName").getAsString());
             State state = algoService.initState(stateName);
-            System.out.println(state);
             if(state != null){
                 responseBody.addProperty("name", state.getName());
                 responseBody.addProperty("population", state.getPopulation());
