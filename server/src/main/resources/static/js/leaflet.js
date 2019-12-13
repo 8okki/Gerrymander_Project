@@ -53,8 +53,8 @@ function onHoverPrecinct(e){
 	tableBody.id = "precinct-votes-table";
 	
 	let code = properties["PRECODE"];
-	let rep = properties["PRES16D"];
-	let dem = properties["PRES16R"];
+	let rep = properties["PRES16R"];
+	let dem = properties["PRES16D"];
 	let votes = properties["TOTVOTE16"];
 	let parties = {"DEM":dem,"REP":rep};
 	
