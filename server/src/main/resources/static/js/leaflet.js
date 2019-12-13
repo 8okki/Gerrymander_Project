@@ -92,6 +92,58 @@ function onHoverPrecinct(e){
 	);
 }
 
+function onHoverDistrict(e){
+	let layer = e.target;
+	let feature = layer.feature;
+	let properties = feature.properties;
+	let tableBody = $("#precinct-votes-table")[0];
+	let newTableBody = document.createElement("tbody");
+
+	tableBody.parentNode.replaceChild(newTableBody, tableBody);
+	tableBody = newTableBody;
+	tableBody.id = "precinct-votes-table";
+	
+	let white = properties["NH_WHITE"];
+	let black = properties["NH_BLACK"];
+	let asian = properties["NH_ASIAN"];
+	let hispanic = properties["HISPANIC"];
+	
+	let demos = ["White":white,"Black":black,"Asian":asian,"Hispanic":hispanic];
+	
+	for(demo of Object.keys(demos)){
+		let row = tableBody.insertRow(0);
+		
+		let t0 = document.createTextNode(code);
+		let p0 = document.createElement("p");
+		p0.appendChild(t0);
+		row.insertCell(0).appendChild(p0);
+		
+		let t1 = document.createTextNode(party);
+		let p1 = document.createElement("p");
+		p1.appendChild(t1);
+		row.insertCell(1).appendChild(p1);
+
+		let t2 = document.createTextNode(parties[party]);
+		let p2 = document.createElement("p");
+		p2.appendChild(t2);
+		row.insertCell(2).appendChild(p2);
+
+		let t3 = document.createTextNode((parties[party]/votes)*100 + "%");
+		let p3 = document.createElement("p");
+		p3.appendChild(t3);
+		row.insertCell(3).appendChild(p3);
+	}
+	
+	layer.setStyle(
+		{
+			weight: 5,
+			color:"#666",
+			dashArray: '',
+			fillOpacity: 0.7
+		}
+	);
+}
+
 function hoverFeature(e){
 	$("#voting-data").toggleClass("hide");
 	$("#district-demo-data").toggleClass("hide");
