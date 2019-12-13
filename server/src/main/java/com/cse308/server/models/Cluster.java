@@ -185,7 +185,6 @@ public class Cluster {
     }
 
     public void merge(Cluster cluster) {
-
         for (Precinct precinct : cluster.getPrecincts()) {
             addPrecinct(precinct);
         }
@@ -195,11 +194,14 @@ public class Cluster {
             demographicPopDist.put(demographic, sum);
         }
 
+        cluster.getAdjacentClusters().remove(this);
+        adjClusters.remove(cluster);
         for(Cluster neighbor : cluster.getAdjacentClusters()){
-            if(!this.adjClusters.contains(neighbor)){
-                adjClusters.add(neighbor);
-            }
+            neighbor.getAdjacentClusters().remove(cluster);
+            neighbor.getAdjacentClusters().add(this);
+            adjClusters.add(neighbor);
         }
+        cluster.getAdjacentClusters().removeAll(adjClusters);
 
         cluster.setIsMerged(true);
     }
