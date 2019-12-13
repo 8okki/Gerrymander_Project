@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
 import javax.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.locationtech.jts.geom.Geometry;
 
 
@@ -48,6 +50,7 @@ public class Precinct {
         name = "demographics",
         joinColumns=@JoinColumn(name = "precinct_code", referencedColumnName = "code")
     )
+    @Fetch(FetchMode.SUBSELECT)
     @Column(name = "population")
     @MapKeyColumn(name = "demographic")
     @MapKeyEnumerated(EnumType.STRING)
@@ -59,6 +62,7 @@ public class Precinct {
         name = "neighbors",
         joinColumns=@JoinColumn(name = "code")
     )
+    @Fetch(FetchMode.SUBSELECT)
     @Column(name = "neighbor_code")
     private Set<String> neighborCodes;
     
