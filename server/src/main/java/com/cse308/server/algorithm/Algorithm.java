@@ -15,6 +15,8 @@ import com.cse308.server.result.DistrictInfo;
 import com.cse308.server.result.VoteBlocResult;
 import com.cse308.server.hibernate.dao.StateDao;
 import com.cse308.server.models.State;
+import com.cse308.server.result.Phase1Result;
+import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +77,7 @@ public class Algorithm {
     }
 
     /* Phase 1 */
-    public void runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
+    public List<Phase1Result> runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
         this.state.initClusters();
         float targetPopulation = (float) this.state.getPopulation() / targetDistrictNum;
 
@@ -84,6 +86,15 @@ public class Algorithm {
             this.state.setPairs(targetPopulation);
             this.state.mergePairs();
         }
+		List<Phase1Result> results = new ArrayList<>();
+		for(Cluster c : this.state.getClusters()){
+			List<String> precinctCodes = new ArrayList<>();
+			for(Precinct p : c.getPrecincts()){
+				precinctCodes.add(p.getCode());
+			}
+			results.add(new Phase1Result(precinctCodes));
+		}
+		return results;
     }
 
     /* Phase 2 */
