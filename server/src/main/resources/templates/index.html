@@ -89,12 +89,14 @@
 		<hr>
 		<div id="election-results">
 			<h6>Election Results</h6>
+
+			<input type="checkbox" class="m-1" name="measure" value="Efficiency Gap"> <p>2016</p>
+			<input type="checkbox" class="m-1" name="measure" value="Lopsided Margins"> <p>2012</p>
+			<input type="checkbox" class="m-1" name="measure" value="Mean-Median Difference"> <p>2008</p>
+
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>District</p>
-					</th>
 					<th scope="col">
 						<p>Party</p>
 					</th>
@@ -109,9 +111,6 @@
 				<tbody>
 				<tr>
 					<td>
-						<p>District 1</p>
-					</td>
-					<td>
 						<p>Democratics</p>
 					</td>
 					<td>
@@ -123,10 +122,7 @@
 				</tr>
 				<tr>
 					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
+						<p>Republican</p>
 					</td>
 					<td>
 						<p>774,469</p>
@@ -181,7 +177,7 @@
 			</table>
 			</table>
 		</div>
-		<div id="voting-data" class="hide">
+		<div id="precinct-voting-data" class="hide">
 			<h6>Voting Data</h6>
 			<p>Donald J. Trump</p>
 			<div class="progress">
@@ -213,57 +209,6 @@
 		</div>
 		<div id="district-election-results" class = "hide">
 			<h6>District Election Results</h6>
-			<table class="table table-striped">
-				<thead class="thead-dark">
-				<tr>
-					<th scope="col">
-						<p>District</p>
-					</th>
-					<th scope="col">
-						<p>Party</p>
-					</th>
-					<th scope="col">
-						<p>Votes</p>
-					</th>
-					<th scope="col">
-						<p>Percentage</p>
-					</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</div>
-		<div id="precinct-voting-data" class = "hide">
-			<h6>Precinct Voting Data</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
@@ -356,160 +301,6 @@
 				</tr>
 				</thead>
 				<tbody id="bloc-tbody">
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>Black</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>Hispanic</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>White</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>true</p>
-					</td>
-					<td>
-						<p>Stony Brook</p>
-					</td>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-				</tr>
 				</tbody>
 			</table>
 		</div>
@@ -564,14 +355,14 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
+				<!-- <tr>
 					<td>
 						<p>1</p>
 					</td>
 					<td>
 						<p>10</p>
 					</td>
-				</tr>
+				</tr> -->
 				</tbody>
 			</table>
 		</div>
@@ -622,14 +413,14 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
+				<!-- <tr>
 					<td>
 						<p>1</p>
 					</td>
 					<td>
 						<p>10</p>
 					</td>
-				</tr>
+				</tr> -->
 				</tbody>
 			</table>
 		</div>
@@ -650,7 +441,7 @@
 				</tr>
 			</thead>
 				<tbody id = "demo-tbody">
-					<tr>
+					<!-- <tr>
 						<td>
 							<p>White</p>
 						</td>
@@ -682,7 +473,7 @@
 					<td>
 						<p>3.8%</p>
 					</td>
-				</tr>
+				</tr> -->
 				</tbody>
 			</table>
 			</table>

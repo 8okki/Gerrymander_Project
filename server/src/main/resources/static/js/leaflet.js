@@ -213,14 +213,6 @@ function onEachFeature(feature, layer) {
 		mouseout: resetHighlight,
 		click: initState
 	});
-	layer.on('mouseover', function () {
-			$("#voting-data").toggleClass("hide");
-			// $("#district-demo-data").toggleClass("hide");
-    });
-	layer.on('mouseout', function () {
-			$("#voting-data").toggleClass("hide");
-			// $("#district-demo-data").toggleClass("hide");
-	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
 	stateLoaded[feature.properties.name] = false;
