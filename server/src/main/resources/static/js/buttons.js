@@ -1,4 +1,4 @@
-$(document).ready(function () {
+ $(document).ready(function () {
 
 	$("#state-dropdown").onchange = function (e) {
 
@@ -14,7 +14,7 @@ $(document).ready(function () {
 		tableBody.id = "bloc-tbody";
 	}
 
-	$("#updateThresh").click(async function (e) {
+	$("#updateThresh").click(function (e) {
 		if (currentState == null) {
 			window.alert("Please select a state first.");
 		} else {
@@ -35,36 +35,104 @@ $(document).ready(function () {
 				'statusCode': {
 					"200": function (data) {
 						let results = data.results;
+						let summary = {};
 						let newTableBody = document.createElement("tbody");
 						let tableBody = $("#bloc-tbody")[0];
 
 						tableBody.parentNode.replaceChild(newTableBody, tableBody);
 						tableBody = newTableBody;
 						tableBody.id = "bloc-tbody";
-
+												
 						for (result of results) {
+							// initialize demographic if not already in table
+							if(!summary[result.demographic]){
+								summary[result.demographic] = {"blocs":0,"voteblocs":0,"parties":{}};
+							}
+							
+							// if new party for demographic found, initialize
+							if(!summary[result.demographic]["parties"][result.winningParty.substring(0,3)]){
+								summary[result.demographic]["parties"][result.winningParty.substring(0,3)] = 0;
+							}
+							
+							// increment demographic's winning party
+							summary[result.demographic]["parties"][result.winningParty.substring(0,3)]++;
+							
+							// increment total demo block count
+							summary[result.demographic]["blocs"]++;
+							
+							// increment votebloc count if votebloc
+							if(result.isVoteBloc){
+								summary[result.demographic]["voteblocs"]++;
+							}
+						}
+						
+						for (demographic of Object.keys(summary)){
+							console.log(demographic);	
 							let row = tableBody.insertRow(0);
-
-                            let t0 = document.createTextNode(result.isVoteBloc)
+							let t0 = document.createTextNode(demographic);
 							let p0 = document.createElement("p");
 							p0.appendChild(t0);
 							row.insertCell(0).appendChild(p0);
-
-							let t1 = document.createTextNode(result.precinctName)
+							
+							let t1 = document.createTextNode(summary[demographic]["blocs"]);
 							let p1 = document.createElement("p");
 							p1.appendChild(t1);
 							row.insertCell(1).appendChild(p1);
-
-							let t2 = document.createTextNode(result.demographic)
-                            let p2 = document.createElement("p");
-                            p2.appendChild(t2);
+							
+							let t2 = document.createTextNode(summary[demographic]["voteblocs"]);
+							let p2 = document.createElement("p");
+							p2.appendChild(t2);
 							row.insertCell(2).appendChild(p2);
-
-							let t3 = document.createTextNode(result.winningParty.substring(0, 3))
-                            let p3 = document.createElement("p");
-                            p3.appendChild(t3);
+							
+							let parties = summary[demographic]["parties"];
+							let max = 0;
+							let maxParty;
+							for(party of Object.keys(parties)){
+								if(parties[party] > max){
+									maxParty = party;
+									max = parties[party];
+								}
+							}
+							
+							let t3 = document.createTextNode(maxParty);
+							let p3 = document.createElement("p");
+							p3.appendChild(t3);
 							row.insertCell(3).appendChild(p3);
-						}
+						}							
+						
+					},
+					"400": function (data) {
+						console.log("error", data);
+					}
+				}
+			});
+		}
+	});
+	
+	$("#runGerry").click(function (e) {
+		if (currentState == null) {
+			window.alert("Please select a state first.");
+		} else {
+			let demographics = ["WHITE","ASIAN","BLACK"];
+			let demographicMinimum = 0.13;
+			let demographicMaximum = 0.75;
+			let targetDistrictNum = 10;
+			
+			$.ajax({
+				'type': "POST",
+				'dataType': 'json',
+				'url': "http://localhost:8080/runPhase1",
+				'data': JSON.stringify({
+					'demographics': demographics,
+					'demographicMinimum': demographicMinimum,
+					'demographicMaximum': demographicMaximum,
+					'targetDistrictNum': targetDistrictNum
+				}),
+				'contentType': "application/json",
+				'statusCode': {
+					"200": function (data) {
+						let results = data.results;
+						console.log(results.length);
 					},
 					"400": function (data) {
 						console.log("error", data);
