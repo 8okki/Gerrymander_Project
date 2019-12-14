@@ -89,11 +89,17 @@
 		<hr>
 		<div id="election-results">
 			<h6>Election Results</h6>
-
-			<input type="checkbox" class="m-1" name="electionYear" value="2016"> <p>2016</p>
-			<input type="checkbox" class="m-1" name="electionYear" value="2012"> <p>2012</p>
-			<input type="checkbox" class="m-1" name="electionYear" value="2008"> <p>2008</p>
-
+			<div id="election-years">
+				<div class="election1 mr-1">
+					<input type="checkbox" class="mb-1" name="electionYear" value="2016"> 2016<br>
+				</div>
+				<div class="election2 mx-2">
+					<input type="checkbox" class="mb-1" name="electionYear" value="2012"> 2012<br>
+				</div>
+				<div class="election3 ml-1">
+					<input type="checkbox" class="mb-1" name="electionYear" value="2008"> 2008<br>
+				</div>
+			</div>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
@@ -119,81 +125,40 @@
 					<td>
 						<p>51.3%</p>
 					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>Republican</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
 				</tr> -->
 				</tbody>
 			</table>
 		</div>
 		<div id="demo-results">
-			<h6>Demographic Data</h6>
+			<h6>State Demographic Data</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>Demographic</p>
-					</th>
-					<th scope="col">
-						<p>Population</p>
-					</th>
-					<th scope="col">
-						<p>Percentage</p>
-					</th>
+					<th scope="col"> Demographic </th>
+					<th scope="col"> Population </th>
+					<th scope="col"> Percentage </th>
 				</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>
-							<p>White</p>
-						</td>
-						<td>
-							<p>9,574,110</p>
-						</td>
-						<td>
-							<p>81.9%</p>
-						</td>
-					</tr>
 				<tr>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>1,519,700</p>
-					</td>
-					<td>
-						<p>13%</p>
-					</td>
+					<td> White </td>
+					<td> 9,574,110 </td>
+					<td> 81.9% </td>
 				</tr>
 				<tr>
-					<td>
-						<p>Asian-Pacific</p>
-					</td>
-					<td>
-						<p>292,250</p>
-					</td>
-					<td>
-						<p>2.5%</p>
-					</td>
+					<td> African-American </td>
+					<td> 1,519,700 </td>
+					<td> 13% </td>
 				</tr>
 				<tr>
-					<td>
-						<p>Hispanic</p>
-					</td>
-					<td>
-						<p>455,910</p>
-					</td>
-					<td>
-						<p>3.9%</p>
-					</td>
+					<td> Asian-Pacific </td>
+					<td> 292,250 </td>
+					<td> 2.5% </td>
+				</tr>
+				<tr>
+					<td> Hispanic </td>
+					<td> 455,910 </td>
+					<td> 3.9% </td>
 				</tr>
 				</tbody>
 			</table>
@@ -204,39 +169,21 @@
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>District</p>
-					</th>
-					<th scope="col">
-						<p>Incumbent</p>
-					</th>
-					<th scope="col">
-						<p>Party</p>
-					</th>
+					<th scope="col"> District </th>
+					<th scope="col"> Incumbent </th>
+					<th scope="col"> Party</th>
 				</tr>
 				</thead>
 				<tbody id="district-info-table">
 				<tr>
-					<td>
-						<p>District</p>
-					</td>
-					<td>
-						<p>Mary Sue</p>
-					</td>
-					<td>
-						<p>Party</p>
-					</td>
+					<td> District </td>
+					<td> Mary Sue </td>
+					<td> Party </td>
 				</tr>
 				<tr>
-					<td>
-						<p>District</p>
-					</td>
-					<td>
-						<p>John Smith</p>
-					</td>
-					<td>
-						<p>Party</p>
-					</td>
+					<td> District </td>
+					<td> John Smith </td>
+					<td> Party </td>
 				</tr>
 				</tbody>
 			</table>
@@ -246,48 +193,24 @@
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>District</p>
-					</th>
-					<th scope="col">
-						<p>Demographic</p>
-					</th>
-					<th scope="col">
-						<p>Population</p>
-					</th>
-					<th scope="col">
-						<p>Percentage</p>
-					</th>
+					<th scope="col"> District </th>
+					<th scope="col"> Demographic </th>
+					<th scope="col"> Population </th>
+					<th scope="col"> Percentage </th>
 				</tr>
 				</thead>
 				<tbody id="district-demo-table">
 				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
+					<td> District 1 </td>
+					<td> Democratics </td>
+					<td> 774,469 </td>
+					<td> 51.3% </td>
 				</tr>
 				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
+					<td> District 1 </td>
+					<td> Democratics </td>
+					<td> 774,469 </td>
+					<td> 51.3% </td>
 				</tr>
 				</tbody>
 			</table>
@@ -297,100 +220,51 @@
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>District</p>
-					</th>
-					<th scope="col">
-						<p>Party</p>
-					</th>
-					<th scope="col">
-						<p>Votes</p>
-					</th>
-					<th scope="col">
-						<p>Percentage</p>
-					</th>
+					<th scope="col"> District </th>
+					<th scope="col"> Party </th>
+					<th scope="col"> Votes </th>
+					<th scope="col"> Percentage </th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
+					<td> District 1 </td>
+					<td> Democratics </td>
+					<td> 774,469 </td>
+					<td> 51.3% </td>
 				</tr>
 				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
+					<td> District 1 </td>
+					<td> Democratics </td>
+					<td> 774,469 </td>
+					<td> 51.3% </td>
 				</tr>
 				</tbody>
 			</table>
 		</div>
-
 		<div id="precinct-voting-data" class = "hide">
 			<h6>Precinct Voting Data</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>District</p>
-					</th>
-					<th scope="col">
-						<p>Party</p>
-					</th>
-					<th scope="col">
-						<p>Votes</p>
-					</th>
-					<th scope="col">
-						<p>Percentage</p>
-					</th>
+					<th scope="col"> District </th>
+					<th scope="col"> Party </th>
+					<th scope="col"> Votes </th>
+					<th scope="col"> Percentage </th>
 				</tr>
 				</thead>
 				<tbody id="precinct-votes-table">
 				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
+					<td> District 1 </td>
+					<td> Democratics </td>
+					<td> 774,469 </td>
+					<td> 51.3% </td>
 				</tr>
 				<tr>
-					<td>
-						<p>District 1</p>
-					</td>
-					<td>
-						<p>Democratics</p>
-					</td>
-					<td>
-						<p>774,469</p>
-					</td>
-					<td>
-						<p>51.3%</p>
-					</td>
+					<td> District 1 </td>
+					<td> Democratics </td>
+					<td> 774,469 </td>
+					<td> 51.3% </td>
 				</tr>
 				</tbody>
 			</table>
@@ -410,31 +284,23 @@
 		<div id="bloc-title" class="mb-3">
 			<h4><i class="far fa-chart-bar mr-2"></i>Bloc Analysis</h4>
 		</div>
-		<hr>
-		<div id="thresholds">
+		<div id="bloc-run">
+			<hr>
 			<p class="mb-1">Bloc Population Threshold: <span id="population"></span> %</p>
 			<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
 			<p class="mb-1">Bloc Vote Threshold: <span id="vote"></span> %</p>
 			<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
-			<button id="updateThresh" class="btn btn-outline-success btn-sm">Analyze</button>
+			<button id="runBlocs" class="btn btn-outline-success btn-sm">Analyze</button>
+			<hr>
 		</div>
-		<hr>
 		<div id="bloc-results">
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>Demographic</p>
-					</th>
-					<th scope="col">
-						<p>Blocs</p>
-					</th>
-					<th scope="col">
-						<p>Vote Blocs</p>
-					</th>
-					<th scope="col">
-						<p>Majority Party</p>
-					</th>
+					<th scope="col"> Demographic </th>
+					<th scope="col"> Blocs </th>
+					<th scope="col"> Vote Blocs </th>
+					<th scope="col"> Majority Party </th>
 				</tr>
 				</thead>
 				<tbody id="bloc-tbody">
@@ -456,50 +322,40 @@
 		<div id="gerry-title" class="mb-3">
 			<h4><i class="fas fa-balance-scale-right mr-2"></i>Gerrymander</h4>
 		</div>
-		<hr>
-		<div id="gerry-demographics">
-			<h6 class="mb-1">Majority-Minority Demographics</h6>
+		<div id="gerry-run">
+			<hr>
+			<div id="gerry-demographics">
+				<h6 class="mb-1">Majority-Minority Demographics</h6>
 				<input type="checkbox" class="gerry-demo" name="demographic" value="African-American"> African-American<br>
 				<input type="checkbox" class="gerry-demo" name="demographic" value="Asian Pacific"> Asian Pacific<br>
 				<input type="checkbox" class="gerry-demo" name="demographic" value="Hispanic"> Hispanic<br>
 				<input type="checkbox" class="gerry-demo" name="demographic" value="White"> White<br>
-		</div>
-		<div id="gerry-range">
-			<p class="mt-2 mb-1">
-				Demographic Population Range: <span id="popRange"></span>
-			</p>
-			<div id="slider-range"></div>
-		</div>
-		<h6 class="mb-2">Congressional Districts</h6>
-		<div class="input-group input-group-sm">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="cong-dist">Desired Number of Cong. Districts</span>
 			</div>
-			<input type="text" class="form-control" aria-describedby="cong-dist">
+			<div id="gerry-range">
+				<p class="mt-2 mb-1">
+					Demographic Population Range: <span id="popRange"></span>
+				</p>
+				<div id="slider-range"></div>
+			</div>
+			<h6 class="mb-2">Congressional Districts</h6>
+			<div class="input-group input-group-sm">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="cong-dist">Desired Number of Cong. Districts</span>
+				</div>
+				<input type="text" class="form-control" aria-describedby="cong-dist">
+			</div>
+			<button id="runGerry" class="btn btn-outline-success btn-sm my-2">Run Gerrymander</button>
+			<hr>
 		</div>
-		<button id="runGerry" class="btn btn-outline-success btn-sm my-2">Run Gerrymander</button>
-		<hr>
 		<div id="gerry-results">
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>Current Majority Minority Districts</p>
-					</th>
-					<th scope="col">
-						<p>Calculated Majority Minority Districts</p>
-					</th>
+					<th scope="col"> Current Majority Minority Districts </th>
+					<th scope="col"> Calculated Majority Minority Districts </th>
 				</tr>
 				</thead>
 				<tbody>
-				<!-- <tr>
-					<td>
-						<p>1</p>
-					</td>
-					<td>
-						<p>10</p>
-					</td>
-				</tr> -->
 				</tbody>
 			</table>
 		</div>
@@ -507,57 +363,58 @@
 </div>
 
 <!-- Annealing -->
-<div id="annealing-pane" class="pane text-dark border">
+<div id="anneal-pane" class="pane text-dark border">
 	<div class="return-pane">
 		<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn" type="button"
 				data-toggle="toggle" data-target="#annealing-pane">
 			<i class="fas fa-arrow-left"></i>
 		</button>
 	</div>
-	<div id="annealing-contents" class="contents p-2">
-		<div id="annealing-title" class="mb-3">
-			<h4><i class="fas fa-balance-scale-right mr-2"></i>Annealing</h4>
+	<div id="anneal-contents" class="contents p-2">
+		<div id="anneal-title" class="mb-3">
+			<h4><i class="fas fa-chart-line mr-2"></i>Annealing</h4>
 		</div>
-		<hr>
-		<div id="phase2">
-		<h5>Phase 2</h5>
-		<div class="measure1">
-			<input type="checkbox" class="m-1" name="measure" value="Efficiency Gap"> <p>Efficiency Gap</p>
-			<input type="checkbox" class="m-1" name="measure" value="Lopsided Margins"> <p>Lopsided Margins</p>
-			<input type="checkbox" class="m-1" name="measure" value="Mean-Median Difference"> <p>Mean-Median Difference</p>
-			<input type="checkbox" class="m-1" name="measure" value="Compactness"> <p>Compactness</p>
+		<div id="anneal-run">
+			<hr>
+			<div id="anneal-measures">
+				<h5>Phase 2</h5>
+				<div class="measure1">
+					<input type="checkbox" class="m-1" name="measure" value="Partisan Fairness"> Partisan Fairness<br>
+					<input type="checkbox" class="m-1" name="measure" value="Reock Compactness"> Reock Compactness<br>
+					<input type="checkbox" class="m-1" name="measure" value="Convex Hull Compactness"> Convex Hull Compactness<br>
+					<input type="checkbox" class="m-1" name="measure" value="Edge Compactness"> Edge Compactness<br>
+					<input type="checkbox" class="m-1" name="measure" value="Efficiency Gap"> Efficiency Gap<br>
+				</div>
+
+				<div class="measure2">
+					<input type="checkbox" class="m-1" name="measure" value="Population Equality"> Population Equality<br>
+					<input type="checkbox" class="m-1" name="measure" value="Population Homogeneity"> Population Homogeneity<br>
+					<input type="checkbox" class="m-1" name="measure" value="Competitiveness"> Competitiveness<br>
+					<input type="checkbox" class="m-1" name="measure" value="Gerrymander Republican"> Gerrymander Republican<br>
+					<input type="checkbox" class="m-1" name="measure" value="Gerrymander Democratic"> Gerrymander Democratic<br>
+				</div>
+			</div>
+			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2">Run Annealing</button>
+			<hr>
 		</div>
-
-		<div class="measure2">
-			<input type="checkbox" class="m-1" name="measure" value="Efficiency Gap"> <p>Efficiency Gap</p>
-			<input type="checkbox" class="m-1" name="measure" value="Lopsided Margins"> <p>Lopsided Margins</p>
-			<input type="checkbox" class="m-1" name="measure" value="Mean-Median Difference"> <p>Mean-Median Difference</p>
-			<input type="checkbox" class="m-1" name="measure" value="Compactness"> <p>Compactness</p><br>
-		</div>
-
-		<button id="runAnneal" class="btn btn-outline-success btn-sm my-2">Run Annealing</button>
-		<hr>
-
+		<div id="anneal-scores">
+			<h6>Gerrymander Score</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
 					<th scope="col">
-						<p>Gerrymander scores before</p>
+						<p>Before Annealing</p>
 					</th>
 					<th scope="col">
-						<p>Gerrymander scores after</p>
+						<p>After Annealing</p>
 					</th>
 				</tr>
 				</thead>
 				<tbody>
-				<!-- <tr>
-					<td>
-						<p>1</p>
-					</td>
-					<td>
-						<p>10</p>
-					</td>
-				</tr> -->
+				<tr>
+					<td> 0 </td>
+					<td> 0 </td>
+				</tr>
 				</tbody>
 			</table>
 		</div>
@@ -576,52 +433,16 @@
 						<p>Percentage</p>
 					</th>
 				</tr>
-			</thead>
+				</thead>
 				<tbody id = "demo-tbody">
-					<!-- <tr>
-						<td>
-							<p>White</p>
-						</td>
-						<td>
-							<p>223,456</p>
-						</td>
-						<td>
-							<p>40.3%</p>
-						</td>
-					</tr>
-				<tr>
-					<td>
-						<p>African-American</p>
-					</td>
-					<td>
-						<p>123,456</p>
-					</td>
-					<td>
-						<p>10.3%</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>Asian-Pacific</p>
-					</td>
-					<td>
-						<p>100,46</p>
-					</td>
-					<td>
-						<p>3.8%</p>
-					</td>
-				</tr> -->
 				</tbody>
-			</table>
 			</table>
 		</div>
 	</div>
 </div>
 
-
 <!-- Map -->
 <div id="map"></div>
-
 
 </body>
 

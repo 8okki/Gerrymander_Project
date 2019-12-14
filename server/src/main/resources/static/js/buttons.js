@@ -1,13 +1,10 @@
  $(document).ready(function () {
 
-	$("#state-dropdown").onchange = function (e) {
-
-	};
 	$("#maxSlider").change = function (e) {
 		console.log("max slider change");
 	}
 
-	$("#updateThresh").click(function (e) {
+	$("#runBlocs").click(function (e) {
 		if (currentState == null) {
 			window.alert("Please select a state first.");
 		} else {
@@ -62,19 +59,13 @@
 						for (demographic of Object.keys(summary)){
 							let row = tableBody.insertRow(0);
 							let t0 = document.createTextNode(demographic);
-							let p0 = document.createElement("p");
-							p0.appendChild(t0);
-							row.insertCell(0).appendChild(p0);
+							row.insertCell(0).appendChild(t0);
 
 							let t1 = document.createTextNode(summary[demographic]["blocs"]);
-							let p1 = document.createElement("p");
-							p1.appendChild(t1);
-							row.insertCell(1).appendChild(p1);
+							row.insertCell(1).appendChild(t1);
 
 							let t2 = document.createTextNode(summary[demographic]["voteblocs"]);
-							let p2 = document.createElement("p");
-							p2.appendChild(t2);
-							row.insertCell(2).appendChild(p2);
+							row.insertCell(2).appendChild(t2);
 
 							let parties = summary[demographic]["parties"];
 							let max = 0;
@@ -85,13 +76,9 @@
 									max = parties[party];
 								}
 							}
-
 							let t3 = document.createTextNode(maxParty);
-							let p3 = document.createElement("p");
-							p3.appendChild(t3);
-							row.insertCell(3).appendChild(p3);
+							row.insertCell(3).appendChild(t3);
 						}
-
 					},
 					"400": function (data) {
 						console.log("error", data);
@@ -165,44 +152,43 @@
         }
     });
 
-$("#runAnneal").click(function (e) {
-
-		let newTableBody = document.createElement("tbody");
-		let tableBody = $("#demo-tbody")[0];
-
-		tableBody.parentNode.replaceChild(newTableBody, tableBody);
-		tableBody = newTableBody;
-		tableBody.id = "demo-tbody";
-
-		$(".gerry-demo[value='White']").prop('checked', true);
-
-		gerryDemoCheckBoxes = $(".gerry-demo")
-
-		//for every demographic that is checked
-		for (button of gerryDemoCheckBoxes){
-			if($(button).prop("checked") == true){
-				let row = tableBody.insertRow(0);
-
-				let t0 = document.createTextNode($(button).attr('value')); //demographic
-				let p0 = document.createElement("p");
-				p0.appendChild(t0);
-				row.insertCell(0).appendChild(p0);
-
-				let t1 = document.createTextNode("1"); //population
-				let p1 = document.createElement("p");
-				p1.appendChild(t1);
-				row.insertCell(1).appendChild(p1);
-
-				let t2 = document.createTextNode("1"); //percentage
-				let p2 = document.createElement("p");
-				p2.appendChild(t2);
-				row.insertCell(2).appendChild(p2);
-			}
-
-	}
-	$(".gerry-demo[value='White']").prop('checked', false);
-
-});
+//    $("#runAnneal").click(function (e) {
+//
+//		let newTableBody = document.createElement("tbody");
+//		let tableBody = $("#demo-tbody")[0];
+//
+//		tableBody.parentNode.replaceChild(newTableBody, tableBody);
+//		tableBody = newTableBody;
+//		tableBody.id = "demo-tbody";
+//
+//		$(".gerry-demo[value='White']").prop('checked', true);
+//
+//		gerryDemoCheckBoxes = $(".gerry-demo")
+//
+//		//for every demographic that is checked
+//		for (button of gerryDemoCheckBoxes){
+//			if($(button).prop("checked") == true){
+//				let row = tableBody.insertRow(0);
+//
+//				let t0 = document.createTextNode($(button).attr('value')); //demographic
+//				let p0 = document.createElement("p");
+//				p0.appendChild(t0);
+//				row.insertCell(0).appendChild(p0);
+//
+//				let t1 = document.createTextNode("1"); //population
+//				let p1 = document.createElement("p");
+//				p1.appendChild(t1);
+//				row.insertCell(1).appendChild(p1);
+//
+//				let t2 = document.createTextNode("1"); //percentage
+//				let p2 = document.createElement("p");
+//				p2.appendChild(t2);
+//				row.insertCell(2).appendChild(p2);
+//			}
+//
+//	    }
+//	    $(".gerry-demo[value='White']").prop('checked', false);
+//    });
 
 $('input[name=electionYear]').change(
     function(){
@@ -228,22 +214,15 @@ $('input[name=electionYear]').change(
 							let row = tableBody.insertRow(0);
 
 							let t0 = document.createTextNode(electionResults[partyYear]["party"]); //demographic
-							let p0 = document.createElement("p");
-							p0.appendChild(t0);
-							row.insertCell(0).appendChild(p0);
+							row.insertCell(0).appendChild(t0);
 
 							let t1 = document.createTextNode(electionResults[partyYear]["votes"]); //population
-							let p1 = document.createElement("p");
-							p1.appendChild(t1);
-							row.insertCell(1).appendChild(p1);
+							row.insertCell(1).appendChild(t1);
 
 							let t2 = document.createTextNode(electionResults[partyYear]["percentage"]); //percentage
-							let p2 = document.createElement("p");
-							p2.appendChild(t2);
-							row.insertCell(2).appendChild(p2);
+							row.insertCell(2).appendChild(t2);
 						}
 				 }
         }
     });
-
 });

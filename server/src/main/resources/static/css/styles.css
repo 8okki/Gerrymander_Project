@@ -17,14 +17,6 @@
   background: #537780;
 }
 
-.measure1{
-  float: left;
-}
-
-.measure2{
-  float: right;
-}
-
 .nav-btn {
   height: 10%;
   width: 100%;
@@ -104,6 +96,7 @@
   margin-top: 15px;
 }
 
+
 /* States CSS */
 #election-results {
   overflow: auto;
@@ -111,12 +104,30 @@
 
 html > body #election-results {
   overflow: hidden;
-  height: 220px;
+  height: 180px;
+}
+
+#election-years {
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+}
+
+.election1 {
+    float: left;
+}
+
+.election2 {
+    float: left;
+}
+
+.election3 {
+    float: left;
 }
 
 #election-results tbody {
   display: block;
-  height: 180px;
+  height: 80px;
   width: 100%;
   overflow: auto;
   overflow-x: auto;
@@ -130,10 +141,6 @@ html > body #election-results {
   margin-top: 1rem;
 }
 
-#district-election-results{
-
-}
-
 #demo-results,#pop-dist {
   margin-top: 10px;
   overflow: auto;
@@ -141,12 +148,12 @@ html > body #election-results {
 
 html > body #demo-results, html > body #pop-dist {
   overflow: hidden;
-  height: 220px;
+  height: 250px;
 }
 
 #demo-results tbody, #pop-dist tbody {
   display: block;
-  height: 180px;
+  height: 200px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
@@ -230,6 +237,21 @@ html > body #gerry-results {
 }
 
 
+/* Anneal CSS */
+#anneal-measures {
+    font-size: 13px;
+}
+
+.measure1{
+  float: left;
+}
+
+.measure2{
+  float: right;
+}
+
+
+
 /* General CSS */
 body {
   overflow: hidden;
@@ -246,6 +268,7 @@ hr {
 
 table {
   float: center;
+  font-size: 13px;
 }
 
 thead tr {
