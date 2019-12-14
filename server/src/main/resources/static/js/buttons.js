@@ -174,9 +174,10 @@ $("#runAnneal").click(function (e) {
 		tableBody = newTableBody;
 		tableBody.id = "demo-tbody";
 
+		$(".gerry-demo[value='White']").prop('checked', true);
 
 		gerryDemoCheckBoxes = $(".gerry-demo")
-		
+
 		//for every demographic that is checked
 		for (button of gerryDemoCheckBoxes){
 			if($(button).prop("checked") == true){
@@ -199,7 +200,50 @@ $("#runAnneal").click(function (e) {
 			}
 
 	}
+	$(".gerry-demo[value='White']").prop('checked', false);
 
 });
+
+$('input[name=electionYear]').change(
+    function(){
+
+			let newTableBody = document.createElement("tbody");
+			let tableBody = $("#state-election-results")[0];
+
+			tableBody.parentNode.replaceChild(newTableBody, tableBody);
+			tableBody = newTableBody;
+			tableBody.id = "state-election-results";
+
+			electionResults = {}
+			electionResults["democratic2016"] = {"party":"democratic","votes":"5,075,040","percentage":"43.6%"}
+			electionResults["republican2016"] = {"party":"republican","votes":"6,017,880","percentage":"51.7%"}
+			electionResults["democratic2012"] = {"party":"democratic","votes":"5,901,480","percentage":"50.7%"}
+			electionResults["republican2012"] = {"party":"republican","votes":"5,552,280","percentage":"47.7%"}
+			electionResults["democratic2008"] = {"party":"democratic","votes":"5,994,600","percentage":"51.5%"}
+			electionResults["republican2008"] = {"party":"republican","votes":"5,459,160","percentage":"46.9%"}
+
+        if ($(this).is(':checked')) {
+					for (partyYear of Object.keys(electionResults)){
+						if(partyYear.indexOf($(this).val()) >= 0 ){
+							let row = tableBody.insertRow(0);
+
+							let t0 = document.createTextNode(electionResults[partyYear]["party"]); //demographic
+							let p0 = document.createElement("p");
+							p0.appendChild(t0);
+							row.insertCell(0).appendChild(p0);
+
+							let t1 = document.createTextNode(electionResults[partyYear]["votes"]); //population
+							let p1 = document.createElement("p");
+							p1.appendChild(t1);
+							row.insertCell(1).appendChild(p1);
+
+							let t2 = document.createTextNode(electionResults[partyYear]["percentage"]); //percentage
+							let p2 = document.createElement("p");
+							p2.appendChild(t2);
+							row.insertCell(2).appendChild(p2);
+						}
+				 }
+        }
+    });
 
 });

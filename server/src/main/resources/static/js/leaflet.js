@@ -28,9 +28,156 @@ function style(feature) {
 	};
 }
 
+function districtStyle(feature) {
+	let color;
+	let party = feature.properties.PARTY;
+	if(party == "DEM"){
+		color = "#1E90FF"
+	}else if(party == "REP"){
+		color = "#FF0000"
+	}else{
+		color = "#FFEDA0";
+	}
+	return {
+		fillColor: color,
+		weight: 2,
+		opacity: 1,
+		color: 'white',
+		dashArray: '3',
+		fillOpacity: 0.5
+	};
+}
+
 // highlight feature
 function highlightFeature(e){
 	let layer = e.target;
+	layer.setStyle(
+		{
+			weight: 5,
+			color:"#666",
+			dashArray: '',
+			fillOpacity: 0.7
+		}
+	);
+}
+
+function onHoverPrecinct(e){
+	let layer = e.target;
+	let feature = layer.feature;
+	let properties = feature.properties;
+	let tableBody = $("#precinct-votes-table")[0];
+	let newTableBody = document.createElement("tbody");
+
+	tableBody.parentNode.replaceChild(newTableBody, tableBody);
+	tableBody = newTableBody;
+	tableBody.id = "precinct-votes-table";
+
+	let code = properties["PRECODE"];
+	let rep = properties["PRES16R"];
+	let dem = properties["PRES16D"];
+	let votes = properties["TOTVOTE16"];
+	let parties = {"DEM":dem,"REP":rep};
+
+	for(party of Object.keys(parties)){
+		let row = tableBody.insertRow(0);
+
+		let t0 = document.createTextNode(code);
+		let p0 = document.createElement("p");
+		p0.appendChild(t0);
+		row.insertCell(0).appendChild(p0);
+
+		let t1 = document.createTextNode(party);
+		let p1 = document.createElement("p");
+		p1.appendChild(t1);
+		row.insertCell(1).appendChild(p1);
+
+		let t2 = document.createTextNode(parties[party]);
+		let p2 = document.createElement("p");
+		p2.appendChild(t2);
+		row.insertCell(2).appendChild(p2);
+
+		let t3 = document.createTextNode(Math.round((parties[party]/votes)*100*10)/10 + "%");
+		let p3 = document.createElement("p");
+		p3.appendChild(t3);
+		row.insertCell(3).appendChild(p3);
+	}
+
+	layer.setStyle(
+		{
+			weight: 5,
+			color:"#666",
+			dashArray: '',
+			fillOpacity: 0.7
+		}
+	);
+}
+
+function onHoverDistrict(e){
+	let layer = e.target;
+	let feature = layer.feature;
+	let properties = feature.properties;
+	
+	// first for incumbent and general district info
+	let tableBody = $("#district-info-table")[0];
+	let newTableBody = document.createElement("tbody");
+
+	tableBody.parentNode.replaceChild(newTableBody, tableBody);
+	tableBody = newTableBody;
+	tableBody.id = "district-info-table";
+	
+	let district = properties["NAMELSAD"].replace("Congressional ","");
+	let incumbent = properties["INCUB"];
+	let party = properties["PARTY"];
+	
+	let row = tableBody.insertRow(0);
+	let t0 = document.createTextNode(district);
+	let p0 = document.createElement("p");
+	p0.appendChild(t0);
+	row.insertCell(0).appendChild(p0);
+	
+	let t1 = document.createTextNode(incumbent);
+	let p1 = document.createElement("p");
+	p1.appendChild(t1);
+	row.insertCell(1).appendChild(p1);
+
+	let t2 = document.createTextNode(party);
+	let p2 = document.createElement("p");
+	p2.appendChild(t2);
+	row.insertCell(2).appendChild(p2);
+	
+	
+	// then district demographic info
+	tableBody = $("#district-demo-table")[0];
+	newTableBody = document.createElement("tbody");
+	tableBody.parentNode.replaceChild(newTableBody, tableBody);
+	tableBody = newTableBody;
+	tableBody.id = "district-demo-table";
+	let pop = properties["TOTPOP"];
+	let white = properties["NH_WHITE"];
+	let black = properties["NH_BLACK"];
+	let asian = properties["NH_ASIAN"];
+	let hispanic = properties["HISPANIC"];
+	
+	let demos = {"White":white,"Black":black,"Asian":asian,"Hispanic":hispanic};
+	
+	for(demo of Object.keys(demos)){
+		row = tableBody.insertRow(0);
+		t0 = document.createTextNode(demo);
+		p0 = document.createElement("p");
+		p0.appendChild(t0);
+		row.insertCell(0).appendChild(p0);
+		
+		t1 = document.createTextNode(demos[demo]);
+		p1 = document.createElement("p");
+		p1.appendChild(t1);
+		row.insertCell(1).appendChild(p1);
+
+		t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
+		p2 = document.createElement("p");
+		p2.appendChild(t2);
+		row.insertCell(2).appendChild(p2);
+	}
+	
 	layer.setStyle(
 		{
 			weight: 5,
@@ -49,6 +196,28 @@ function hoverFeature(e){
 // reset highlight
 function resetHighlight(e) {
 	geojson.resetStyle(e.target);
+}
+
+function resetDistrictHighlight(e) {
+	let layer = e.target;
+	let feature = layer.feature;
+	let color;
+	let party = feature.properties.PARTY;
+	if(party == "DEM"){
+		color = "#1E90FF"
+	}else if(party == "REP"){
+		color = "#FF0000"
+	}else{
+		color = "#FFEDA0";
+	}
+	layer.setStyle({
+		fillColor: color,
+		weight: 2,
+		opacity: 1,
+		color: 'white',
+		dashArray: '3',
+		fillOpacity: 0.5
+	});
 }
 
 // zoom to feature
@@ -120,15 +289,17 @@ function initGeometry(){
 
 function onEachFeatureDistrict(feature, layer) {
 	layer.on({
-		mouseover: highlightFeature,
-		mouseout: resetHighlight//,
+		mouseover: onHoverDistrict,
+		mouseout: resetDistrictHighlight//,
 		// click: initState
 	});
 	layer.on('mouseover', function () {
-			$("#district-election-results").toggleClass("hide");
+			$("#district-info").toggleClass("hide");
+			$("#district-demo-data").toggleClass("hide");
     });
 	layer.on('mouseout', function () {
-			$("#district-election-results").toggleClass("hide");
+			$("#district-info").toggleClass("hide");
+			$("#district-demo-data").toggleClass("hide");
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
@@ -142,7 +313,7 @@ async function initCongressionalDistricts(stateName){
 		'url': "http://localhost:8080/data/" + stateName.toUpperCase() + "_DISTRICTS.json",
 		'statusCode':{
 			"200": function(data){
-				congressionalDistricts = L.geoJson(data, {style: style, onEachFeature:onEachFeatureDistrict});
+				congressionalDistricts = L.geoJson(data, {style: districtStyle, onEachFeature:onEachFeatureDistrict});
 				districtLoadedFlag = true;
 			}
 		}
@@ -151,7 +322,7 @@ async function initCongressionalDistricts(stateName){
 
 function onEachFeaturePrecinct(feature, layer) {
 	layer.on({
-		mouseover: highlightFeature,
+		mouseover: onHoverPrecinct,
 		mouseout: resetHighlight//,
 		// click: initState
 	});
@@ -187,14 +358,6 @@ function onEachFeature(feature, layer) {
 		mouseout: resetHighlight,
 		click: initState
 	});
-	layer.on('mouseover', function () {
-			$("#voting-data").toggleClass("hide");
-			// $("#district-demo-data").toggleClass("hide");
-    });
-	layer.on('mouseout', function () {
-			$("#voting-data").toggleClass("hide");
-			// $("#district-demo-data").toggleClass("hide");
-	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
 	stateLoaded[feature.properties.name] = false;
@@ -219,7 +382,8 @@ var zoomlevel = map.getZoom();
     if (zoomlevel < 7){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
-						$("#district-election-results").addClass("hide");
+			$("#district-demo-data").addClass("hide");
+			$("#district-info").addClass("hide");
         }
 				// else {
         //     console.log("no districts layer active");
@@ -232,7 +396,8 @@ var zoomlevel = map.getZoom();
 				else if(precinctLoadedFlag == true){
 					map.addLayer(precincts);
         	map.removeLayer(congressionalDistricts);
-					$("#district-election-results").addClass("hide");
+					$("#district-demo-data").addClass("hide");
+					$("#district-info").addClass("hide");
         }
     }
     else if (zoomlevel >= 7 && zoomlevel < 9){
