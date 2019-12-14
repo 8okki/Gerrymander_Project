@@ -9,11 +9,10 @@ import com.cse308.server.enums.Demographic;
 import com.cse308.server.measure.MeasureFunction;
 import com.cse308.server.result.DistrictInfo;
 import com.cse308.server.result.VoteBlocResult;
+import com.sun.xml.bind.v2.TODO;
 
 import java.util.*;
 import javax.persistence.*;
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Fetch;
 
 /**
  *
@@ -209,10 +208,10 @@ public class State {
         // Initialize scores
         clusterScores = new HashMap<>();
         updateScores();
-        double initial = objectiveFunction();
+        double initialScore = objectiveFunction();
 
         // Anneal each cluster until converges
-        double prevScore, newScore = 0;
+        double prevScore = 0, newScore = 0;
         int stag_count = 0;
         while (stag_count <= 20) {
             prevScore = newScore;
@@ -226,11 +225,10 @@ public class State {
 
             if(isStagnant(prevScore, newScore))
                 stag_count++;
-            else
-                stag_count = 0;
         }
 
-        double[] result = {initial, newScore};
+        double finalScore = newScore > prevScore ? newScore : prevScore;
+        double[] result = {initialScore, finalScore};
         return result;
     }
 
@@ -262,7 +260,7 @@ public class State {
     }
 
     public boolean isStagnant(double prevScore, double newScore){
-        return Math.abs(prevScore - newScore) < 0.0001;
+        return Math.abs(prevScore - newScore) < 0.0001 || newScore <= prevScore;
     }
 
     @Override

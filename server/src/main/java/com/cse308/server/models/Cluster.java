@@ -8,13 +8,14 @@ package com.cse308.server.models;
 import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.result.DistrictInfo;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.algorithm.MinimumBoundingCircle;
+
 import static com.cse308.server.enums.PoliticalParty.DEMOCRATIC;
 import static com.cse308.server.enums.PoliticalParty.REPUBLICAN;
 
 import java.util.*;
 
-import com.vividsolutions.jts.geom.*;
-import com.vividsolutions.jts.algorithm.MinimumBoundingCircle;
 
 /**
  *
@@ -323,10 +324,8 @@ public class Cluster {
             Geometry poly = piter.next().getGeometry();
             if (poly instanceof Polygon)
                 polygons[i] = (Polygon) poly;
-            else {
-                System.out.println(poly);
+            else
                 polygons[i] = (Polygon) poly.convexHull();
-            }
         }
         multiPolygon = new MultiPolygon(polygons, new GeometryFactory());
         multiPolygonUpdated = true;

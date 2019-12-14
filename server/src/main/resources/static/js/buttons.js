@@ -108,7 +108,7 @@
 			let demographics = ["WHITE", "ASIAN", "BLACK"];
 			let demographicMinimum = 0.13;
 			let demographicMaximum = 0.75;
-			let targetDistrictNum = 10;
+			let targetDistrictNum = 60;
 
 			$.ajax({
 				'type': "POST",
@@ -139,8 +139,7 @@
             window.alert("Please run phase 1 first.");
         } else {
             let measureWeights = {
-                'REOCK_COMPACTNESS' : 1,
-                'CONVEX_HULL_COMPACTNESS' : 1
+                'EDGE_COMPACTNESS' : 1,
              }
 
             $.ajax({

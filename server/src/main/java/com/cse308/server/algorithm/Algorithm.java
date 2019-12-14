@@ -23,10 +23,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.locationtech.jts.io.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.locationtech.jts.io.WKTReader;
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.GeoJSONFactory;
 import org.wololo.jts2geojson.GeoJSONReader;
 
 /**
@@ -60,15 +60,11 @@ public class Algorithm {
     }
 
     public void initGeometry() {
-        try {
-            Set<Precinct> precincts = state.getPrecincts();
-            GeoJSONReader reader = new GeoJSONReader();
-            for (Precinct precinct : precincts) {
-                precinct.setGeometry(reader.read(precinct.getGeojson()));
-                System.out.println(precinct.getGeometry());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        Set<Precinct> precincts = state.getPrecincts();
+        GeoJSONReader reader = new GeoJSONReader();
+        for (Precinct precinct : precincts){
+            Feature feature = (Feature) GeoJSONFactory.create(precinct.getGeojson());
+            precinct.setGeometry(reader.read(feature.getGeometry()));
         }
     }
     

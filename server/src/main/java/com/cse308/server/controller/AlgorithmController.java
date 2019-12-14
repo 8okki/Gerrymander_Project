@@ -72,7 +72,7 @@ public class AlgorithmController {
             algoService.initGeometry();
             return new ResponseEntity<>(responseBody,HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             responseBody.addProperty("error", "Invalid request body");
             return new ResponseEntity<>(responseBody,HttpStatus.BAD_REQUEST);
         }
