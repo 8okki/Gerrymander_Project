@@ -3,6 +3,7 @@ var geojson;
 var currentState;
 var congressionalDistricts;
 var precincts;
+var statePrecincts = {"OHIO":{}};
 var stateIDs = {};
 var stateLoadedFlags = {};
 var districtLoadedFlag = false;
@@ -333,8 +334,9 @@ function onEachFeaturePrecinct(feature, layer) {
 	layer.on('mouseout', function () {
 			$("#precinct-voting-data").toggleClass("hide");
 	});
-	layer._leaflet_id = feature.id;
-	stateIDs[feature.properties.name] = feature.id;
+	layer._leaflet_id = L.Util.stamp(layer);
+	statePrecincts[currentState.name.toUpperCase()][feature.properties.PRECODE] = layer._leaflet_id;
+	//stateIDs[feature.properties.name] = feature.id;
 	stateLoadedFlags[feature.properties.name] = false;
 }
 
