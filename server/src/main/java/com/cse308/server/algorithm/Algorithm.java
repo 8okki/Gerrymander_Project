@@ -60,6 +60,10 @@ public class Algorithm {
     }
 
     public void initGeometry() {
+        if(state.isGeometryLoaded()){
+            return;
+        }
+        state.setGeometryLoaded(true);
         Set<Precinct> precincts = state.getPrecincts();
         GeoJSONReader reader = new GeoJSONReader();
         for (Precinct precinct : precincts){
@@ -70,6 +74,10 @@ public class Algorithm {
     }
     
     public void initNeighbors() {
+        if(state.areNeighborsLoaded()){
+            return;
+        }
+        state.setNeighborsLoaded(true);
         Set<Precinct> precincts = state.getPrecincts();
         for (Precinct precinct : precincts){
             Set<Precinct> neighbors = new HashSet<>();

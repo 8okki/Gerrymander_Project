@@ -104,14 +104,23 @@ function onHoverPrecinct(e){
 		row.insertCell(3).appendChild(t3);
 	}
 
-	layer.setStyle(
-		{
-			weight: 5,
-			color:"#666",
-			dashArray: '',
-			fillOpacity: 0.7
-		}
-	);
+	if(layer.districtGroup){
+		layer.districtGroup.setStyle(
+			{
+				opacity: 0,
+				fillOpacity: 1.0
+			}
+		);
+	}else{
+		layer.setStyle(
+			{
+				weight: 5,
+				color:"#666",
+				dashArray: '',
+				fillOpacity: 0.7
+			}
+		);
+	}
 }
 
 function onHoverDistrict(e){
@@ -192,13 +201,25 @@ function resetHighlight(e) {
 
 function resetPrecinctHighlight(e) {
 	let layer = e.target;
-	layer.setStyle({
-		weight: 2,
-		opacity: 1,
-		color: 'white',
-		dashArray: '3',
-		fillOpacity: 0.5
-	});
+	if(layer.districtGroup){
+		layer.districtGroup.setStyle(
+			{
+				weight: 2,
+				color: 'white',
+				opacity: 1,
+				dashArray: '3',
+				fillOpacity: 0.5
+			}
+		);
+	}else{
+		layer.setStyle({
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.5
+		});
+	}
 }
 
 function resetDistrictHighlight(e) {

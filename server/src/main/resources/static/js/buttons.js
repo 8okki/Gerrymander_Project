@@ -165,10 +165,13 @@
 						(async function(){
 							for(district of data.results){
 								let randomColor = getRandomColor();
+								let districtGroup = L.featureGroup();
 								for(precinct of district.precincts){
 									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
-									layer.setStyle({ fillColor: randomColor });
+									districtGroup.addLayer(layer);
+									layer.districtGroup = districtGroup;
 								}
+								districtGroup.setStyle({ fillColor: randomColor });
 							}
 						})();
 					},

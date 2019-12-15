@@ -34,10 +34,16 @@ public class State {
     @Id
     private String name;
     private int population;
-
+    
     @OneToMany(mappedBy="state",fetch=FetchType.LAZY)
     private Set<Precinct> precincts;
 
+    @Transient
+    private boolean neighborsLoaded;
+    
+    @Transient
+    private boolean geometryLoaded;
+    
     @Transient
     private Set<Cluster> clusters;
 
@@ -70,7 +76,15 @@ public class State {
     }
 
     public MeasureFunction getClusterScoreFunction() { return clusterScoreFunction; }
-
+    
+    public boolean areNeighborsLoaded(){
+        return this.neighborsLoaded;
+    }
+    
+    public boolean isGeometryLoaded(){
+        return this.geometryLoaded;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -81,6 +95,14 @@ public class State {
 
     public void setPrecincts(Set precincts) {
         this.precincts = precincts;
+    }
+    
+    public void setNeighborsLoaded(boolean neighborsLoaded){
+        this.neighborsLoaded = neighborsLoaded;
+    }
+    
+    public void setGeometryLoaded(boolean geometryLoaded){
+        this.geometryLoaded = geometryLoaded;
     }
 
     public void setScoreFunction(MeasureFunction function) { this.clusterScoreFunction = function; }
