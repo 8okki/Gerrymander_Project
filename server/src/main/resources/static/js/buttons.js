@@ -120,6 +120,35 @@
 					}
 				}
 			});
+			let newTableBody = document.createElement("tbody");
+			let tableBody = $("#demo-tbody")[0];
+
+			tableBody.parentNode.replaceChild(newTableBody, tableBody);
+			tableBody = newTableBody;
+			tableBody.id = "demo-tbody";
+
+			$(".gerry-demo[value='WHITE']").prop('checked', true);
+
+			gerryDemoCheckBoxes = $(".gerry-demo")
+
+			//for every demographic that is checked
+			for (button of gerryDemoCheckBoxes){
+				console.log($(button).prop("checked"));
+				if($(button).prop("checked") == true){
+					let row = tableBody.insertRow(0);
+
+					let t0 = document.createTextNode($(button).attr('value')); //demographic
+					row.insertCell(0).appendChild(t0);
+
+					let t1 = document.createTextNode("1"); //population
+					row.insertCell(1).appendChild(t1);
+
+					let t2 = document.createTextNode("1"); //percentage
+					row.insertCell(2).appendChild(t2);
+				}
+
+		    }
+		    $(".gerry-demo[value='White']").prop('checked', false);
 		}
 	});
 
@@ -172,38 +201,6 @@
             });
         }
     });
-
-    $("#runAnneal").click(function (e) {
-
-		let newTableBody = document.createElement("tbody");
-		let tableBody = $("#demo-tbody")[0];
-
-		tableBody.parentNode.replaceChild(newTableBody, tableBody);
-		tableBody = newTableBody;
-		tableBody.id = "demo-tbody";
-
-		$(".gerry-demo[value='White']").prop('checked', true);
-
-		gerryDemoCheckBoxes = $(".gerry-demo")
-
-		//for every demographic that is checked
-		for (button of gerryDemoCheckBoxes){
-			if($(button).prop("checked") == true){
-				let row = tableBody.insertRow(0);
-
-				let t0 = document.createTextNode($(button).attr('value')); //demographic
-				row.insertCell(0).appendChild(t0);
-
-				let t1 = document.createTextNode("1"); //population
-				row.insertCell(1).appendChild(t1);
-
-				let t2 = document.createTextNode("1"); //percentage
-				row.insertCell(2).appendChild(t2);
-			}
-
-	    }
-	    $(".gerry-demo[value='White']").prop('checked', false);
-   });
 
     $('input[name=electionYear]').change(
         function(){
