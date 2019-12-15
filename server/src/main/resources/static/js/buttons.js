@@ -128,7 +128,7 @@
             window.alert("Please run phase 1 first.");
         } else {
             measureWeights = {};
-            let weight = 1;
+            let weight = 0.5;
             let measureCheckBoxes = $("[name='measure']");
             for(measureCheckBox of measureCheckBoxes){
                 if(measureCheckBox.checked){
