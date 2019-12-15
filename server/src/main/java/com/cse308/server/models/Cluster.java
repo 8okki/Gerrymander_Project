@@ -234,14 +234,6 @@ public class Cluster {
         return populationSum <= targetPopulation;
     }
 
-    public String toString(){
-        String str = id + " - ";
-        for(Cluster neighbor : adjClusters){
-            str += neighbor.id + ", ";
-        }
-        return str;
-    }
-
 
     /* Phase 2 */
     public void anneal() {
@@ -258,7 +250,7 @@ public class Cluster {
 
     public Move findBestMove(Set<Precinct> precincts) {
         Move bestMove = null;
-        double bestScore = Double.MIN_VALUE;
+        double bestScore = Double.NEGATIVE_INFINITY;
 
         Move currentMove;
         double score;
@@ -268,7 +260,7 @@ public class Cluster {
 
             currentMove = new Move(precinct, from, to);
             currentMove.execute();
-            score = state.getClusterScoreFunction().calculateMeasure(this);
+            score = state.objectiveFunction();
             if (score >= bestScore) {
                 bestMove = currentMove;
                 bestScore = score;

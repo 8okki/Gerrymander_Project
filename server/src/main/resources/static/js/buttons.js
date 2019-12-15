@@ -219,72 +219,41 @@
             });
         }
     });
-	 //
-   // $("#runAnneal").click(function (e) {
-	 //
-		// let newTableBody = document.createElement("tbody");
-		// let tableBody = $("#demo-tbody")[0];
-	 //
-		// tableBody.parentNode.replaceChild(newTableBody, tableBody);
-		// tableBody = newTableBody;
-		// tableBody.id = "demo-tbody";
-	 //
-		// $(".gerry-demo[value='White']").prop('checked', true);
-	 //
-		// gerryDemoCheckBoxes = $(".gerry-demo")
-	 //
-		// //for every demographic that is checked
-		// for (button of gerryDemoCheckBoxes){
-		// 	if($(button).prop("checked") == true){
-		// 		let row = tableBody.insertRow(0);
-	 //
-		// 		let t0 = document.createTextNode($(button).attr('value')); //demographic
-		// 		row.insertCell(0).appendChild(t0);
-	 //
-		// 		let t1 = document.createTextNode("1"); //population
-		// 		row.insertCell(1).appendChild(t1);
-	 //
-		// 		let t2 = document.createTextNode("1"); //percentage
-		// 		row.insertCell(2).appendChild(t2);
-		// 	}
-	 //
-	 //    }
-	 //    $(".gerry-demo[value='White']").prop('checked', false);
-   // });
 
-$('input[name=electionYear]').change(
-    function(){
+    $('input[name=electionYear]').change(
+        function(){
 
-			let newTableBody = document.createElement("tbody");
-			let tableBody = $("#state-election-results")[0];
+                let newTableBody = document.createElement("tbody");
+                let tableBody = $("#state-election-results")[0];
 
-			tableBody.parentNode.replaceChild(newTableBody, tableBody);
-			tableBody = newTableBody;
-			tableBody.id = "state-election-results";
+                tableBody.parentNode.replaceChild(newTableBody, tableBody);
+                tableBody = newTableBody;
+                tableBody.id = "state-election-results";
 
-			electionResults = {}
-			electionResults["democratic2016"] = {"party":"Democratic","votes":"5,075,040","percentage":"43.6%"}
-			electionResults["republican2016"] = {"party":"Republican","votes":"6,017,880","percentage":"51.7%"}
-			electionResults["democratic2012"] = {"party":"Democratic","votes":"5,901,480","percentage":"50.7%"}
-			electionResults["republican2012"] = {"party":"Republican","votes":"5,552,280","percentage":"47.7%"}
-			electionResults["democratic2008"] = {"party":"Democratic","votes":"5,994,600","percentage":"51.5%"}
-			electionResults["republican2008"] = {"party":"Republican","votes":"5,459,160","percentage":"46.9%"}
+                electionResults = {}
+                electionResults["democratic2016"] = {"party":"Democratic","votes":"5,075,040","percentage":"43.6%"}
+                electionResults["republican2016"] = {"party":"Republican","votes":"6,017,880","percentage":"51.7%"}
+                electionResults["democratic2012"] = {"party":"Democratic","votes":"5,901,480","percentage":"50.7%"}
+                electionResults["republican2012"] = {"party":"Republican","votes":"5,552,280","percentage":"47.7%"}
+                electionResults["democratic2008"] = {"party":"Democratic","votes":"5,994,600","percentage":"51.5%"}
+                electionResults["republican2008"] = {"party":"Republican","votes":"5,459,160","percentage":"46.9%"}
 
-        if ($(this).is(':checked')) {
-					for (partyYear of Object.keys(electionResults)){
-						if(partyYear.indexOf($(this).val()) >= 0 ){
-							let row = tableBody.insertRow(0);
+            if ($(this).is(':checked')) {
+                        for (partyYear of Object.keys(electionResults)){
+                            if(partyYear.indexOf($(this).val()) >= 0 ){
+                                let row = tableBody.insertRow(0);
 
-							let t0 = document.createTextNode(electionResults[partyYear]["party"]); //demographic
-							row.insertCell(0).appendChild(t0);
+                                let t0 = document.createTextNode(electionResults[partyYear]["party"]); //demographic
+                                row.insertCell(0).appendChild(t0);
 
-							let t1 = document.createTextNode(electionResults[partyYear]["votes"]); //population
-							row.insertCell(1).appendChild(t1);
+                                let t1 = document.createTextNode(electionResults[partyYear]["votes"]); //population
+                                row.insertCell(1).appendChild(t1);
 
-							let t2 = document.createTextNode(electionResults[partyYear]["percentage"]); //percentage
-							row.insertCell(2).appendChild(t2);
-						}
-				 }
-        }
-    });
+                                let t2 = document.createTextNode(electionResults[partyYear]["percentage"]); //percentage
+                                row.insertCell(2).appendChild(t2);
+                            }
+                     }
+            }
+        });
+
 });
