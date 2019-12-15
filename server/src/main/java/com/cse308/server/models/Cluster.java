@@ -277,12 +277,16 @@ public class Cluster {
     }
 
     public Move findBestMove(double currentScore) {
+        Set<Precinct> candidates = new HashSet<>();
+        for(Precinct precinct : externals)
+            candidates.add(precinct);
+
         Move bestMove = null;
         double bestScore = currentScore;
 
         Move currentMove;
         double score;
-        for (Precinct precinct : externals) {
+        for (Precinct precinct : candidates) {
             Cluster to = this;
             Cluster from = precinct.getCurrentCluster();
 
