@@ -108,7 +108,7 @@ function onHoverDistrict(e){
 	let layer = e.target;
 	let feature = layer.feature;
 	let properties = feature.properties;
-	
+
 	// first for incumbent and general district info
 	let tableBody = $("#district-info-table")[0];
 	let newTableBody = document.createElement("tbody");
@@ -116,23 +116,23 @@ function onHoverDistrict(e){
 	tableBody.parentNode.replaceChild(newTableBody, tableBody);
 	tableBody = newTableBody;
 	tableBody.id = "district-info-table";
-	
+
 	let district = properties["NAMELSAD"].replace("Congressional ","");
 	let incumbent = properties["INCUB"];
 	let party = properties["PARTY"];
-	
+
 	let row = tableBody.insertRow(0);
 
 	let t0 = document.createTextNode(district);
 	row.insertCell(0).appendChild(t0);
-	
+
 	let t1 = document.createTextNode(incumbent);
 	row.insertCell(1).appendChild(t1);
 
 	let t2 = document.createTextNode(party);
 	row.insertCell(2).appendChild(t2);
-	
-	
+
+
 	// then district demographic info
 	tableBody = $("#district-demo-table")[0];
 	newTableBody = document.createElement("tbody");
@@ -144,22 +144,22 @@ function onHoverDistrict(e){
 	let black = properties["NH_BLACK"];
 	let asian = properties["NH_ASIAN"];
 	let hispanic = properties["HISPANIC"];
-	
+
 	let demos = {"White":white,"Black":black,"Asian":asian,"Hispanic":hispanic};
-	
+
 	for(demo of Object.keys(demos)){
 		row = tableBody.insertRow(0);
 
 		t0 = document.createTextNode(demo);
 		row.insertCell(0).appendChild(t0);
-		
+
 		t1 = document.createTextNode(demos[demo]);
 		row.insertCell(1).appendChild(t1);
 
 		t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
 		row.insertCell(2).appendChild(t2);
 	}
-	
+
 	layer.setStyle(
 		{
 			weight: 5,
@@ -219,7 +219,8 @@ function initState(e) {
     		'contentType': "application/json",
     		'statusCode':{
     			"200": function (data) {
-    			    currentState = data;
+						$(".alert").addClass("hide");
+    			  currentState = data;
     				stateLoadedFlags[stateName] = true;
 					initCongressionalDistricts(stateName);
 					console.log('state loaded');

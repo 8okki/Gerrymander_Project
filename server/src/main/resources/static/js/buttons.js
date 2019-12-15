@@ -2,7 +2,7 @@
 
 	$("#runBlocs").click(function (e) {
 		if (currentState == null) {
-			$(".alert").toggleClass("hide");
+			$(".alert").removeClass("hide");
 		} else {
 			let popSlider = $("#popSlider")[0];
 			let voteSlider = $("#voteSlider")[0];
@@ -84,11 +84,29 @@
 		}
 	});
 
+	$("#legalGuide").click(function (e) {
+		if (currentState == null) {
+			$(".alert").removeClass("hide");
+		} else {
+				$("#myModal")[0].style.display = "block";
+		}
+	});
+
+	$(".close").click(function (e) {
+				$("#myModal")[0].style.display = "none";
+	});
+
+	$(window).click(function (e) {
+		if (event.target == $("#myModal")[0]) {
+    	$("#myModal")[0].style.display = "none";
+    }
+	});
+
 	$("#runGerry").click(function (e) {
 		if (currentState == null) {
-			$(".alert").toggleClass("hide");
+			$(".alert").removeClass("hide");
 		} else {
-		    let demographics = [];
+		  let demographics = [];
 			let demoCheckBoxes = $("[name='demographic']");
             for (demoCheckBox of demoCheckBoxes){
                 if(demoCheckBox.checked){
@@ -154,7 +172,7 @@
 
     $("#runAnneal").click(function (e) {
         if (currentState == null) {
-            $(".alert").toggleClass("hide");
+            $(".alert").removeClass("hide");
         } else {
             measureWeights = {};
             let weight = 0.5;
