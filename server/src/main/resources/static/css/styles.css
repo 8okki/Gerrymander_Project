@@ -61,6 +61,11 @@
   background: white;
 }
 
+.inner{
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .hide{
   display: none;
 }

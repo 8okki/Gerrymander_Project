@@ -290,7 +290,8 @@
 			<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
 			<p class="mb-1">Bloc Vote Threshold: <span id="vote"></span> %</p>
 			<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
-			<button id="runBlocs" class="btn btn-outline-success btn-sm">Analyze</button>
+				<button id="runBlocs" class="btn btn-outline-success btn-sm inner">Analyze</button>
+				<p class = "alert inner hide"> Please select a state first.</p>
 			<hr>
 		</div>
 		<div id="bloc-results">
@@ -344,21 +345,29 @@
 				</div>
 				<input type="text" class="form-control" aria-describedby="cong-dist">
 			</div>
-			<button id="runGerry" class="btn btn-outline-success btn-sm my-2">Run Gerrymander</button>
+			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 inner">Run Gerrymander</button>
+			<p class = "alert inner hide"> Please select a state first.</p>
 			<hr>
-		</div>
-		<div id="gerry-results">
-			<h6>Number of Majority-Minority Districts</h6>
-			<table class="table table-striped">
-				<thead class="thead-dark">
-				<tr>
-					<th scope="col"> Before Gerrymander </th>
-					<th scope="col"> After Gerrymander </th>
-				</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
+			<div id="pop-dist">
+				<h6>Demographic Data</h6>
+				<table class="table table-striped" id="demo-table">
+					<thead class="thead-dark">
+					<tr>
+						<th scope="col">
+							<p>Demographic</p>
+						</th>
+						<th scope="col">
+							<p>Population</p>
+						</th>
+						<th scope="col">
+							<p>Percentage</p>
+						</th>
+					</tr>
+					</thead>
+					<tbody id = "demo-tbody">
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>
@@ -395,8 +404,22 @@
 					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_DEMOCRATIC"> Gerrymander Democratic<br>
 				</div>
 			</div>
-			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2">Run Annealing</button>
+			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2 inner">Run Annealing</button>
+			<p class = "alert inner hide"> Please select a state first.</p>
 			<hr>
+			<div id="gerry-results">
+				<h6>Number of Majority-Minority Districts</h6>
+				<table class="table table-striped">
+					<thead class="thead-dark">
+					<tr>
+						<th scope="col"> Before Gerrymander </th>
+						<th scope="col"> After Gerrymander </th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div id="anneal-scores">
 			<h6>Gerrymander Score</h6>
@@ -414,26 +437,6 @@
 					<td> 0 </td>
 					<td> 0 </td>
 				</tr>
-				</tbody>
-			</table>
-		</div>
-		<div id="pop-dist">
-			<h6>Demographic Data</h6>
-			<table class="table table-striped" id="demo-table">
-				<thead class="thead-dark">
-				<tr>
-					<th scope="col">
-						<p>Demographic</p>
-					</th>
-					<th scope="col">
-						<p>Population</p>
-					</th>
-					<th scope="col">
-						<p>Percentage</p>
-					</th>
-				</tr>
-				</thead>
-				<tbody id = "demo-tbody">
 				</tbody>
 			</table>
 		</div>
