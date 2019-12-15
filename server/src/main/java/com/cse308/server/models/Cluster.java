@@ -194,14 +194,14 @@ public class Cluster {
         for (Precinct precinct : cluster.getPrecincts())
             addPrecinct(precinct);
 
-        for (Demographic demographic : demographicPopDist.keySet()){
+        /*for (Demographic demographic : demographicPopDist.keySet()){
             int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
             demographicPopDist.put(demographic, sum);
-        }
+        }*/
 
         unlink(cluster);
-
-        cluster.setIsMerged(true);
+        
+        //cluster.setIsMerged(true);
     }
 
     public void unlink(Cluster cluster){
@@ -210,6 +210,7 @@ public class Cluster {
 
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
+        this.state.getClusters().remove(cluster);
 
         for(Cluster neighbor : cluster.getAdjacentClusters()){
             neighbor.getAdjacentClusters().add(this);
@@ -217,7 +218,6 @@ public class Cluster {
             adjClusters.add(neighbor);
         }
         cluster.setAdjClusters(new HashSet<>());
-
 //        System.out.println("After: " + this);
 //        System.out.println("After: " + cluster);
     }
@@ -238,11 +238,13 @@ public class Cluster {
         int pairDemographicPopSum = this.getDemographicPopSum(demographics) + cluster.getDemographicPopSum(demographics);
         int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
         float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
+        //System.out.println(ratio + " " + minRange + " " + maxRange);
         return ratio >= minRange && ratio <= maxRange;
     }
 
     private boolean isPair(Cluster cluster, float targetPopulation) {
         int populationSum = this.getPopulation() + cluster.getPopulation();
+        //System.out.println(populationSum + " " + targetPopulation);
         return populationSum <= targetPopulation;
     }
 

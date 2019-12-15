@@ -96,8 +96,8 @@ public class Algorithm {
         // Create initial clusters
         while(state.getClusters().size() > targetDistrictNum) {
             state.resetPairs();
-//            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
-//            state.setPairs(targetPopulation);
+            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
+            state.setPairs(targetPopulation);
             state.mergePairs();
             System.out.println("CURRENT SIZE - " + state.getClusters().size());
         }
