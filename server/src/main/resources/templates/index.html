@@ -254,8 +254,8 @@
 			<input type="range" id="popSlider" class="slider mb-2" min="1" max="100" value="50">
 			<p class="mb-1">Bloc Vote Threshold: <span id="vote"></span> %</p>
 			<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
-			<button id="runBlocs" class="btn btn-outline-success btn-sm inner">Analyze</button>
-			<p class="alert inner hide"> Please select a state first.</p>
+				<button id="runBlocs" class="btn btn-outline-success btn-sm sameLine">Analyze</button>
+				<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
 		</div>
 		<div id="bloc-results" class="hide">
@@ -285,7 +285,66 @@
 	</div>
 	<div id="gerry-contents" class="contents p-2">
 		<div id="gerry-title" class="mb-3">
-			<h4><i class="fas fa-balance-scale-right mr-2"></i>Gerrymander</h4>
+			<h4 class="sameLine"><i class="fas fa-balance-scale-right mr-2 sameLine"></i>Gerrymander</h4>
+			<button id="legalGuide" class="btn btn-outline-success btn-sm my-2">Legal Guidelines</button>
+
+			<!-- The Modal -->
+			<div id="myModal" class="modal">
+
+			  <!-- Modal content -->
+			  <div class="modal-content">
+			    <span class="close">&times;</span>
+			    <p>(A) The Ohio redistricting commission shall be responsible for the redistricting of this state for the general assembly. The commission shall consist of the following seven members:
+
+					(1) The governor;
+
+					(2) The auditor of state;
+
+					(3) The secretary of state;
+
+					(4) One person appointed by the speaker of the house of representatives;
+
+					(5) One person appointed by the legislative leader of the largest political party in the house of representatives of which the speaker of the house of representatives is not a member;
+
+					(6) One person appointed by the president of the senate; and
+
+					(7) One person appointed by the legislative leader of the largest political party in the senate of which the president of the senate is not a member.
+
+					No appointed member of the commission shall be a current member of congress.
+
+					The legislative leaders in the senate and the house of representatives of each of the two largest political parties represented in the general assembly, acting jointly by political party, shall appoint a member of the commission to serve as a co-chairperson of the commission.
+
+					(B)(1) Unless otherwise specified in this article or in Article XIX of this constitution, a simple majority of the commission members shall be required for any action by the commission.
+
+					(2)(a) Except as otherwise provided in division (B)(2)(b) of this section, a majority vote of the members of the commission, including at least one member of the commission who is a member of each of the two largest political parties represented in the general assembly, shall be required to do any of the following:
+					(i) Adopt rules of the commission;
+					(ii) Hire staff for the commission;
+					(iii) Expend funds.
+
+					(b) If the commission is unable to agree, by the vote required under division (B)(2)(a) of this section, on the manner in which funds should be expended, each co-chairperson of the commission shall have the authority to expend one-half of the funds that have been appropriated to the commission.
+
+					(3) The affirmative vote of four members of the commission, including at least two members of the commission who represent each of the two largest political parties represented in the general assembly shall be required to adopt any general assembly district plan. For the purposes of this division and of Section 1 of Article XIX of this constitution, a member of the commission shall be considered to represent a political party if the member was appointed to the commission by a member of that political party or if, in the case of the governor, the auditor of state, or the secretary of state, the member is a member of that political party.
+
+					(C) At the first meeting of the commission, which the governor shall convene only in a year ending in the numeral one, except as provided in Sections 8 and 9 of this article and in Sections 1 and 3 of Article XIX of this constitution, the commission shall set a schedule for the adoption of procedural rules for the operation of the commission.
+
+					The commission shall release to the public a proposed general assembly district plan for the boundaries for each of the ninety-nine house of representatives districts and the thirty-three senate districts. The commission shall draft the proposed plan in the manner prescribed in this article. Before adopting, but after introducing, a proposed plan, the commission shall conduct a minimum of three public hearings across the state to present the proposed plan and shall seek public input regarding the proposed plan. All meetings of the commission shall be open to the public. Meetings shall be broadcast by electronic means of transmission using a medium readily accessible by the general public.
+
+					The commission shall adopt a final general assembly district plan not later than the first day of September of a year ending in the numeral one. After the commission adopts a final plan, the commission shall promptly file the plan with the secretary of state. Upon filing with the secretary of state, the plan shall become effective.
+
+					Four weeks after the adoption of a general assembly district plan or a congressional district plan, whichever is later, the commission shall be automatically dissolved.
+
+					(D) The general assembly shall be responsible for making the appropriations it determines necessary in order for the commission to perform its duties under this article and Article XIX of this constitution.
+
+					(SJR 5, 132nd General Assembly, Approved May 8, 2018; Effective 1/1/2021)
+
+					(HJR 12, 130th General Assembly; Former § 1 repealed; Approved November 3, 2015; Effective 1/1/2021)
+
+					(Enacted Nov. 7, 1967. Former § 1 repealed, see SJR 24, 107th General Assembly.)</p>
+			  </div>
+
+			</div>
+
+			<p class = "alert sameLine hide"> Please select a state first.</p>
 		</div>
 		<div id="gerry-run">
 			<hr>
@@ -309,8 +368,8 @@
 				</div>
 				<input type="text" class="form-control" aria-describedby="cong-dist">
 			</div>
-			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 inner">Run Gerrymander</button>
-			<p class="alert inner hide"> Please select a state first.</p>
+			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 sameLine">Run Gerrymander</button>
+			<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
 			<div id="gerry-results" class="hide">
 				<h6>Demographic Data of Current District</h6>
@@ -367,8 +426,8 @@
 					Democratic<br>
 				</div>
 			</div>
-			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2 inner">Run Annealing</button>
-			<p class="alert inner hide"> Please select a state first.</p>
+			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2 sameLine">Run Annealing</button>
+			<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
 		</div>
 		<div id="anneal-results" class="hide">
