@@ -4,8 +4,7 @@ package com.cse308.server.measure;
 import com.cse308.server.models.Cluster;
 import com.cse308.server.models.Precinct;
 import com.cse308.server.models.State;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.*;
 
 /**
  *
@@ -14,6 +13,8 @@ import org.locationtech.jts.geom.MultiPolygon;
 public enum Measure implements MeasureFunction {
 
     // Types of measure
+
+    // Fast
     PARTISAN_FAIRNESS{
         @Override
         /**
@@ -58,6 +59,8 @@ public enum Measure implements MeasureFunction {
             }
             return 1.0 - ((inefficient_V * 1.0) / tv);        }
     },
+
+    // Slow
     REOCK_COMPACTNESS {
         @Override
         public double calculateMeasure(Cluster cluster) {
@@ -66,6 +69,8 @@ public enum Measure implements MeasureFunction {
             return shape.getArea() / boundingCircle.getArea();
         }
     },
+
+    // Very slow
     CONVEX_HULL_COMPACTNESS{
         @Override
         public double calculateMeasure(Cluster cluster) {
@@ -74,6 +79,8 @@ public enum Measure implements MeasureFunction {
             return shape.getArea() / convexHull.getArea();
         }
     },
+
+    // Fast, Doesn't anneal
     EDGE_COMPACTNESS {
         @Override
         /**
@@ -83,9 +90,13 @@ public enum Measure implements MeasureFunction {
         public double calculateMeasure(Cluster cluster) {
             double internalEdges = cluster.getInternalEdges();
             double totalEdges = internalEdges + cluster.getExternalEdges();
+            if (totalEdges == 0)
+                return 0;
             return internalEdges / totalEdges;
         }
     },
+
+    // Fast, Doesn't anneal
     EFFICIENCY_GAP {
         @Override
         /**
@@ -129,6 +140,8 @@ public enum Measure implements MeasureFunction {
             return 1.0 - ((inefficient_V * 1.0) / tv);
         }
     },
+
+    // Fast, Doesn't anneal
     POPULATION_EQUALITY {
         @Override
         public double calculateMeasure(Cluster cluster) {
@@ -144,6 +157,8 @@ public enum Measure implements MeasureFunction {
                     Math.abs( truePopulation -(double)idealPopulation) /idealPopulation, 1.25);
         }
     },
+
+    // Very slow
     POPULATION_HOMOGENEITY {
         @Override
         /**
@@ -163,6 +178,8 @@ public enum Measure implements MeasureFunction {
             return 1.0 - Math.tanh(Math.sqrt(sqError/mean)/(mean));
         }
     },
+
+    // Fast
     COMPETITIVENESS {
         @Override
         /**
@@ -175,6 +192,8 @@ public enum Measure implements MeasureFunction {
             return 1.0 - (((double) Math.abs(rv - dv)) / (rv + dv));
         }
     },
+
+    // Fast
     GERRYMANDER_REPUBLICAN {
         @Override
         /**
@@ -200,6 +219,8 @@ public enum Measure implements MeasureFunction {
             return 1.0 - ((inefficient_V * 1.0) / tv);
         }
     },
+
+    // Fast
     GERRYMANDER_DEMOCRATIC {
         @Override
         /**

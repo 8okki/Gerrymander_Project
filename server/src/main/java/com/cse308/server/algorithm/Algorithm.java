@@ -19,19 +19,13 @@ import com.cse308.server.models.State;
 import com.cse308.server.result.Phase1Result;
 import java.util.ArrayList;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
-import org.locationtech.jts.io.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.locationtech.jts.io.WKTReader;
 import org.wololo.geojson.Feature;
-import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.GeoJSONFactory;
 import org.wololo.jts2geojson.GeoJSONReader;
 
@@ -102,8 +96,8 @@ public class Algorithm {
         // Create initial clusters
         while(state.getClusters().size() > targetDistrictNum) {
             state.resetPairs();
-//            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
-//            state.setPairs(targetPopulation);
+            state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
+            state.setPairs(targetPopulation);
             state.mergePairs();
             System.out.println("CURRENT SIZE - " + state.getClusters().size());
         }

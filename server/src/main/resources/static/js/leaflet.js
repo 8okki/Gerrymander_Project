@@ -4,7 +4,7 @@ var currentState;
 var congressionalDistricts;
 var precincts;
 var stateIDs = {};
-var stateLoaded = {};
+var stateLoadedFlags = {};
 var districtLoadedFlag = false;
 var precinctLoadedFlag = false;
 
@@ -82,24 +82,16 @@ function onHoverPrecinct(e){
 		let row = tableBody.insertRow(0);
 
 		let t0 = document.createTextNode(code);
-		let p0 = document.createElement("p");
-		p0.appendChild(t0);
-		row.insertCell(0).appendChild(p0);
+		row.insertCell(0).appendChild(t0);
 
 		let t1 = document.createTextNode(party);
-		let p1 = document.createElement("p");
-		p1.appendChild(t1);
-		row.insertCell(1).appendChild(p1);
+		row.insertCell(1).appendChild(t1);
 
 		let t2 = document.createTextNode(parties[party]);
-		let p2 = document.createElement("p");
-		p2.appendChild(t2);
-		row.insertCell(2).appendChild(p2);
+		row.insertCell(2).appendChild(t2);
 
 		let t3 = document.createTextNode(Math.round((parties[party]/votes)*100*10)/10 + "%");
-		let p3 = document.createElement("p");
-		p3.appendChild(t3);
-		row.insertCell(3).appendChild(p3);
+		row.insertCell(3).appendChild(t3);
 	}
 
 	layer.setStyle(
@@ -130,20 +122,15 @@ function onHoverDistrict(e){
 	let party = properties["PARTY"];
 	
 	let row = tableBody.insertRow(0);
+
 	let t0 = document.createTextNode(district);
-	let p0 = document.createElement("p");
-	p0.appendChild(t0);
-	row.insertCell(0).appendChild(p0);
+	row.insertCell(0).appendChild(t0);
 	
 	let t1 = document.createTextNode(incumbent);
-	let p1 = document.createElement("p");
-	p1.appendChild(t1);
-	row.insertCell(1).appendChild(p1);
+	row.insertCell(1).appendChild(t1);
 
 	let t2 = document.createTextNode(party);
-	let p2 = document.createElement("p");
-	p2.appendChild(t2);
-	row.insertCell(2).appendChild(p2);
+	row.insertCell(2).appendChild(t2);
 	
 	
 	// then district demographic info
@@ -162,20 +149,15 @@ function onHoverDistrict(e){
 	
 	for(demo of Object.keys(demos)){
 		row = tableBody.insertRow(0);
+
 		t0 = document.createTextNode(demo);
-		p0 = document.createElement("p");
-		p0.appendChild(t0);
-		row.insertCell(0).appendChild(p0);
+		row.insertCell(0).appendChild(t0);
 		
 		t1 = document.createTextNode(demos[demo]);
-		p1 = document.createElement("p");
-		p1.appendChild(t1);
-		row.insertCell(1).appendChild(p1);
+		row.insertCell(1).appendChild(t1);
 
 		t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
-		p2 = document.createElement("p");
-		p2.appendChild(t2);
-		row.insertCell(2).appendChild(p2);
+		row.insertCell(2).appendChild(t2);
 	}
 	
 	layer.setStyle(
@@ -227,7 +209,7 @@ function initState(e) {
     map.fitBounds(e.target.getBounds());
 	let selector = $("#state-pane");
 	$(selector).toggleClass('in');
-    if(!stateLoaded[stateName]){
+    if(!stateLoadedFlags[stateName]){
         console.log('Init state sent');
         $.ajax({
     		'type': "POST",
@@ -238,27 +220,10 @@ function initState(e) {
     		'statusCode':{
     			"200": function (data) {
     			    currentState = data;
-    				stateLoaded[stateName] = true;
+    				stateLoadedFlags[stateName] = true;
 					initCongressionalDistricts(stateName);
 					console.log('state loaded');
-					console.log('Init neighbor sent');
-					$.ajax({
-                        'type': "POST",
-                        'dataType': 'json',
-                        'url': "http://localhost:8080/initNeighbors",
-                        'data': JSON.stringify({}),
-                        'contentType': "application/json",
-                        'statusCode':{
-                            "200": function (data) {
-                                console.log("neighbors loaded");
-                                console.log('Init geometry sent');
-                                initGeometry();
-                            },
-                            "400": function(data){
-                                console.log("error: failed to load neighbors");
-                            }
-                        }
-                    });
+					initNeighbors();
 					initPrecincts();
     			},
     			"400": function(data){
@@ -269,7 +234,28 @@ function initState(e) {
     }
 }
 
+function initNeighbors() {
+    console.log('Init neighbor sent');
+    $.ajax({
+        'type': "POST",
+        'dataType': 'json',
+        'url': "http://localhost:8080/initNeighbors",
+        'data': JSON.stringify({}),
+        'contentType': "application/json",
+        'statusCode':{
+            "200": function (data) {
+                console.log("neighbors loaded");
+                initGeometry();
+            },
+            "400": function(data){
+                console.log("error: failed to load neighbors");
+            }
+        }
+    });
+}
+
 function initGeometry(){
+    console.log('Init geometry sent');
     $.ajax({
         'type': "POST",
         'dataType': 'json',
@@ -285,6 +271,20 @@ function initGeometry(){
             }
         }
     });
+}
+
+async function initPrecincts(stateName){
+	$.ajax({
+		'type': "GET",
+		'dataType': 'json',
+		'url': "http://localhost:8080/data/" + currentState["name"].toUpperCase() + "_PRECINCTS.json",
+		'statusCode':{
+			"200": function(data){
+				precincts = L.geoJson(data, {style: style, onEachFeature:onEachFeaturePrecinct});
+				precinctLoadedFlag = true;
+			}
+		}
+	});
 }
 
 function onEachFeatureDistrict(feature, layer) {
@@ -303,7 +303,7 @@ function onEachFeatureDistrict(feature, layer) {
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
-	stateLoaded[feature.properties.name] = false;
+	stateLoadedFlags[feature.properties.name] = false;
 }
 
 async function initCongressionalDistricts(stateName){
@@ -334,21 +334,7 @@ function onEachFeaturePrecinct(feature, layer) {
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
-	stateLoaded[feature.properties.name] = false;
-}
-
-async function initPrecincts(stateName){
-	$.ajax({
-		'type': "GET",
-		'dataType': 'json',
-		'url': "http://localhost:8080/data/" + currentState["name"].toUpperCase() + "_PRECINCTS.json",
-		'statusCode':{
-			"200": function(data){
-				precincts = L.geoJson(data, {style: style, onEachFeature:onEachFeaturePrecinct});
-				precinctLoadedFlag = true;
-			}
-		}
-	});
+	stateLoadedFlags[feature.properties.name] = false;
 }
 
 // listeners
@@ -360,7 +346,7 @@ function onEachFeature(feature, layer) {
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
-	stateLoaded[feature.properties.name] = false;
+	stateLoadedFlags[feature.properties.name] = false;
 }
 
 // initialize the map on the "map" div with a given center and zoom

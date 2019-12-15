@@ -9,11 +9,10 @@ import com.cse308.server.enums.Demographic;
 import com.cse308.server.measure.MeasureFunction;
 import com.cse308.server.result.DistrictInfo;
 import com.cse308.server.result.VoteBlocResult;
+import com.sun.xml.bind.v2.TODO;
 
 import java.util.*;
 import javax.persistence.*;
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Fetch;
 
 /**
  *
@@ -125,36 +124,43 @@ public class State {
 
     public void resetPairs() {
         this.pairs = new HashMap<>();
+        for (Cluster c : this.clusters){
+            c.setIsMerged(false);
+        }
     }
 
     public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
         for (Cluster cluster : clusters) {
-            if (!pairs.containsKey(cluster)) {
+            if (!cluster.isMerged()) {
                 Cluster pair = cluster.findMMPair(minRange, maxRange, demographics);
                 if (pair != null) {
+                    System.out.println("mm pair found");
                     pairs.put(cluster, pair);
-                    pairs.put(pair, cluster);
+                    cluster.setIsMerged(true);
+                    pair.setIsMerged(true);
                 }
             }
         }
-        for(Cluster pairedCluster : pairs.keySet()){
-            clusters.remove(pairedCluster);
-        }
+    //    for(Cluster pairedCluster : pairs.keySet()){
+    //        clusters.remove(pairedCluster);
+    //    }
     }
 
     public void setPairs(float targetPopulation) {
         for(Cluster cluster : clusters) {
-            if (!pairs.containsKey(cluster)) {
+            if (!cluster.isMerged()) {
                 Cluster pair = cluster.findPair(targetPopulation);
                 if (pair != null) {
+                    System.out.println("reg pair found");
                     pairs.put(cluster, pair);
-                    pairs.put(pair, cluster);
+                    cluster.setIsMerged(true);
+                    pair.setIsMerged(true);
                 }
             }
         }
-        for(Cluster pairedCluster : pairs.keySet()){
-            clusters.remove(pairedCluster);
-        }
+        //for(Cluster pairedCluster : pairs.keySet()){
+        //    clusters.remove(pairedCluster);
+        //}
     }
 
     public void makeRandomPair() {
@@ -163,9 +169,11 @@ public class State {
         for(Cluster cluster : clusters){
             if(i++ == c)
                 for (Cluster neighbor : cluster.getAdjacentClusters()){
-                    clusters.remove(cluster);
-                    clusters.remove(neighbor);
+                    //clusters.remove(cluster);
+                    //clusters.remove(neighbor);
                     pairs.put(cluster, neighbor);
+                    cluster.setIsMerged(true);
+                    neighbor.setIsMerged(true);
                     return;
                 }
         }
@@ -196,9 +204,11 @@ public class State {
 
         // Merge all pairs
         for (Cluster cluster : pairs.keySet()) {
-            if (!cluster.isMerged()) {
+            if (cluster.isMerged() && pairs.get(cluster).isMerged()) {
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
+            }else{
+                System.out.println("this shouldn't have happened");
             }
         }
     }
@@ -209,10 +219,10 @@ public class State {
         // Initialize scores
         clusterScores = new HashMap<>();
         updateScores();
-        double initial = objectiveFunction();
+        double initialScore = objectiveFunction();
 
         // Anneal each cluster until converges
-        double prevScore, newScore = 0;
+        double prevScore = 0, newScore = 0;
         int stag_count = 0;
         while (stag_count <= 20) {
             prevScore = newScore;
@@ -226,11 +236,10 @@ public class State {
 
             if(isStagnant(prevScore, newScore))
                 stag_count++;
-            else
-                stag_count = 0;
         }
 
-        double[] result = {initial, newScore};
+        double finalScore = newScore > prevScore ? newScore : prevScore;
+        double[] result = {initialScore, finalScore};
         return result;
     }
 
@@ -262,7 +271,7 @@ public class State {
     }
 
     public boolean isStagnant(double prevScore, double newScore){
-        return Math.abs(prevScore - newScore) < 0.0005;
+        return Math.abs(prevScore - newScore) < 0.0001 || newScore <= prevScore;
     }
 
     @Override

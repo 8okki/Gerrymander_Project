@@ -8,12 +8,14 @@ package com.cse308.server.models;
 import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.result.DistrictInfo;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.algorithm.MinimumBoundingCircle;
+
 import static com.cse308.server.enums.PoliticalParty.DEMOCRATIC;
 import static com.cse308.server.enums.PoliticalParty.REPUBLICAN;
 
 import java.util.*;
-import org.locationtech.jts.algorithm.MinimumBoundingCircle;
-import org.locationtech.jts.geom.*;
+
 
 /**
  *
@@ -192,14 +194,14 @@ public class Cluster {
         for (Precinct precinct : cluster.getPrecincts())
             addPrecinct(precinct);
 
-        for (Demographic demographic : demographicPopDist.keySet()){
+        /*for (Demographic demographic : demographicPopDist.keySet()){
             int sum = this.demographicPopDist.get(demographic) + cluster.getDemographicPopDist().get(demographic);
             demographicPopDist.put(demographic, sum);
-        }
+        }*/
 
         unlink(cluster);
-
-        cluster.setIsMerged(true);
+        
+        //cluster.setIsMerged(true);
     }
 
     public void unlink(Cluster cluster){
@@ -208,6 +210,7 @@ public class Cluster {
 
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
+        this.state.getClusters().remove(cluster);
 
         for(Cluster neighbor : cluster.getAdjacentClusters()){
             neighbor.getAdjacentClusters().add(this);
@@ -215,7 +218,6 @@ public class Cluster {
             adjClusters.add(neighbor);
         }
         cluster.setAdjClusters(new HashSet<>());
-
 //        System.out.println("After: " + this);
 //        System.out.println("After: " + cluster);
     }
@@ -236,11 +238,13 @@ public class Cluster {
         int pairDemographicPopSum = this.getDemographicPopSum(demographics) + cluster.getDemographicPopSum(demographics);
         int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
         float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
+        //System.out.println(ratio + " " + minRange + " " + maxRange);
         return ratio >= minRange && ratio <= maxRange;
     }
 
     private boolean isPair(Cluster cluster, float targetPopulation) {
         int populationSum = this.getPopulation() + cluster.getPopulation();
+        //System.out.println(populationSum + " " + targetPopulation);
         return populationSum <= targetPopulation;
     }
 
@@ -318,22 +322,22 @@ public class Cluster {
         Polygon[] polygons = new Polygon[getPrecincts().size()];
 
         Iterator<Precinct> piter = getPrecincts().iterator();
-        for(int ii = 0; ii < polygons.length; ii++) {
+        for(int i = 0; i < polygons.length; i++) {
             Geometry poly = piter.next().getGeometry();
             if (poly instanceof Polygon)
-                polygons[ii] = (Polygon) poly;
+                polygons[i] = (Polygon) poly;
             else
-                polygons[ii] = (Polygon) poly.convexHull();
+                polygons[i] = (Polygon) poly.convexHull();
         }
-        MultiPolygon mp = new MultiPolygon(polygons, new GeometryFactory());
-        this.multiPolygon = mp;
-        this.multiPolygonUpdated = true;
-        return mp;
+        multiPolygon = new MultiPolygon(polygons, new GeometryFactory());
+        multiPolygonUpdated = true;
+
+        return multiPolygon;
     }
 
     public MultiPolygon getMulti() {
         if (this.multiPolygonUpdated && this.multiPolygon != null)
-            return this.multiPolygon;
+            return multiPolygon;
         return computeMulti();
     }
 
@@ -341,7 +345,7 @@ public class Cluster {
         if (convexHullUpdated && convexHull !=null)
             return convexHull;
         convexHull = multiPolygon.convexHull();
-        this.convexHullUpdated = true;
+        convexHullUpdated = true;
         return convexHull;
     }
 
@@ -349,7 +353,7 @@ public class Cluster {
         if (boundingCircleUpdated && boundingCircle !=null)
             return boundingCircle;
         boundingCircle = new MinimumBoundingCircle(getMulti()).getCircle();
-        this.boundingCircleUpdated = true;
+        boundingCircleUpdated = true;
         return boundingCircle;
     }
 }
