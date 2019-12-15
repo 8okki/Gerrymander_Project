@@ -66,7 +66,7 @@
 		</div>
 		<div id="annealTab">
 			<button id="annealBtn" class="btn btn-outline-light nav-btn" type="button" name="paneToggle"
-					data-toggle="toggle" data-target="#annealing-pane">
+					data-toggle="toggle" data-target="#anneal-pane">
 				<i class="fas fa-chart-line"></i>
 				<p>Annealing</p>
 			</button>
@@ -326,10 +326,10 @@
 			<hr>
 			<div id="gerry-demographics">
 				<h6 class="mb-1">Majority-Minority Demographics</h6>
-				<input type="checkbox" class="gerry-demo" name="demographic" value="African-American"> African-American<br>
-				<input type="checkbox" class="gerry-demo" name="demographic" value="Asian Pacific"> Asian Pacific<br>
-				<input type="checkbox" class="gerry-demo" name="demographic" value="Hispanic"> Hispanic<br>
-				<input type="checkbox" class="gerry-demo" name="demographic" value="White"> White<br>
+				<input type="checkbox" class="gerry-demo" name="demographic" value="BLACK"> African-American<br>
+				<input type="checkbox" class="gerry-demo" name="demographic" value="ASIAN"> Asian Pacific<br>
+				<input type="checkbox" class="gerry-demo" name="demographic" value="HISPANIC"> Hispanic<br>
+				<input type="checkbox" class="gerry-demo" name="demographic" value="WHITE"> White<br>
 			</div>
 			<div id="gerry-range">
 				<p class="mt-2 mb-1">
@@ -340,7 +340,7 @@
 			<h6 class="mb-2">Congressional Districts</h6>
 			<div class="input-group input-group-sm">
 				<div class="input-group-prepend">
-					<span class="input-group-text" id="cong-dist">Desired Number of Cong. Districts</span>
+					<span class="input-group-text" id="cong-dist">Desired Number of Congressional Districts</span>
 				</div>
 				<input type="text" class="form-control" aria-describedby="cong-dist">
 			</div>
@@ -348,11 +348,12 @@
 			<hr>
 		</div>
 		<div id="gerry-results">
+			<h6>Number of Majority-Minority Districts</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col"> Current Majority Minority Districts </th>
-					<th scope="col"> Calculated Majority Minority Districts </th>
+					<th scope="col"> Before Gerrymander </th>
+					<th scope="col"> After Gerrymander </th>
 				</tr>
 				</thead>
 				<tbody>
@@ -366,7 +367,7 @@
 <div id="anneal-pane" class="pane text-dark border">
 	<div class="return-pane">
 		<button name="paneToggle" class="btn btn-outline-secondary btn-circle nav-btn" type="button"
-				data-toggle="toggle" data-target="#annealing-pane">
+				data-toggle="toggle" data-target="#anneal-pane">
 			<i class="fas fa-arrow-left"></i>
 		</button>
 	</div>
@@ -377,21 +378,21 @@
 		<div id="anneal-run">
 			<hr>
 			<div id="anneal-measures">
-				<h5>Phase 2</h5>
+				<h6>Measures</h6>
 				<div class="measure1">
-					<input type="checkbox" class="m-1" name="measure" value="Partisan Fairness"> Partisan Fairness<br>
-					<input type="checkbox" class="m-1" name="measure" value="Reock Compactness"> Reock Compactness<br>
-					<input type="checkbox" class="m-1" name="measure" value="Convex Hull Compactness"> Convex Hull Compactness<br>
-					<input type="checkbox" class="m-1" name="measure" value="Edge Compactness"> Edge Compactness<br>
-					<input type="checkbox" class="m-1" name="measure" value="Efficiency Gap"> Efficiency Gap<br>
+					<input type="checkbox" class="m-1" name="measure" value="PARTISAN_FAIRNESS"> Partisan Fairness<br>
+					<input type="checkbox" class="m-1" name="measure" value="REOCK_COMPACTNESS"> Reock Compactness<br>
+					<input type="checkbox" class="m-1" name="measure" value="CONVEX_HULL_COMPACTNESS"> Convex Hull Compactness<br>
+					<input type="checkbox" class="m-1" name="measure" value="EDGE_COMPACTNESS"> Edge Compactness<br>
+					<input type="checkbox" class="m-1" name="measure" value="EFFICIENCY_GAP"> Efficiency Gap<br>
 				</div>
 
 				<div class="measure2">
-					<input type="checkbox" class="m-1" name="measure" value="Population Equality"> Population Equality<br>
-					<input type="checkbox" class="m-1" name="measure" value="Population Homogeneity"> Population Homogeneity<br>
-					<input type="checkbox" class="m-1" name="measure" value="Competitiveness"> Competitiveness<br>
-					<input type="checkbox" class="m-1" name="measure" value="Gerrymander Republican"> Gerrymander Republican<br>
-					<input type="checkbox" class="m-1" name="measure" value="Gerrymander Democratic"> Gerrymander Democratic<br>
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY"> Population Equality<br>
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_HOMOGENEITY"> Population Homogeneity<br>
+					<input type="checkbox" class="m-1" name="measure" value="COMPETITIVENESS"> Competitiveness<br>
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_REPUBLICAN"> Gerrymander Republican<br>
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_DEMOCRATIC"> Gerrymander Democratic<br>
 				</div>
 			</div>
 			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2">Run Annealing</button>
@@ -402,16 +403,14 @@
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col">
-						<p>Before Annealing</p>
-					</th>
-					<th scope="col">
-						<p>After Annealing</p>
-					</th>
+					<th scope="col"> Before Annealing </th>
+					<th scope="col"> After Annealing </th>
+					<th scope="col"> Difference </th>
 				</tr>
 				</thead>
-				<tbody>
+				<tbody id="scores-tbody">
 				<tr>
+					<td> 0 </td>
 					<td> 0 </td>
 					<td> 0 </td>
 				</tr>

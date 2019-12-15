@@ -1,9 +1,5 @@
  $(document).ready(function () {
 
-	$("#maxSlider").change = function (e) {
-		console.log("max slider change");
-	}
-
 	$("#runBlocs").click(function (e) {
 		if (currentState == null) {
 			window.alert("Please select a state first.");
@@ -92,10 +88,16 @@
 		if (currentState == null) {
 			window.alert("Please select a state first.");
 		} else {
-			let demographics = ["WHITE", "ASIAN", "BLACK"];
-			let demographicMinimum = 0.13;
-			let demographicMaximum = 0.75;
-			let targetDistrictNum = 60;
+		    let demographics = [];
+			let demoCheckBoxes = $("[name='demographic']");
+            for (demoCheckBox of demoCheckBoxes){
+                if(demoCheckBox.checked){
+                    demographics.push(demoCheckBox.value);
+                }
+            }
+			let demographicMinimum = $("#slider-range").slider("values", 0) / 100;
+			let demographicMaximum = $("#slider-range").slider("values", 1) / 100;
+			let targetDistrictNum = parseInt($("[aria-describedby='cong-dist']").val());
 
 			$.ajax({
 				'type': "POST",
@@ -125,9 +127,14 @@
         if (currentState == null) {
             window.alert("Please run phase 1 first.");
         } else {
-            let measureWeights = {
-                'EDGE_COMPACTNESS' : 1,
-             }
+            measureWeights = {};
+            let weight = 1;
+            let measureCheckBoxes = $("[name='measure']");
+            for(measureCheckBox of measureCheckBoxes){
+                if(measureCheckBox.checked){
+                    measureWeights[measureCheckBox.value] = weight;
+                }
+            }
 
             $.ajax({
                 'type': "POST",
@@ -140,9 +147,23 @@
                 'statusCode': {
                     "200": function (data) {
                         let result = data.result;
-                        console.log("Before: " + result.before);
-                        console.log("After: " + result.after);
-                        console.log("Diff: " + (result.after - result.before));
+
+                        let newTableBody = document.createElement("tbody");
+                        let tableBody = $("#scores-tbody")[0];
+                        tableBody.parentNode.replaceChild(newTableBody, tableBody);
+                        tableBody = newTableBody;
+                        tableBody.id = "scores-tbody";
+                        let row = tableBody.insertRow(0);
+
+                        let t0 = document.createTextNode(Math.round(result.before*10000)/10000);
+                        row.insertCell(0).appendChild(t0);
+
+                        let t1 = document.createTextNode(Math.round(result.after*10000)/10000);
+                        row.insertCell(1).appendChild(t1);
+
+                        let diff = result.after - result.before
+                        let t2 = document.createTextNode(Math.round(diff*10000)/10000);
+                        row.insertCell(2).appendChild(t2);
                     },
                     "400": function (data) {
                         console.log("error", data);
@@ -171,19 +192,13 @@
 //				let row = tableBody.insertRow(0);
 //
 //				let t0 = document.createTextNode($(button).attr('value')); //demographic
-//				let p0 = document.createElement("p");
-//				p0.appendChild(t0);
-//				row.insertCell(0).appendChild(p0);
+//				row.insertCell(0).appendChild(t0);
 //
 //				let t1 = document.createTextNode("1"); //population
-//				let p1 = document.createElement("p");
-//				p1.appendChild(t1);
-//				row.insertCell(1).appendChild(p1);
+//				row.insertCell(1).appendChild(t1);
 //
 //				let t2 = document.createTextNode("1"); //percentage
-//				let p2 = document.createElement("p");
-//				p2.appendChild(t2);
-//				row.insertCell(2).appendChild(p2);
+//				row.insertCell(2).appendChild(t2);
 //			}
 //
 //	    }
@@ -201,12 +216,12 @@ $('input[name=electionYear]').change(
 			tableBody.id = "state-election-results";
 
 			electionResults = {}
-			electionResults["democratic2016"] = {"party":"democratic","votes":"5,075,040","percentage":"43.6%"}
-			electionResults["republican2016"] = {"party":"republican","votes":"6,017,880","percentage":"51.7%"}
-			electionResults["democratic2012"] = {"party":"democratic","votes":"5,901,480","percentage":"50.7%"}
-			electionResults["republican2012"] = {"party":"republican","votes":"5,552,280","percentage":"47.7%"}
-			electionResults["democratic2008"] = {"party":"democratic","votes":"5,994,600","percentage":"51.5%"}
-			electionResults["republican2008"] = {"party":"republican","votes":"5,459,160","percentage":"46.9%"}
+			electionResults["democratic2016"] = {"party":"Democratic","votes":"5,075,040","percentage":"43.6%"}
+			electionResults["republican2016"] = {"party":"Republican","votes":"6,017,880","percentage":"51.7%"}
+			electionResults["democratic2012"] = {"party":"Democratic","votes":"5,901,480","percentage":"50.7%"}
+			electionResults["republican2012"] = {"party":"Republican","votes":"5,552,280","percentage":"47.7%"}
+			electionResults["democratic2008"] = {"party":"Democratic","votes":"5,994,600","percentage":"51.5%"}
+			electionResults["republican2008"] = {"party":"Republican","votes":"5,459,160","percentage":"46.9%"}
 
         if ($(this).is(':checked')) {
 					for (partyYear of Object.keys(electionResults)){

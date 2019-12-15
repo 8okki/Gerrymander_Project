@@ -111,7 +111,6 @@ public class State {
         int id = 1;
         for(Precinct precinct : precincts){
             clusters.add(new Cluster(id++,this, precinct));
-            System.out.println(precincts.size() + " " + clusters.size());
         }
 
         for(Cluster cluster : clusters){
@@ -134,16 +133,13 @@ public class State {
             if (!cluster.isMerged()) {
                 Cluster pair = cluster.findMMPair(minRange, maxRange, demographics);
                 if (pair != null) {
-                    System.out.println("mm pair found");
+//                    System.out.println("mm pair found");
                     pairs.put(cluster, pair);
                     cluster.setIsMerged(true);
                     pair.setIsMerged(true);
                 }
             }
         }
-    //    for(Cluster pairedCluster : pairs.keySet()){
-    //        clusters.remove(pairedCluster);
-    //    }
     }
 
     public void setPairs(float targetPopulation) {
@@ -151,16 +147,13 @@ public class State {
             if (!cluster.isMerged()) {
                 Cluster pair = cluster.findPair(targetPopulation);
                 if (pair != null) {
-                    System.out.println("reg pair found");
+//                    System.out.println("reg pair found");
                     pairs.put(cluster, pair);
                     cluster.setIsMerged(true);
                     pair.setIsMerged(true);
                 }
             }
         }
-        //for(Cluster pairedCluster : pairs.keySet()){
-        //    clusters.remove(pairedCluster);
-        //}
     }
 
     public void makeRandomPair() {
@@ -169,8 +162,6 @@ public class State {
         for(Cluster cluster : clusters){
             if(i++ == c)
                 for (Cluster neighbor : cluster.getAdjacentClusters()){
-                    //clusters.remove(cluster);
-                    //clusters.remove(neighbor);
                     pairs.put(cluster, neighbor);
                     cluster.setIsMerged(true);
                     neighbor.setIsMerged(true);
@@ -192,9 +183,9 @@ public class State {
                 }
             }
         }
-        clusters.remove(minClusters[0]);
-        clusters.remove(minClusters[1]);
         pairs.put(minClusters[0], minClusters[1]);
+        minClusters[0].setIsMerged(true);
+        minClusters[1].setIsMerged(true);
     }
 
     public void mergePairs() {
@@ -207,8 +198,6 @@ public class State {
             if (cluster.isMerged() && pairs.get(cluster).isMerged()) {
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
-            }else{
-                System.out.println("this shouldn't have happened");
             }
         }
     }

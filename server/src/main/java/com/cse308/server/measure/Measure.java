@@ -150,11 +150,9 @@ public enum Measure implements MeasureFunction {
             int idealPopulation = state.getPopulation() / state.getClusters().size();
             int truePopulation = cluster.getPopulation();
             if (idealPopulation >= truePopulation) {
-                return 1-Math.pow(
-                        Math.abs( idealPopulation-(double)truePopulation)/idealPopulation ,1.25);
+                return 1 - Math.pow(Math.abs(idealPopulation - (double)truePopulation) / idealPopulation, 1.25);
             }
-            return 1-Math.pow(
-                    Math.abs( truePopulation -(double)idealPopulation) /idealPopulation, 1.25);
+            return 1 - Math.pow(Math.abs(truePopulation - (double)idealPopulation) / idealPopulation, 1.25);
         }
     },
 
@@ -169,10 +167,7 @@ public enum Measure implements MeasureFunction {
                 return 0;
             double sum = cluster.getPrecincts().stream().mapToDouble(Precinct::getPopulationDensity).sum();
             final double mean = sum / cluster.getPrecincts().size();
-            double sqError = cluster.getPrecincts()
-                    .stream().mapToDouble(
-                            (precinct) -> (Math.pow(precinct.getPopulationDensity() - mean, 2))
-                    ).sum();
+            double sqError = cluster.getPrecincts().stream().mapToDouble((precinct) -> (Math.pow(precinct.getPopulationDensity() - mean, 2))).sum();
             sqError /= cluster.getPrecincts().size();
 
             return 1.0 - Math.tanh(Math.sqrt(sqError/mean)/(mean));
