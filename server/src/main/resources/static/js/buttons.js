@@ -75,6 +75,8 @@
 							let t3 = document.createTextNode(maxParty);
 							row.insertCell(3).appendChild(t3);
 						}
+
+						$("#bloc-results").removeClass("hide");
 					},
 					"400": function (data) {
 						console.log("error", data);
@@ -112,43 +114,41 @@
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						let results = data.results;
-						console.log(results.length);
+                        let newTableBody = document.createElement("tbody");
+                        let tableBody = $("#demo-tbody")[0];
+
+                        tableBody.parentNode.replaceChild(newTableBody, tableBody);
+                        tableBody = newTableBody;
+                        tableBody.id = "demo-tbody";
+
+                        $(".gerry-demo[value='WHITE']").prop('checked', true);
+
+                        gerryDemoCheckBoxes = $(".gerry-demo")
+
+                        //for every demographic that is checked
+                        for (button of gerryDemoCheckBoxes){
+                            if($(button).prop("checked") == true){
+                                let row = tableBody.insertRow(0);
+
+                                let t0 = document.createTextNode($(button).attr('value')); //demographic
+                                row.insertCell(0).appendChild(t0);
+
+                                let t1 = document.createTextNode("1"); //population
+                                row.insertCell(1).appendChild(t1);
+
+                                let t2 = document.createTextNode("1"); //percentage
+                                row.insertCell(2).appendChild(t2);
+                            }
+                        }
+                        $(".gerry-demo[value='White']").prop('checked', false);
+
+                        $("#gerry-results").removeClass("hide");
 					},
 					"400": function (data) {
 						console.log("error", data);
 					}
 				}
 			});
-			let newTableBody = document.createElement("tbody");
-			let tableBody = $("#demo-tbody")[0];
-
-			tableBody.parentNode.replaceChild(newTableBody, tableBody);
-			tableBody = newTableBody;
-			tableBody.id = "demo-tbody";
-
-			$(".gerry-demo[value='WHITE']").prop('checked', true);
-
-			gerryDemoCheckBoxes = $(".gerry-demo")
-
-			//for every demographic that is checked
-			for (button of gerryDemoCheckBoxes){
-				console.log($(button).prop("checked"));
-				if($(button).prop("checked") == true){
-					let row = tableBody.insertRow(0);
-
-					let t0 = document.createTextNode($(button).attr('value')); //demographic
-					row.insertCell(0).appendChild(t0);
-
-					let t1 = document.createTextNode("1"); //population
-					row.insertCell(1).appendChild(t1);
-
-					let t2 = document.createTextNode("1"); //percentage
-					row.insertCell(2).appendChild(t2);
-				}
-
-		    }
-		    $(".gerry-demo[value='White']").prop('checked', false);
 		}
 	});
 
@@ -157,7 +157,7 @@
             $(".alert").toggleClass("hide");
         } else {
             measureWeights = {};
-            let weight = 0.5;
+            let weight = 1;
             let measureCheckBoxes = $("[name='measure']");
             for(measureCheckBox of measureCheckBoxes){
                 if(measureCheckBox.checked){
@@ -193,6 +193,8 @@
                         let diff = result.after - result.before
                         let t2 = document.createTextNode(Math.round(diff*10000)/10000);
                         row.insertCell(2).appendChild(t2);
+
+                        $("#anneal-results").removeClass("hide");
                     },
                     "400": function (data) {
                         console.log("error", data);

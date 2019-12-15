@@ -66,6 +66,7 @@ public class Algorithm {
             Feature feature = (Feature) GeoJSONFactory.create(precinct.getGeojson());
             precinct.setGeometry(reader.read(feature.getGeometry()));
         }
+        System.out.println("Geometry Loaded");
     }
     
     public void initNeighbors() {
@@ -81,6 +82,7 @@ public class Algorithm {
             }
             precinct.setNeighbors(neighbors);
         }
+        System.out.println("Neighbors Loaded");
     }
 
     /* Phase 0 */
@@ -98,7 +100,7 @@ public class Algorithm {
             state.resetPairs();
             state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
             state.setPairs(targetPopulation);
-            state.mergePairs();
+            state.mergePairs(targetDistrictNum);
             System.out.println("CURRENT SIZE - " + state.getClusters().size());
         }
 
