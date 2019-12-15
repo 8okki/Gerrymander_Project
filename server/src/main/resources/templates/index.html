@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"/>
 
 	<link rel="stylesheet" href="./css/styles.css">
 	<!--	 <link rel="stylesheet" href="../static/css/styles.css">-->
@@ -145,138 +145,91 @@
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col"> Demographic </th>
-					<th scope="col"> Population </th>
-					<th scope="col"> Percentage </th>
+					<th scope="col">Demographic</th>
+					<th scope="col">Population</th>
+					<th scope="col">Percentage</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td> White </td>
-					<td> 9,574,110 </td>
-					<td> 81.9% </td>
+					<td>White</td>
+					<td>9,574,110</td>
+					<td>81.9%</td>
 				</tr>
 				<tr>
-					<td> African-American </td>
-					<td> 1,519,700 </td>
-					<td> 13% </td>
+					<td>African-American</td>
+					<td>1,519,700</td>
+					<td>13%</td>
 				</tr>
 				<tr>
-					<td> Asian-Pacific </td>
-					<td> 292,250 </td>
-					<td> 2.5% </td>
+					<td>Asian-Pacific</td>
+					<td>292,250</td>
+					<td>2.5%</td>
 				</tr>
 				<tr>
-					<td> Hispanic </td>
-					<td> 455,910 </td>
-					<td> 3.9% </td>
+					<td>Hispanic</td>
+					<td>455,910</td>
+					<td>3.9%</td>
 				</tr>
 				</tbody>
 			</table>
 			</table>
 		</div>
-		<div id="district-info" class = "hide">
+		<div id="district-info" class="hide">
 			<h6>District Info</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col"> District </th>
-					<th scope="col"> Incumbent </th>
-					<th scope="col"> Party</th>
+					<th scope="col">District</th>
+					<th scope="col">Incumbent</th>
+					<th scope="col">Party</th>
 				</tr>
 				</thead>
 				<tbody id="district-info-table">
-				<tr>
-					<td> District </td>
-					<td> Mary Sue </td>
-					<td> Party </td>
-				</tr>
-				<tr>
-					<td> District </td>
-					<td> John Smith </td>
-					<td> Party </td>
-				</tr>
 				</tbody>
 			</table>
 		</div>
-		<div id="district-demo-data" class = "hide">
+		<div id="district-demo-data" class="hide">
 			<h6>District Demographic Data</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col"> District </th>
-					<th scope="col"> Demographic </th>
-					<th scope="col"> Population </th>
-					<th scope="col"> Percentage </th>
+					<th scope="col">Demographic</th>
+					<th scope="col">Population</th>
+					<th scope="col">Percentage</th>
 				</tr>
 				</thead>
 				<tbody id="district-demo-table">
-				<tr>
-					<td> District 1 </td>
-					<td> Democratics </td>
-					<td> 774,469 </td>
-					<td> 51.3% </td>
-				</tr>
-				<tr>
-					<td> District 1 </td>
-					<td> Democratics </td>
-					<td> 774,469 </td>
-					<td> 51.3% </td>
-				</tr>
 				</tbody>
 			</table>
 		</div>
-		<div id="district-election-results" class = "hide">
+		<div id="district-election-results" class="hide">
 			<h6>District Election Results</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col"> District </th>
-					<th scope="col"> Party </th>
-					<th scope="col"> Votes </th>
-					<th scope="col"> Percentage </th>
+					<th scope="col">District</th>
+					<th scope="col">Party</th>
+					<th scope="col">Votes</th>
+					<th scope="col">Percentage</th>
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<td> District 1 </td>
-					<td> Democratics </td>
-					<td> 774,469 </td>
-					<td> 51.3% </td>
-				</tr>
-				<tr>
-					<td> District 1 </td>
-					<td> Democratics </td>
-					<td> 774,469 </td>
-					<td> 51.3% </td>
-				</tr>
 				</tbody>
 			</table>
 		</div>
-		<div id="precinct-voting-data" class = "hide">
+		<div id="precinct-voting-data" class="hide">
 			<h6>Precinct Voting Data</h6>
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col"> District </th>
-					<th scope="col"> Party </th>
-					<th scope="col"> Votes </th>
-					<th scope="col"> Percentage </th>
+					<th scope="col">Precinct</th>
+					<th scope="col">Party</th>
+					<th scope="col">Votes</th>
+					<th scope="col">Percentage</th>
 				</tr>
 				</thead>
 				<tbody id="precinct-votes-table">
-				<tr>
-					<td> District 1 </td>
-					<td> Democratics </td>
-					<td> 774,469 </td>
-					<td> 51.3% </td>
-				</tr>
-				<tr>
-					<td> District 1 </td>
-					<td> Democratics </td>
-					<td> 774,469 </td>
-					<td> 51.3% </td>
-				</tr>
 				</tbody>
 			</table>
 		</div>
@@ -305,14 +258,14 @@
 				<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
 		</div>
-		<div id="bloc-results">
+		<div id="bloc-results" class="hide">
 			<table class="table table-striped">
 				<thead class="thead-dark">
 				<tr>
-					<th scope="col"> Demographic </th>
-					<th scope="col"> Blocs </th>
-					<th scope="col"> Vote Blocs </th>
-					<th scope="col"> Majority Party </th>
+					<th scope="col">Demographic</th>
+					<th scope="col">Blocs</th>
+					<th scope="col">Vote Blocs</th>
+					<th scope="col">Majority Party</th>
 				</tr>
 				</thead>
 				<tbody id="bloc-tbody">
@@ -418,23 +371,17 @@
 			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 sameLine">Run Gerrymander</button>
 			<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
-			<div id="pop-dist">
-				<h6>Demographic Data</h6>
+			<div id="gerry-results" class="hide">
+				<h6>Demographic Data of Current District</h6>
 				<table class="table table-striped" id="demo-table">
 					<thead class="thead-dark">
 					<tr>
-						<th scope="col">
-							<p>Demographic</p>
-						</th>
-						<th scope="col">
-							<p>Population</p>
-						</th>
-						<th scope="col">
-							<p>Percentage</p>
-						</th>
+						<th scope="col">Demographic</th>
+						<th scope="col">Population</th>
+						<th scope="col">Percentage</th>
 					</tr>
 					</thead>
-					<tbody id = "demo-tbody">
+					<tbody id="demo-tbody">
 					</tbody>
 				</table>
 			</div>
@@ -461,54 +408,61 @@
 				<div class="measure1">
 					<input type="checkbox" class="m-1" name="measure" value="PARTISAN_FAIRNESS"> Partisan Fairness<br>
 					<input type="checkbox" class="m-1" name="measure" value="REOCK_COMPACTNESS"> Reock Compactness<br>
-					<input type="checkbox" class="m-1" name="measure" value="CONVEX_HULL_COMPACTNESS"> Convex Hull Compactness<br>
+					<input type="checkbox" class="m-1" name="measure" value="CONVEX_HULL_COMPACTNESS"> Convex Hull
+					Compactness<br>
 					<input type="checkbox" class="m-1" name="measure" value="EDGE_COMPACTNESS"> Edge Compactness<br>
 					<input type="checkbox" class="m-1" name="measure" value="EFFICIENCY_GAP"> Efficiency Gap<br>
 				</div>
 
 				<div class="measure2">
-					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY"> Population Equality<br>
-					<input type="checkbox" class="m-1" name="measure" value="POPULATION_HOMOGENEITY"> Population Homogeneity<br>
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY"> Population
+					Equality<br>
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_HOMOGENEITY"> Population
+					Homogeneity<br>
 					<input type="checkbox" class="m-1" name="measure" value="COMPETITIVENESS"> Competitiveness<br>
-					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_REPUBLICAN"> Gerrymander Republican<br>
-					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_DEMOCRATIC"> Gerrymander Democratic<br>
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_REPUBLICAN"> Gerrymander
+					Republican<br>
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_DEMOCRATIC"> Gerrymander
+					Democratic<br>
 				</div>
 			</div>
 			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2 sameLine">Run Annealing</button>
 			<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
-			<div id="gerry-results">
+		</div>
+		<div id="anneal-results" class="hide">
+			<div id="anneal-MM">
 				<h6>Number of Majority-Minority Districts</h6>
 				<table class="table table-striped">
 					<thead class="thead-dark">
 					<tr>
-						<th scope="col"> Before Gerrymander </th>
-						<th scope="col"> After Gerrymander </th>
+						<th scope="col">Before Gerrymander</th>
+						<th scope="col">After Gerrymander</th>
 					</tr>
 					</thead>
-					<tbody>
+					<tbody id="MM-tbody">
 					</tbody>
 				</table>
 			</div>
-		</div>
-		<div id="anneal-scores">
-			<h6>Gerrymander Score</h6>
-			<table class="table table-striped">
-				<thead class="thead-dark">
-				<tr>
-					<th scope="col"> Before Annealing </th>
-					<th scope="col"> After Annealing </th>
-					<th scope="col"> Difference </th>
-				</tr>
-				</thead>
-				<tbody id="scores-tbody">
-				<tr>
-					<td> 0 </td>
-					<td> 0 </td>
-					<td> 0 </td>
-				</tr>
-				</tbody>
-			</table>
+			<div id="anneal-scores">
+				<h6>Objective Function Score</h6>
+				<table class="table table-striped">
+					<thead class="thead-dark">
+					<tr>
+						<th scope="col">Before Annealing</th>
+						<th scope="col">After Annealing</th>
+						<th scope="col">Difference</th>
+					</tr>
+					</thead>
+					<tbody id="scores-tbody">
+					<tr>
+						<td> 0</td>
+						<td> 0</td>
+						<td> 0</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

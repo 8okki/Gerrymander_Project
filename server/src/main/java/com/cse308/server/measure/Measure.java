@@ -156,7 +156,7 @@ public enum Measure implements MeasureFunction {
         }
     },
 
-    // Very slow
+    // Very slow - NaN
     POPULATION_HOMOGENEITY {
         @Override
         /**
@@ -174,7 +174,7 @@ public enum Measure implements MeasureFunction {
         }
     },
 
-    // Fast
+    // Fast - NaN
     COMPETITIVENESS {
         @Override
         /**
@@ -184,6 +184,7 @@ public enum Measure implements MeasureFunction {
         public double calculateMeasure(Cluster cluster) {
             int rv = cluster.getRepVote();
             int dv = cluster.getDemVote();
+            System.out.println(rv + " " + dv);
             return 1.0 - (((double) Math.abs(rv - dv)) / (rv + dv));
         }
     },

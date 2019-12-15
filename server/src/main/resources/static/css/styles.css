@@ -109,10 +109,6 @@
   vertical-align: middle;
 }
 
-.hide{
-  display: none;
-}
-
 .progress{
   margin-bottom: 1rem;
 }
@@ -273,12 +269,12 @@ html > body #bloc-results {
 
 html > body #gerry-results {
   overflow: hidden;
-  height: 150px;
+  height: 240px;
 }
 
 #gerry-results tbody {
   display: block;
-  height: 100px;
+  height: 170px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
@@ -298,11 +294,28 @@ html > body #gerry-results {
   float: right;
 }
 
+#anneal-results {
+    overflow: auto;
+    height: 300px;
+}
+
+#MM-tbody{
+    height: 40px;
+}
+
+#scores-tbody{
+    height: 40px;
+}
+
 
 
 /* General CSS */
 body {
   overflow: hidden;
+}
+
+.hide{
+  display: none;
 }
 
 p {

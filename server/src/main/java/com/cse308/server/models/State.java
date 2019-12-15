@@ -46,9 +46,6 @@ public class State {
 
     @Transient
     private MeasureFunction clusterScoreFunction;
-    
-    @Transient
-    private Map<Cluster, Double> clusterScores;
 
 
     /* Getters & Setters */
@@ -188,7 +185,7 @@ public class State {
         minClusters[1].setIsMerged(true);
     }
 
-    public void mergePairs() {
+    public void mergePairs(int targetDistrictNum) {
         // If no pairs are pre-made, manually make one pair based on population
         if(pairs.isEmpty())
             makeRandomPair();
@@ -199,6 +196,9 @@ public class State {
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
             }
+            if(clusters.size() == targetDistrictNum){
+                return;
+            }
         }
     }
 
@@ -206,47 +206,34 @@ public class State {
     /* Phase 2 */
     public double[] anneal() {
         // Initialize scores
-        clusterScores = new HashMap<>();
-        updateScores();
-        double initialScore = objectiveFunction();
+        double initialScore, prevScore, newScore;
+        initialScore = prevScore = objectiveFunction();
+        newScore = 0;
 
         // Anneal each cluster until converges
-        double prevScore = 0, newScore = 0;
         int stag_count = 0;
-        while (stag_count <= 20) {
+        while (stag_count <= 10) {
+            Cluster worstCluster = getLowestScoreCluster();
+            newScore = worstCluster.anneal(prevScore);
+            stag_count = isStagnant(prevScore, newScore) ? stag_count+1 : 0;
             prevScore = newScore;
 
-            Cluster worstCluster = getLowestScoreCluster();
-            worstCluster.anneal();
-            updateScores();
-            newScore = objectiveFunction();
-
             System.out.println(newScore);
-
-            if(isStagnant(prevScore, newScore))
-                stag_count++;
         }
 
-        double finalScore = newScore > prevScore ? newScore : prevScore;
-        double[] result = {initialScore, finalScore};
+//        double finalScore = newScore > prevScore ? newScore : prevScore;
+        double[] result = {initialScore, newScore};
+        System.out.println("Anneal Finished");
         return result;
-    }
-
-    public void updateScores() {
-        for (Cluster cluster : clusters) {
-            double score = clusterScoreFunction.calculateMeasure(cluster);
-            clusterScores.put(cluster, score);
-        }
     }
 
     public Cluster getLowestScoreCluster() {
         Cluster worstCluster = null;
         double minScore = Double.POSITIVE_INFINITY;
         for (Cluster cluster : clusters) {
-            double score = clusterScores.get(cluster);
-            if (score < minScore) {
+            if (cluster.getScore() < minScore) {
                 worstCluster = cluster;
-                minScore = score;
+                minScore = cluster.getScore();
             }
         }
         return worstCluster;
@@ -254,13 +241,16 @@ public class State {
 
     public double objectiveFunction() {
         double score = 0;
-        for (Cluster cluster : clusters)
-            score += clusterScores.get(cluster);
+        for (Cluster cluster : clusters){
+            cluster.setScore(clusterScoreFunction.calculateMeasure(cluster));
+            score += cluster.getScore();
+        }
         return score;
     }
 
+
     public boolean isStagnant(double prevScore, double newScore){
-        return Math.abs(prevScore - newScore) < 0.0001 || newScore <= prevScore;
+        return Math.abs(prevScore - newScore) < 0.0001;
     }
 
     @Override
