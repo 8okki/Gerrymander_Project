@@ -17,6 +17,15 @@ function getColor(state) {
 	                  '#FFEDA0';
 }
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 // style function
 function style(feature) {
 	return {
@@ -181,6 +190,17 @@ function resetHighlight(e) {
 	geojson.resetStyle(e.target);
 }
 
+function resetPrecinctHighlight(e) {
+	let layer = e.target;
+	layer.setStyle({
+		weight: 2,
+		opacity: 1,
+		color: 'white',
+		dashArray: '3',
+		fillOpacity: 0.5
+	});
+}
+
 function resetDistrictHighlight(e) {
 	let layer = e.target;
 	let feature = layer.feature;
@@ -325,7 +345,7 @@ async function initCongressionalDistricts(stateName){
 function onEachFeaturePrecinct(feature, layer) {
 	layer.on({
 		mouseover: onHoverPrecinct,
-		mouseout: resetHighlight//,
+		mouseout: resetPrecinctHighlight//,
 		// click: initState
 	});
 	layer.on('mouseover', function () {

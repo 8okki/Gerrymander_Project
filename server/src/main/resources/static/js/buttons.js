@@ -161,6 +161,16 @@
                         $(".gerry-demo[value='White']").prop('checked', false);
 
                         $("#gerry-results").removeClass("hide");
+						
+						(async function(){
+							for(district of data.results){
+								let randomColor = getRandomColor();
+								for(precinct of district.precincts){
+									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+									layer.setStyle({ fillColor: randomColor });
+								}
+							}
+						})();
 					},
 					"400": function (data) {
 						console.log("error", data);

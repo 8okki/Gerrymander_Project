@@ -15,8 +15,6 @@ import java.util.List;
  */
 public class Phase1Result implements Result {
     List<String> precincts;
-    int before;
-    int after;
     
     public Phase1Result(List<String> precincts){
         this.precincts = precincts;
