@@ -52,6 +52,9 @@ public class Cluster {
 
 
     /* Getters & Setters */
+
+    public int getId() { return id; }
+
     public State getState() { return state; }
 
     public Set<Precinct> getPrecincts(){
