@@ -5,6 +5,7 @@
  */
 package com.cse308.server.models;
 
+import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.measure.MeasureFunction;
 import com.cse308.server.result.DistrictInfo;
@@ -13,6 +14,8 @@ import com.sun.xml.bind.v2.TODO;
 
 import java.util.*;
 import javax.persistence.*;
+
+import static java.lang.System.nanoTime;
 
 /**
  *
@@ -131,6 +134,8 @@ public class State {
         clusters = new HashSet<>();
         int id = 1;
         for(Precinct precinct : precincts){
+            if(precinct.getCode().equals("123-ACQ") || precinct.getCode().equals("043-ACN"))
+                continue;
             clusters.add(new Cluster(id++,this, precinct));
         }
 
@@ -178,17 +183,11 @@ public class State {
     }
 
     public void makeRandomPair() {
-        int c = (int) (Math.random() * clusters.size());
-        int i = 0;
-        for(Cluster cluster : clusters){
-            if(i++ == c)
-                for (Cluster neighbor : cluster.getAdjacentClusters()){
-                    pairs.put(cluster, neighbor);
-                    cluster.setIsMerged(true);
-                    neighbor.setIsMerged(true);
-                    return;
-                }
-        }
+        Cluster cluster = getRandom(clusters);
+        Cluster neighbor = getRandom(cluster.getAdjacentClusters());
+        pairs.put(cluster, neighbor);
+        cluster.setIsMerged(true);
+        neighbor.setIsMerged(true);
     }
 
     public void makeManualPair(){
@@ -229,40 +228,43 @@ public class State {
 
     /* Phase 2 */
     public double[] anneal() {
-        // Initializations
+        // Initialization Scores
         double initialScore, prevScore, newScore;
         initialScore = prevScore = objectiveFunction();
         newScore = 0;
+
+        // Initialize Stagnation Counter
+        final int MAX_STAG = 50;
+        final long TIME_LIMIT = 30;
+        int stagnation = 0;
+
+        // Intialize changed precincts container
         changedPrecincts = new HashSet<>();
 
-        // Anneal each cluster until converges
-        int stag_count = 0;
-        final int MAX_STAG = 5;
-        while (stag_count <= MAX_STAG) {
-            Cluster worstCluster = getLowestScoreCluster();
-            System.out.println(worstCluster.getId() + " " + worstCluster.getPrecincts().size());
-            changedPrecincts.add(worstCluster.anneal(prevScore));
+        // Anneal randomly until converges or passes time limit
+        int elapsedTime = 0;
+        long startTime = System.nanoTime();
+        while (stagnation <= MAX_STAG && elapsedTime < TIME_LIMIT) {
+            Cluster cluster = getRandom(clusters);
+            Move move = cluster.findRandomMove();
+            move.execute();
             newScore = objectiveFunction();
-            stag_count = isStagnant(prevScore, newScore) ? stag_count+1 : 0;
+
+            if (newScore < prevScore){
+                move.undo();
+                newScore = prevScore;
+            } else
+                changedPrecincts.add(move.getPrecinct().getCode());
+
+            System.out.println(newScore);
+            stagnation = isStagnant(prevScore, newScore) ? stagnation+1 : 0;
             prevScore = newScore;
+            elapsedTime = (int) ((System.nanoTime() - startTime) / 1e+9) ;
         }
 
-//        double finalScore = newScore > prevScore ? newScore : prevScore;
         double[] result = {initialScore, newScore};
         System.out.println("Anneal Finished");
         return result;
-    }
-
-    public Cluster getLowestScoreCluster() {
-        Cluster worstCluster = null;
-        double minScore = Double.POSITIVE_INFINITY;
-        for (Cluster cluster : clusters) {
-            if (cluster.getScore() < minScore) {
-                worstCluster = cluster;
-                minScore = cluster.getScore();
-            }
-        }
-        return worstCluster;
     }
 
     public double objectiveFunction() {
@@ -274,9 +276,12 @@ public class State {
         return score;
     }
 
-
     public boolean isStagnant(double prevScore, double newScore){
         return Math.abs(prevScore - newScore) < 0.0001;
+    }
+
+    public <E> E getRandom(Set<E> set){
+        return set.stream().skip((int) (set.size() * Math.random())).findFirst().get();
     }
 
     @Override
