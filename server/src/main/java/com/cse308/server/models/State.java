@@ -10,7 +10,6 @@ import com.cse308.server.enums.Demographic;
 import com.cse308.server.measure.MeasureFunction;
 import com.cse308.server.result.DistrictInfo;
 import com.cse308.server.result.VoteBlocResult;
-import com.sun.xml.bind.v2.TODO;
 
 import java.util.*;
 import javax.persistence.*;
@@ -131,7 +130,8 @@ public class State {
 
     /* Phase 1 */
     public void initClusters(){
-        clusters = new HashSet<>();
+        Comparator<Cluster> comparator = Comparator.comparing(Cluster::getPopulation).thenComparing(Cluster::getId);
+        clusters = new TreeSet<>(comparator);
         int id = 1;
         for(Precinct precinct : precincts){
             if(precinct.getCode().equals("123-ACQ") || precinct.getCode().equals("043-ACN"))
@@ -154,58 +154,53 @@ public class State {
         }
     }
 
-    public void setMMPairs(float minRange, float maxRange, List<Demographic> demographics) {
+    public void makeMMPairs(float minRange, float maxRange, List<Demographic> demographics, float idealPopulation) {
         for (Cluster cluster : clusters) {
             if (!cluster.isMerged()) {
-                Cluster pair = cluster.findMMPair(minRange, maxRange, demographics);
+                Cluster pair = cluster.findMMPair(minRange, maxRange, demographics, idealPopulation);
                 if (pair != null) {
-//                    System.out.println("mm pair found");
                     pairs.put(cluster, pair);
                     cluster.setIsMerged(true);
                     pair.setIsMerged(true);
+                    System.out.println("MM Made");
                 }
             }
         }
     }
 
-    public void setPairs(float targetPopulation) {
+    public void makePairs(float idealPopulation) {
         for(Cluster cluster : clusters) {
             if (!cluster.isMerged()) {
-                Cluster pair = cluster.findPair(targetPopulation);
+                Cluster pair = cluster.findPair(idealPopulation);
                 if (pair != null) {
-//                    System.out.println("reg pair found");
                     pairs.put(cluster, pair);
                     cluster.setIsMerged(true);
                     pair.setIsMerged(true);
+//                    System.out.println("POP Made");
                 }
             }
         }
     }
 
     public void makeRandomPair() {
-        Cluster cluster = getRandom(clusters);
+        Cluster cluster = ((TreeSet<Cluster>)clusters).first();
         Cluster neighbor = getRandom(cluster.getAdjacentClusters());
         pairs.put(cluster, neighbor);
         cluster.setIsMerged(true);
         neighbor.setIsMerged(true);
     }
 
-    public void makeManualPair(){
-        int currentMin = Integer.MAX_VALUE;
-        Cluster[] minClusters = new Cluster[2];
-        for (Cluster cluster : clusters) {
-            for (Cluster neighbor : cluster.getAdjacentClusters()) {
-                int sum = cluster.getPopulation() + neighbor.getPopulation();
-                if (sum < currentMin) {
-                    currentMin = sum;
-                    minClusters[0] = cluster;
-                    minClusters[1] = neighbor;
-                }
+    public void makeManualPair(float idealPopulation){
+        for(Cluster cluster : clusters){
+            Cluster neighbor = getRandom(cluster.getAdjacentClusters());
+            if(cluster.isPair(neighbor, idealPopulation)){
+                pairs.put(cluster, neighbor);
+                cluster.setIsMerged(true);
+                neighbor.setIsMerged(true);
+                System.out.println("Manual Made");
+                break;
             }
         }
-        pairs.put(minClusters[0], minClusters[1]);
-        minClusters[0].setIsMerged(true);
-        minClusters[1].setIsMerged(true);
     }
 
     public void mergePairs(int targetDistrictNum) {
@@ -216,6 +211,8 @@ public class State {
         // Merge all pairs
         for (Cluster cluster : pairs.keySet()) {
             if (cluster.isMerged() && pairs.get(cluster).isMerged()) {
+                clusters.remove(cluster);
+                clusters.remove(pairs.get(cluster));
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
             }
@@ -273,11 +270,11 @@ public class State {
             cluster.setScore(clusterScoreFunction.calculateMeasure(cluster));
             score += cluster.getScore();
         }
-        return score;
+        return score / clusters.size();
     }
 
     public boolean isStagnant(double prevScore, double newScore){
-        return Math.abs(prevScore - newScore) < 0.0001;
+        return Math.abs(prevScore - newScore) < 0.00001;
     }
 
     public <E> E getRandom(Set<E> set){

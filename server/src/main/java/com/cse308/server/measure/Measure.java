@@ -13,8 +13,6 @@ import org.locationtech.jts.geom.*;
 public enum Measure implements MeasureFunction {
 
     // Types of measure
-
-    // Fast
     PARTISAN_FAIRNESS{
         @Override
         /**
@@ -57,10 +55,8 @@ public enum Measure implements MeasureFunction {
             } else {
                 inefficient_V = loss_v;
             }
-            return 1.0 - ((inefficient_V * 1.0) / tv);        }
+            return 1.0 - (((double) inefficient_V) / tv);        }
     },
-
-    // Slow
     REOCK_COMPACTNESS {
         @Override
         public double calculateMeasure(Cluster cluster) {
@@ -69,8 +65,6 @@ public enum Measure implements MeasureFunction {
             return shape.getArea() / boundingCircle.getArea();
         }
     },
-
-    // Very slow
     CONVEX_HULL_COMPACTNESS{
         @Override
         public double calculateMeasure(Cluster cluster) {
@@ -79,8 +73,6 @@ public enum Measure implements MeasureFunction {
             return shape.getArea() / convexHull.getArea();
         }
     },
-
-    // Fast, Doesn't anneal
     EDGE_COMPACTNESS {
         @Override
         /**
@@ -95,8 +87,6 @@ public enum Measure implements MeasureFunction {
             return internalEdges / totalEdges;
         }
     },
-
-    // Fast, Doesn't anneal
     EFFICIENCY_GAP {
         @Override
         /**
@@ -121,7 +111,7 @@ public enum Measure implements MeasureFunction {
                 tv += rv;
                 tv += dv;
             }
-            return 1.0 - ((Math.abs(iv_r - iv_d) * 1.0) / tv);
+            return 1.0 - (((double)Math.abs(iv_r - iv_d)) / tv);
         }
         /**
          * Wasted votes:
@@ -137,11 +127,9 @@ public enum Measure implements MeasureFunction {
             int win_v = Math.max(rv, dv);
             int loss_v = Math.min(rv, dv);
             int inefficient_V = Math.abs(loss_v - (win_v - loss_v));
-            return 1.0 - ((inefficient_V * 1.0) / tv);
+            return 1.0 - (((double) inefficient_V) / tv);
         }
     },
-
-    // Fast, Doesn't anneal
     POPULATION_EQUALITY {
         @Override
         public double calculateMeasure(Cluster cluster) {
@@ -149,14 +137,9 @@ public enum Measure implements MeasureFunction {
             State state = cluster.getState();
             int idealPopulation = state.getPopulation() / state.getClusters().size();
             int truePopulation = cluster.getPopulation();
-            if (idealPopulation >= truePopulation) {
-                return 1 - Math.pow(Math.abs(idealPopulation - (double)truePopulation) / idealPopulation, 1.25);
-            }
-            return 1 - Math.pow(Math.abs(truePopulation - (double)idealPopulation) / idealPopulation, 1.25);
+            return 1 - Math.pow(Math.abs(idealPopulation - (double)truePopulation) / state.getPopulation(), 1.25);
         }
     },
-
-    // Very slow - NaN
     POPULATION_HOMOGENEITY {
         @Override
         /**
@@ -173,8 +156,6 @@ public enum Measure implements MeasureFunction {
             return 1.0 - Math.tanh(Math.sqrt(sqError/mean)/(mean));
         }
     },
-
-    // Fast - NaN
     COMPETITIVENESS {
         @Override
         /**
@@ -187,8 +168,6 @@ public enum Measure implements MeasureFunction {
             return 1.0 - (((double) Math.abs(rv - dv)) / (rv + dv));
         }
     },
-
-    // Fast
     GERRYMANDER_REPUBLICAN {
         @Override
         /**
@@ -211,11 +190,9 @@ public enum Measure implements MeasureFunction {
             } else {
                 inefficient_V = loss_v;
             }
-            return 1.0 - ((inefficient_V * 1.0) / tv);
+            return 1.0 - (((double) inefficient_V) / tv);
         }
     },
-
-    // Fast
     GERRYMANDER_DEMOCRATIC {
         @Override
         /**
@@ -238,7 +215,7 @@ public enum Measure implements MeasureFunction {
             } else {
                 inefficient_V = loss_v;
             }
-            return 1.0 - ((inefficient_V * 1.0) / tv);
+            return 1.0 - (((double) inefficient_V) / tv);
         }
     };
 

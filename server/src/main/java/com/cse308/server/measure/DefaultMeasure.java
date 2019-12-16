@@ -26,11 +26,13 @@ public class DefaultMeasure implements MeasureFunction {
     @Override
     public double calculateMeasure(Cluster cluster) {
         double sum = 0;
+        double weightSum = 0;
         for (Measure measure : measures) {
             double value  = measure.calculateMeasure(cluster);
             double weight = measure.weight;
+            weightSum += weight;
             sum += activationFunction.apply(value) * weight;
         }
-        return sum;
+        return sum / weightSum;
     }
 }
