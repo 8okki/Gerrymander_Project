@@ -40,6 +40,8 @@ public class Algorithm {
     
     State state;
 
+    boolean incrementalRunning;
+    
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){
         return this.state.getDistrictInfo(districtId, demographics);
     }
@@ -100,7 +102,9 @@ public class Algorithm {
 
     /* Phase 1 */
     public List<Phase1Result> runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
-        state.initClusters();
+        if(!incrementalRunning){
+            state.initClusters();
+        }
         float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
 
         // Create initial clusters
@@ -113,16 +117,43 @@ public class Algorithm {
         }
 
         // Creating Result objects
-		List<Phase1Result> results = new ArrayList<>();
-		for(Cluster c : state.getClusters()){
-			List<String> precinctCodes = new ArrayList<>();
-			for(Precinct p : c.getPrecincts())
-				precinctCodes.add(p.getCode());
-			results.add(new Phase1Result(precinctCodes));
-		}
-		return results;
+        List<Phase1Result> results = new ArrayList<>();
+        for(Cluster c : state.getClusters()){
+                List<String> precinctCodes = new ArrayList<>();
+                for(Precinct p : c.getPrecincts())
+                        precinctCodes.add(p.getCode());
+                results.add(new Phase1Result(precinctCodes));
+        }
+        incrementalRunning = false;
+        return results;
     }
 
+    public List<Phase1Result> runPhase1Incremental(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum) {
+        if(!incrementalRunning){
+            state.initClusters();
+        }
+        float targetPopulation = (float) state.getPopulation() / targetDistrictNum;
+        if(state.getClusters().size() > targetDistrictNum){
+            state.resetPairs();
+            state.setMMPairs(demographicMinimum, demographicMinimum, demographics);
+            state.setPairs(targetPopulation);
+            state.mergePairs(targetDistrictNum);
+            System.out.println("CURRENT SIZE - " + state.getClusters().size());
+        }
+        if(state.getClusters().size() <= targetDistrictNum){
+            incrementalRunning = false;
+        }
+        // Creating Result objects
+        List<Phase1Result> results = new ArrayList<>();
+        for(Cluster c : state.getClusters()){
+                List<String> precinctCodes = new ArrayList<>();
+                for(Precinct p : c.getPrecincts())
+                        precinctCodes.add(p.getCode());
+                results.add(new Phase1Result(precinctCodes));
+        }
+        return results;
+    }
+    
     /* Phase 2 */
     public Phase2Result runPhase2(List<Measure> measures){
         DefaultMeasure measureFunction = new DefaultMeasure(measures);
