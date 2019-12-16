@@ -234,7 +234,8 @@ public class State {
 
         // Anneal each cluster until converges
         int stag_count = 0;
-        while (stag_count <= 10) {
+        final int MAX_STAG = 5;
+        while (stag_count <= MAX_STAG) {
             Cluster worstCluster = getLowestScoreCluster();
             newScore = worstCluster.anneal(prevScore);
             stag_count = isStagnant(prevScore, newScore) ? stag_count+1 : 0;

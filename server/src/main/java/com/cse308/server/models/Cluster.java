@@ -270,8 +270,10 @@ public class Cluster {
         Move move = findBestMove(currentScore);
 
         // Execute the move
-        if (move != null)
+        if (move != null){
             move.execute();
+            System.out.println(move.getPrecinct().getCode() + " changed");
+        }
 
         return state.objectiveFunction();
     }

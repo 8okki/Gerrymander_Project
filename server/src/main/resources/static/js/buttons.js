@@ -216,7 +216,7 @@
 
                         $("#anneal-results").removeClass("hide");
 
-						colorPrecincts(data.results);
+						colorPrecincts(data.result.districtResults);
                     },
                     "400": function (data) {
                         console.log("error", data);

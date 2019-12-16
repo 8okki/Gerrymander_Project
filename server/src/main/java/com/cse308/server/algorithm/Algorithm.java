@@ -11,12 +11,10 @@ import com.cse308.server.measure.DefaultMeasure;
 import com.cse308.server.measure.Measure;
 import com.cse308.server.models.Cluster;
 import com.cse308.server.models.Precinct;
-import com.cse308.server.result.DistrictInfo;
-import com.cse308.server.result.Phase2Result;
-import com.cse308.server.result.VoteBlocResult;
+import com.cse308.server.result.*;
 import com.cse308.server.hibernate.dao.StateDao;
 import com.cse308.server.models.State;
-import com.cse308.server.result.Phase1Result;
+
 import java.util.ArrayList;
 
 import java.util.HashSet;
@@ -113,7 +111,6 @@ public class Algorithm {
             state.setMMPairs(demographicMinimum, demographicMaximum, demographics);
             state.setPairs(targetPopulation);
             state.mergePairs(targetDistrictNum);
-            System.out.println("CURRENT SIZE - " + state.getClusters().size());
         }
 
         // Creating Result objects
@@ -125,6 +122,7 @@ public class Algorithm {
                 results.add(new Phase1Result(precinctCodes));
         }
         incrementalRunning = false;
+        System.out.println(state.getClusters().size() + " clusters created");
         return results;
     }
 
@@ -144,14 +142,7 @@ public class Algorithm {
             incrementalRunning = false;
         }
         // Creating Result objects
-        List<Phase1Result> results = new ArrayList<>();
-        for(Cluster c : state.getClusters()){
-                List<String> precinctCodes = new ArrayList<>();
-                for(Precinct p : c.getPrecincts())
-                        precinctCodes.add(p.getCode());
-                results.add(new Phase1Result(precinctCodes));
-        }
-        return results;
+        return createDistrictResults();
     }
     
     /* Phase 2 */
@@ -159,6 +150,18 @@ public class Algorithm {
         DefaultMeasure measureFunction = new DefaultMeasure(measures);
         state.setScoreFunction(measureFunction);
         double[] scores = state.anneal();
-        return new Phase2Result(scores[0], scores[1]);
+        List<Phase1Result> districtResults = createDistrictResults();
+        return new Phase2Result(scores[0], scores[1], districtResults);
+    }
+
+    public List<Phase1Result> createDistrictResults(){
+        List<Phase1Result> results = new ArrayList<>();
+        for(Cluster c : state.getClusters()){
+            List<String> precinctCodes = new ArrayList<>();
+            for(Precinct p : c.getPrecincts())
+                precinctCodes.add(p.getCode());
+            results.add(new Phase1Result(precinctCodes));
+        }
+        return results;
     }
 }
