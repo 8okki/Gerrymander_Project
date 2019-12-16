@@ -363,14 +363,14 @@ function onEachFeatureDistrict(feature, layer) {
 		mouseout: resetDistrictHighlight
 	});
 	layer.on('mouseover', function () {
-			$("#district-info").toggleClass("hide");
-			$("#district-demo-data").toggleClass("hide");
-			$("#demo-results").addClass("hide");
+			$("#district-info").removeClass("hide");
+			$("#district-demo-data").removeClass("hide");
+			$("#demo-results").addClass("hide");	//state demographic data
 			$("#gerry-results").removeClass("hide");
     });
 	layer.on('mouseout', function () {
-			$("#district-info").toggleClass("hide");
-			$("#district-demo-data").toggleClass("hide");
+			$("#district-info").addClass("hide");
+			$("#district-demo-data").addClass("hide");
 			$("#demo-results").removeClass("hide");
 			$("#gerry-results").addClass("hide");
 	});
@@ -399,11 +399,11 @@ function onEachFeaturePrecinct(feature, layer) {
 		mouseout: resetPrecinctHighlight//,
 	});
 	layer.on('mouseover', function () {
-			$("#precinct-voting-data").toggleClass("hide");
+			$("#precinct-voting-data").removeClass("hide");
 			$("#demo-results").addClass("hide");
     });
 	layer.on('mouseout', function () {
-			$("#precinct-voting-data").toggleClass("hide");
+			$("#precinct-voting-data").addClass("hide");
 			$("#demo-results").removeClass("hide");
 	});
 	layer._leaflet_id = L.Util.stamp(layer);
@@ -442,8 +442,10 @@ var zoomlevel = map.getZoom();
     if (zoomlevel < 5){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
-						$("#district-demo-data").addClass("hide");
 						$("#district-info").addClass("hide");
+						$("#district-demo-data").addClass("hide");
+						$("#demo-results").removeClass("hide");
+						$("#gerry-results").addClass("hide");
         }
     } else if (zoomlevel >= 8 && precinctLoadedFlag){
 						map.addLayer(precincts);
@@ -456,7 +458,8 @@ var zoomlevel = map.getZoom();
         }
 	    if (map.hasLayer(precincts)) {
             map.removeLayer(precincts);
-            $("#precinct-voting-data").addClass("hide");
+						$("#precinct-voting-data").addClass("hide");
+						$("#demo-results").removeClass("hide");
         }
     }
 });
