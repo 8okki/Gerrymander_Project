@@ -111,7 +111,7 @@ public class Algorithm {
         if(!incrementalRunning){
             state.initClusters();
         }
-        float idealPopulation = (float) state.getPopulation() / targetDistrictNum;
+        float idealPopulation = (float) (state.getPopulation()) / targetDistrictNum;
 
         // Create initial clusters
         while(state.getClusters().size() > targetDistrictNum) {
@@ -119,7 +119,7 @@ public class Algorithm {
             state.makeMMPairs(demographicMinimum, demographicMaximum, demographics, idealPopulation);
             state.makePairs(idealPopulation);
             state.mergePairs(targetDistrictNum);
-            System.out.println("CURRENT CLUSTER COUNT: " + state.getClusters().size());
+            System.out.println("CURRENT SIZE: " + state.getClusters().size());
         }
 
         // Creating Result objects
@@ -131,9 +131,8 @@ public class Algorithm {
             results.add(new Phase1Result(precinctCodes));
         }
         incrementalRunning = false;
-        System.out.println(state.getClusters().size() + " clusters created");
 
-        int maxPop = Integer.MIN_VALUE, minPop = Integer.MAX_VALUE;
+        int maxPop = Integer.MIN_VALUE, minPop = Integer.MAX_VALUE, mm = 0;
         for(Cluster cluster : state.getClusters()){
             if(cluster.getPopulation() > maxPop) {
                 maxPop = cluster.getPopulation();
@@ -141,8 +140,10 @@ public class Algorithm {
             if(cluster.getPopulation() < minPop) {
                 minPop = cluster.getPopulation();
             }
+            if(cluster.isMM(demographicMinimum, demographicMaximum, demographics))
+                mm++;
         }
-        System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop);
+        System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop + " " + mm);
 
         return results;
     }

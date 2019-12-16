@@ -47,6 +47,7 @@ public class Cluster{
     private boolean convexHullUpdated;
 
     private boolean isMerged;
+    private boolean isMM;
 
     private double score;
 
@@ -100,6 +101,13 @@ public class Cluster{
     }
 
     public boolean isMerged() { return isMerged; }
+
+    public boolean isMM(float minRange, float maxRange, List<Demographic> demographics) {
+        float ratio = (float) this.getDemographicPopSum(demographics) / this.getPopulation();
+        isMM = ratio >= minRange && ratio <= maxRange;
+
+        return isMM;
+    }
 
     public void setAdjClusters(Set<Cluster> adjClusters) { this.adjClusters = adjClusters; }
 

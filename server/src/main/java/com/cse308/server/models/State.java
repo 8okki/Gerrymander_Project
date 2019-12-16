@@ -176,7 +176,7 @@ public class State {
                     pairs.put(cluster, pair);
                     cluster.setIsMerged(true);
                     pair.setIsMerged(true);
-//                    System.out.println("POP Made");
+                    System.out.println("No-MM Made");
                 }
             }
         }
