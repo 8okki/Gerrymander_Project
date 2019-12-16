@@ -158,8 +158,7 @@ public class Algorithm {
         DefaultMeasure measureFunction = new DefaultMeasure(measures);
         state.setScoreFunction(measureFunction);
         double[] scores = state.anneal();
-        List<Phase1Result> districtResults = createDistrictResults();
-        return new Phase2Result(scores[0], scores[1], districtResults);
+        return new Phase2Result(scores[0], scores[1], createDistrictResults(), state.getChangedPrecincts());
     }
 
     public List<Phase1Result> createDistrictResults(){

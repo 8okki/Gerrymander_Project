@@ -53,6 +53,8 @@ public class State {
     @Transient
     private MeasureFunction clusterScoreFunction;
 
+    @Transient
+    private Set<String> changedPrecincts;
 
     /* Getters & Setters */
     public String getName(){
@@ -75,8 +77,8 @@ public class State {
         return this.precincts;
     }
 
-    public MeasureFunction getClusterScoreFunction() { return clusterScoreFunction; }
-    
+    public Set<String> getChangedPrecincts() { return this.changedPrecincts; }
+
     public boolean areNeighborsLoaded(){
         return this.neighborsLoaded;
     }
@@ -227,21 +229,21 @@ public class State {
 
     /* Phase 2 */
     public double[] anneal() {
-        // Initialize scores
+        // Initializations
         double initialScore, prevScore, newScore;
         initialScore = prevScore = objectiveFunction();
         newScore = 0;
+        changedPrecincts = new HashSet<>();
 
         // Anneal each cluster until converges
         int stag_count = 0;
         final int MAX_STAG = 5;
         while (stag_count <= MAX_STAG) {
             Cluster worstCluster = getLowestScoreCluster();
-            newScore = worstCluster.anneal(prevScore);
+            changedPrecincts.add(worstCluster.anneal(prevScore));
+            newScore = objectiveFunction();
             stag_count = isStagnant(prevScore, newScore) ? stag_count+1 : 0;
             prevScore = newScore;
-
-            System.out.println(newScore);
         }
 
 //        double finalScore = newScore > prevScore ? newScore : prevScore;

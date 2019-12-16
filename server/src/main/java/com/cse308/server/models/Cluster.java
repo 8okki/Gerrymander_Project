@@ -265,17 +265,16 @@ public class Cluster {
 
 
     /* Phase 2 */
-    public double anneal(double currentScore) {
+    public String anneal(double currentScore) {
         // Find best move
         Move move = findBestMove(currentScore);
 
         // Execute the move
         if (move != null){
             move.execute();
-            System.out.println(move.getPrecinct().getCode() + " changed");
+            return move.getPrecinct().getCode();
         }
-
-        return state.objectiveFunction();
+        return null;
     }
 
     public Move findBestMove(double currentScore) {
