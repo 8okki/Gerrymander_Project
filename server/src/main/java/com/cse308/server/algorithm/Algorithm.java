@@ -18,9 +18,11 @@ import com.cse308.server.hibernate.dao.StateDao;
 import com.cse308.server.models.State;
 import com.cse308.server.result.Phase1Result;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,8 @@ public class Algorithm {
     
     State state;
 
+    Map<StateName,State> loadedStates;
+    
     boolean incrementalRunning;
     
     public DistrictInfo getDistrictInfo(int districtId, Demographic[] demographics){
@@ -48,10 +52,14 @@ public class Algorithm {
 
     /* Initialize */
     public State initState(StateName stateName){
-        if(state == null || StateName.valueOf(state.getName()) != stateName){
+        if(loadedStates == null){
+            loadedStates = new HashMap<>();
+        }
+        if(state == null || !loadedStates.containsKey(StateName.valueOf(state.getName()))){
             State result = stateDao.getStateById(stateName.name());
             if(result != null){
                 state = result;
+                loadedStates.put(stateName, state);
                 return state;
             }else{
                 return null;
