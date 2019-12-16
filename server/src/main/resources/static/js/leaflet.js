@@ -189,29 +189,24 @@ function onHoverDistrict(e){
 	);
 
 	//demographic data for gerrymander pane
-	tableBody.id = "demo-tbody";
-
-	for(demo of Object.keys(demos)){
-		row = tableBody.insertRow(0);
-
-		t0 = document.createTextNode(demo);
-		row.insertCell(0).appendChild(t0);
-
-		t1 = document.createTextNode(demos[demo]);
-		row.insertCell(1).appendChild(t1);
-
-		t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
-		row.insertCell(2).appendChild(t2);
-	}
-
-	layer.setStyle(
-		{
-			weight: 5,
-			color:"#666",
-			dashArray: '',
-			fillOpacity: 0.7
-		}
-	);
+	// tableBody = $("#demo-tbody")[0];
+	// newTableBody = document.createElement("tbody");
+	// tableBody.parentNode.replaceChild(newTableBody, tableBody);
+	// tableBody = newTableBody;
+	// tableBody.id = "demo-tbody";
+	//
+	// for(demo of Object.keys(demos)){
+	// 	row = tableBody.insertRow(0);
+	//
+	// 	t0 = document.createTextNode(demo);
+	// 	row.insertCell(0).appendChild(t0);
+	//
+	// 	t1 = document.createTextNode(demos[demo]);
+	// 	row.insertCell(1).appendChild(t1);
+	//
+	// 	t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
+	// 	row.insertCell(2).appendChild(t2);
+	// }
 }
 
 function hoverFeature(e){
@@ -396,9 +391,11 @@ function onEachFeaturePrecinct(feature, layer) {
 	});
 	layer.on('mouseover', function () {
 			$("#precinct-voting-data").toggleClass("hide");
+			$("#demo-results").addClass("hide");
     });
 	layer.on('mouseout', function () {
 			$("#precinct-voting-data").toggleClass("hide");
+			$("#demo-results").removeClass("hide");
 	});
 	layer._leaflet_id = L.Util.stamp(layer);
 	statePrecincts[currentState.name.toUpperCase()][feature.properties.PRECODE] = layer._leaflet_id;
@@ -436,8 +433,8 @@ var zoomlevel = map.getZoom();
     if (zoomlevel < 5){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
-			$("#district-demo-data").addClass("hide");
-			$("#district-info").addClass("hide");
+						$("#district-demo-data").addClass("hide");
+						$("#district-info").addClass("hide");
         }
     } else if (zoomlevel >= 8 && precinctLoadedFlag){
 						map.addLayer(precincts);
