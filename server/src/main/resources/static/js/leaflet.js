@@ -187,6 +187,38 @@ function onHoverDistrict(e){
 			fillOpacity: 0.7
 		}
 	);
+
+	//demographic data for gerrymander pane
+	tableBody.id = "demo-tbody";
+	let pop = properties["TOTPOP"];
+	let white = properties["NH_WHITE"];
+	let black = properties["NH_BLACK"];
+	let asian = properties["NH_ASIAN"];
+	let hispanic = properties["HISPANIC"];
+
+	let demos = {"White":white,"Black":black,"Asian":asian,"Hispanic":hispanic};
+
+	for(demo of Object.keys(demos)){
+		row = tableBody.insertRow(0);
+
+		t0 = document.createTextNode(demo);
+		row.insertCell(0).appendChild(t0);
+
+		t1 = document.createTextNode(demos[demo]);
+		row.insertCell(1).appendChild(t1);
+
+		t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
+		row.insertCell(2).appendChild(t2);
+	}
+
+	layer.setStyle(
+		{
+			weight: 5,
+			color:"#666",
+			dashArray: '',
+			fillOpacity: 0.7
+		}
+	);
 }
 
 function hoverFeature(e){
