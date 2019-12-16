@@ -95,7 +95,7 @@
 	});
 
 	$(".close").click(function (e) {
-				$("#myModal")[0].style.display = "none";
+		$("#myModal")[0].style.display = "none";
 	});
 
 	$(window).click(function (e) {
@@ -147,11 +147,11 @@
             $(".alert").removeClass("hide");
         } else {
             measureWeights = {};
-            let weight = 1;
             let measureCheckBoxes = $("[name='measure']");
             for(measureCheckBox of measureCheckBoxes){
                 if(measureCheckBox.checked){
-                    measureWeights[measureCheckBox.value] = weight;
+                    let weight = $("[name='" + measureCheckBox.value + "']")[0].value;
+                    measureWeights[measureCheckBox.value] = parseInt(weight);
                 }
             }
 

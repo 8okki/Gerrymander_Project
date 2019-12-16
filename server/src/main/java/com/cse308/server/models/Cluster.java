@@ -102,13 +102,6 @@ public class Cluster{
 
     public boolean isMerged() { return isMerged; }
 
-    public boolean isMM(float minRange, float maxRange, List<Demographic> demographics) {
-        float ratio = (float) this.getDemographicPopSum(demographics) / this.getPopulation();
-        isMM = ratio >= minRange && ratio <= maxRange;
-
-        return isMM;
-    }
-
     public void setAdjClusters(Set<Cluster> adjClusters) { this.adjClusters = adjClusters; }
 
     public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
@@ -272,6 +265,14 @@ public class Cluster{
         int populationSum = this.getPopulation() + cluster.getPopulation();
         return populationSum <= targetPopulation;
     }
+
+    public boolean isMM(float minRange, float maxRange, List<Demographic> demographics) {
+        float ratio = (float) this.getDemographicPopSum(demographics) / this.getPopulation();
+        isMM = ratio >= minRange && ratio <= maxRange;
+
+        return isMM;
+    }
+
 
 
     /* Phase 2 */

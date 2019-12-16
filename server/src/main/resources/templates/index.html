@@ -369,7 +369,7 @@
 				<input type="text" class="form-control" aria-describedby="cong-dist">
 			</div>
 			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 sameLine">Run Gerrymander</button>
-			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 sameLine">Step Iteration</button>
+			<button id="runGerryStep" class="btn btn-outline-success btn-sm my-2 sameLine">Step Iteration</button>
 			<p class = "alert hide"> Please select a state first.</p>
 			<hr>
 			<div id="gerry-results" class="hide">
@@ -433,7 +433,7 @@
 					<input type="checkbox" class="m-1" name="measure" value="CONVEX_HULL_COMPACTNESS"> Convex Hull Compactness: <span id="weight3"></span> % <br>
 					<input type="checkbox" class="m-1" name="measure" value="EDGE_COMPACTNESS"> Edge Compactness: <span id="weight4"></span> % <br>
 					<input type="checkbox" class="m-1" name="measure" value="EFFICIENCY_GAP"> Efficiency Gap: <span id="weight5"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY"> Partisan Equality: <span id="weight6"></span> % <br>
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY"> Population Equality: <span id="weight6"></span> % <br>
 					<input type="checkbox" class="m-1" name="measure" value="POPULATION_HOMOGENEITY"> Population Homogeneity: <span id="weight7"></span> % <br>
 					<input type="checkbox" class="m-1" name="measure" value="COMPETITIVENESS"> Competitiveness: <span id="weight8"></span> % <br>
 					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_REPUBLICAN"> Gerrymander Republican: <span id="weight9"></span> % <br>
@@ -442,17 +442,16 @@
 
 
 				<div class="weights">
-						<input type="range" id="weightSlider" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider2" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider3" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider4" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider5" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider6" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider7" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider8" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider9" class="slider mb-2" min="0" max="100" value="0"><br>
-						<input type="range" id="weightSlider10" class="slider mb-2" min="0" max="100" value="0"><br>
-
+						<input type="range" id="weightSlider" class="slider mb-2" min="0" max="100" name="PARTISAN_FAIRNESS" value="0"><br>
+						<input type="range" id="weightSlider2" class="slider mb-2" min="0" max="100" name="REOCK_COMPACTNESS" value="0"><br>
+						<input type="range" id="weightSlider3" class="slider mb-2" min="0" max="100" name="CONVEX_HULL_COMPACTNESS" value="0"><br>
+						<input type="range" id="weightSlider4" class="slider mb-2" min="0" max="100" name="EDGE_COMPACTNESS" value="0"><br>
+						<input type="range" id="weightSlider5" class="slider mb-2" min="0" max="100" name="EFFICIENCY_GAP" value="0"><br>
+						<input type="range" id="weightSlider6" class="slider mb-2" min="0" max="100" name="POPULATION_EQUALITY" value="0"><br>
+						<input type="range" id="weightSlider7" class="slider mb-2" min="0" max="100" name="POPULATION_HOMOGENEITY" value="0"><br>
+						<input type="range" id="weightSlider8" class="slider mb-2" min="0" max="100" name="COMPETITIVENESS" value="0"><br>
+						<input type="range" id="weightSlider9" class="slider mb-2" min="0" max="100" name="GERRYMANDER_REPUBLICAN" value="0"><br>
+						<input type="range" id="weightSlider10" class="slider mb-2" min="0" max="100" name="GERRYMANDER_DEMOCRATIC" value="0"><br>
 				</div>
 				<br><br>
 

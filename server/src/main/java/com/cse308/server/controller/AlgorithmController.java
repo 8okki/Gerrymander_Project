@@ -141,7 +141,8 @@ public class AlgorithmController {
             List<Measure> measures = new ArrayList<>();
             for(Measure measure : Measure.values()) {
                 if (measureWeightsJson.has(measure.name())) {
-                    measure.weight = measureWeightsJson.get(measure.name()).getAsDouble();
+                    measure.weight = measureWeightsJson.get(measure.name()).getAsInt();
+                    System.out.println(measure.weight);
                     measures.add(measure);
                 }
             }
