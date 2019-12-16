@@ -162,18 +162,7 @@
 
                         $("#gerry-results").removeClass("hide");
 						
-						(async function(){
-							for(district of data.results){
-								let randomColor = getRandomColor();
-								let districtGroup = L.featureGroup();
-								for(precinct of district.precincts){
-									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
-									districtGroup.addLayer(layer);
-									layer.districtGroup = districtGroup;
-								}
-								districtGroup.setStyle({ fillColor: randomColor });
-							}
-						})();
+						colorPrecincts(data.results);
 					},
 					"400": function (data) {
 						console.log("error", data);
@@ -226,6 +215,8 @@
                         row.insertCell(2).appendChild(t2);
 
                         $("#anneal-results").removeClass("hide");
+
+						colorPrecincts(data.results);
                     },
                     "400": function (data) {
                         console.log("error", data);
@@ -234,6 +225,19 @@
             });
         }
     });
+
+    async function colorPrecincts(results) {
+        for(district of results){
+            let randomColor = getRandomColor();
+            let districtGroup = L.featureGroup();
+            for(precinct of district.precincts){
+                let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+                districtGroup.addLayer(layer);
+                layer.districtGroup = districtGroup;
+            }
+            districtGroup.setStyle({ fillColor: randomColor});
+        }
+    }
 
     $('input[name=electionYear]').change(
         function(){

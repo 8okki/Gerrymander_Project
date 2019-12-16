@@ -333,8 +333,7 @@ async function initPrecincts(stateName){
 function onEachFeatureDistrict(feature, layer) {
 	layer.on({
 		mouseover: onHoverDistrict,
-		mouseout: resetDistrictHighlight//,
-		// click: initState
+		mouseout: resetDistrictHighlight
 	});
 	layer.on('mouseover', function () {
 			$("#district-info").toggleClass("hide");
@@ -367,7 +366,6 @@ function onEachFeaturePrecinct(feature, layer) {
 	layer.on({
 		mouseover: onHoverPrecinct,
 		mouseout: resetPrecinctHighlight//,
-		// click: initState
 	});
 	layer.on('mouseover', function () {
 			$("#precinct-voting-data").toggleClass("hide");
@@ -377,7 +375,6 @@ function onEachFeaturePrecinct(feature, layer) {
 	});
 	layer._leaflet_id = L.Util.stamp(layer);
 	statePrecincts[currentState.name.toUpperCase()][feature.properties.PRECODE] = layer._leaflet_id;
-	//stateIDs[feature.properties.name] = feature.id;
 	stateLoadedFlags[feature.properties.name] = false;
 }
 
@@ -409,41 +406,26 @@ geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).add
 
 map.on('zoomend', function() {
 var zoomlevel = map.getZoom();
-    if (zoomlevel < 7){
+    if (zoomlevel < 6){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
 			$("#district-demo-data").addClass("hide");
 			$("#district-info").addClass("hide");
         }
-				// else {
-        //     console.log("no districts layer active");
-        // }
-    }
-		else if (zoomlevel >= 9){
-        if (map.hasLayer(precincts)){
-						// console.log("districts layer already added");
-        }
-				else if(precinctLoadedFlag == true){
-					map.addLayer(precincts);
-        	map.removeLayer(congressionalDistricts);
-					$("#district-demo-data").addClass("hide");
-					$("#district-info").addClass("hide");
-        }
-    }
-    else if (zoomlevel >= 7 && zoomlevel < 9){
-        if (map.hasLayer(congressionalDistricts)){
-						// console.log("districts layer already added");
-        }
-				else if(districtLoadedFlag == true){
+    } else if (zoomlevel >= 8 && precinctLoadedFlag){
+			map.addLayer(precincts);
+            map.removeLayer(congressionalDistricts);
+            $("#district-demo-data").addClass("hide");
+            $("#district-info").addClass("hide");
+    } else if (zoomlevel >= 6 && zoomlevel < 8){
+        if(districtLoadedFlag){
         	map.addLayer(congressionalDistricts);
         }
-				if (map.hasLayer(precincts)) {
+	    if (map.hasLayer(precincts)) {
             map.removeLayer(precincts);
-						$("#precinct-voting-data").addClass("hide");
+            $("#precinct-voting-data").addClass("hide");
         }
     }
-
-// console.log("Current Zoom Level =" + zoomlevel)
 });
 
 /*L.marker([51.5, -0.09]).addTo(map)
