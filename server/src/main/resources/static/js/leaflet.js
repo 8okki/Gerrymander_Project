@@ -190,13 +190,6 @@ function onHoverDistrict(e){
 
 	//demographic data for gerrymander pane
 	tableBody.id = "demo-tbody";
-	let pop = properties["TOTPOP"];
-	let white = properties["NH_WHITE"];
-	let black = properties["NH_BLACK"];
-	let asian = properties["NH_ASIAN"];
-	let hispanic = properties["HISPANIC"];
-
-	let demos = {"White":white,"Black":black,"Asian":asian,"Hispanic":hispanic};
 
 	for(demo of Object.keys(demos)){
 		row = tableBody.insertRow(0);
@@ -440,14 +433,14 @@ geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).add
 
 map.on('zoomend', function() {
 var zoomlevel = map.getZoom();
-    if (zoomlevel < 7){
+    if (zoomlevel < 5){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
 			$("#district-demo-data").addClass("hide");
 			$("#district-info").addClass("hide");
         }
     } else if (zoomlevel >= 8 && precinctLoadedFlag){
-			map.addLayer(precincts);
+						map.addLayer(precincts);
             map.removeLayer(congressionalDistricts);
             $("#district-demo-data").addClass("hide");
             $("#district-info").addClass("hide");
