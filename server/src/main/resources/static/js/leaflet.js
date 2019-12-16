@@ -338,10 +338,12 @@ function onEachFeatureDistrict(feature, layer) {
 	layer.on('mouseover', function () {
 			$("#district-info").toggleClass("hide");
 			$("#district-demo-data").toggleClass("hide");
+			$("#demo-results").addClass("hide");
     });
 	layer.on('mouseout', function () {
 			$("#district-info").toggleClass("hide");
 			$("#district-demo-data").toggleClass("hide");
+			$("#demo-results").removeClass("hide");
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
