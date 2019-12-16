@@ -26,7 +26,7 @@ public class Cluster {
 
     private State state;
     private Set<Precinct> precincts;
-    private Set<Precinct> borderPrecincts;
+    private Set<Precinct> externals;
     private Set<Cluster> adjClusters;
 
     private int population;
@@ -48,6 +48,8 @@ public class Cluster {
 
     private boolean isMerged;
 
+    private double score;
+
 
     /* Getters & Setters */
     public State getState() { return state; }
@@ -55,8 +57,6 @@ public class Cluster {
     public Set<Precinct> getPrecincts(){
         return this.precincts;
     }
-
-    public Set<Precinct> getBorderPrecincts() { return borderPrecincts; }
 
     public Set<Cluster> getAdjacentClusters(){
         return this.adjClusters;
@@ -90,6 +90,8 @@ public class Cluster {
 
     public int getExternalEdges() { return externalEdges; }
 
+    public double getScore() { return score; }
+
     public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
         return null;
     }
@@ -100,13 +102,15 @@ public class Cluster {
 
     public void setIsMerged(boolean isMerged) { this.isMerged = isMerged; }
 
+    public void setScore(double score) { this.score = score; }
+
     /* Constructor */
     public Cluster(int id, State state, Precinct precinct) {
         this.id = id;
         this.state = state;
         precincts = new HashSet<>();
         adjClusters = new HashSet<>();
-        borderPrecincts = new HashSet<>();
+        externals = new HashSet<>();
         demographicPopDist = new HashMap<>();
         for(Demographic demographic : Demographic.values())
             demographicPopDist.put(demographic, 0);
@@ -129,15 +133,17 @@ public class Cluster {
         }
 
         // Update edge counts
-        Set<Precinct> newInternalNeighbors = getInternalNeighbors(precinct);
-        int newInternalEdges = newInternalNeighbors.size();
+        Set<Precinct> newInternals = getInternalNeighbors(precinct);
+        int newInternalEdges = newInternals.size();
         internalEdges += newInternalEdges;
         externalEdges += (precinct.getNeighbors().size() - 2 * newInternalEdges);
 
-        // Update border precincts
-        newInternalNeighbors.removeIf(this::isBorderPrecinct);
-        borderPrecincts.removeAll(newInternalNeighbors);
-        borderPrecincts.add(precinct);
+        // Update external precincts
+        for(Precinct neighbor : precinct.getNeighbors())
+            if(isExternal(neighbor)){
+                externals.add(neighbor);
+            }
+        externals.remove(precinct);
 
         multiPolygonUpdated = false;
         convexHullUpdated = false;
@@ -156,18 +162,41 @@ public class Cluster {
         }
 
         // Update edge counts
-        Set<Precinct> lostInternalNeighbors = getInternalNeighbors(precinct);
-        int lostInternalEdges = lostInternalNeighbors.size();
+        Set<Precinct> lostInternals = getInternalNeighbors(precinct);
+        int lostInternalEdges = lostInternals.size();
         internalEdges -= lostInternalEdges;
         externalEdges -= (precinct.getNeighbors().size() - 2 * lostInternalEdges);
 
-        // Update border precincts
-        borderPrecincts.addAll(lostInternalNeighbors);
-        borderPrecincts.remove(precinct);
+        // Update external precincts
+        for(Precinct neighbor : precinct.getNeighbors())
+            if(!isExternal(neighbor)){
+                externals.remove(neighbor);
+            }
+        externals.add(precinct);
 
         multiPolygonUpdated = false;
         convexHullUpdated = false;
         boundingCircleUpdated = false;
+    }
+
+    public Set<Precinct> getInternalNeighbors(Precinct precinct) {
+        Set<Precinct> internalNeighbors = new HashSet<>();
+        for(Precinct neighbor : precinct.getNeighbors())
+            if(precincts.contains(neighbor)){
+                internalNeighbors.add(neighbor);
+            }
+        return internalNeighbors;
+    }
+
+    public boolean isExternal(Precinct precinct){
+        if(precincts.contains(precinct))
+            return false;
+
+        for(Precinct neighbor : precinct.getNeighbors())
+            if(precincts.contains(neighbor)){
+                return true;
+            }
+        return false;
     }
 
 
@@ -236,25 +265,24 @@ public class Cluster {
 
 
     /* Phase 2 */
-    public void anneal() {
-        // Find all candidate neighbors
-        Set<Precinct> candidates = getExternalNeighbors();
-
+    public double anneal(double currentScore) {
         // Find best move
-        Move move = findBestMove(candidates);
+        Move move = findBestMove(currentScore);
 
         // Execute the move
         if (move != null)
             move.execute();
+
+        return state.objectiveFunction();
     }
 
-    public Move findBestMove(Set<Precinct> precincts) {
+    public Move findBestMove(double currentScore) {
         Move bestMove = null;
-        double bestScore = Double.NEGATIVE_INFINITY;
+        double bestScore = currentScore;
 
         Move currentMove;
         double score;
-        for (Precinct precinct : precincts) {
+        for (Precinct precinct : externals) {
             Cluster to = this;
             Cluster from = precinct.getCurrentCluster();
 
@@ -269,30 +297,6 @@ public class Cluster {
         }
 
         return bestMove;
-    }
-
-    public Set<Precinct> getExternalNeighbors() {
-        Set<Precinct> externals = new HashSet<>();
-        for (Precinct precinct : borderPrecincts)
-            externals.addAll(precinct.getNeighbors());
-        externals.removeAll(precincts);
-        return externals;
-    }
-
-    public Set<Precinct> getInternalNeighbors(Precinct precinct) {
-        Set<Precinct> internalNeighbors = new HashSet<>();
-        for(Precinct neighbor : precinct.getNeighbors())
-            if(neighbor.getCurrentCluster() == this)
-                internalNeighbors.add(neighbor);
-        return internalNeighbors;
-    }
-
-    public boolean isBorderPrecinct(Precinct precinct) {
-        // BorderPrecinct = precinct located at the boundary of this cluster
-        for (Precinct neighbor : precinct.getNeighbors())
-            if (neighbor.getCurrentCluster() != this)
-                return true;
-        return false;
     }
 
 
