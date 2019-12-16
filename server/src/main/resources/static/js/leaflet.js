@@ -440,7 +440,7 @@ geojson = L.geoJson(statesData, {style: style, onEachFeature:onEachFeature}).add
 
 map.on('zoomend', function() {
 var zoomlevel = map.getZoom();
-    if (zoomlevel < 6){
+    if (zoomlevel < 7){
         if (map.hasLayer(congressionalDistricts)) {
             map.removeLayer(congressionalDistricts);
 			$("#district-demo-data").addClass("hide");

@@ -240,6 +240,7 @@ public class State {
         final int MAX_STAG = 5;
         while (stag_count <= MAX_STAG) {
             Cluster worstCluster = getLowestScoreCluster();
+            System.out.println(worstCluster.getId() + " " + worstCluster.getPrecincts().size());
             changedPrecincts.add(worstCluster.anneal(prevScore));
             newScore = objectiveFunction();
             stag_count = isStagnant(prevScore, newScore) ? stag_count+1 : 0;
