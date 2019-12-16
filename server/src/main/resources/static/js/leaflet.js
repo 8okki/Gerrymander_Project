@@ -189,24 +189,31 @@ function onHoverDistrict(e){
 	);
 
 	//demographic data for gerrymander pane
-	// tableBody = $("#demo-tbody")[0];
-	// newTableBody = document.createElement("tbody");
-	// tableBody.parentNode.replaceChild(newTableBody, tableBody);
-	// tableBody = newTableBody;
-	// tableBody.id = "demo-tbody";
-	//
-	// for(demo of Object.keys(demos)){
-	// 	row = tableBody.insertRow(0);
-	//
-	// 	t0 = document.createTextNode(demo);
-	// 	row.insertCell(0).appendChild(t0);
-	//
-	// 	t1 = document.createTextNode(demos[demo]);
-	// 	row.insertCell(1).appendChild(t1);
-	//
-	// 	t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
-	// 	row.insertCell(2).appendChild(t2);
-	// }
+	tableBody = $("#demo-tbody")[0];
+	newTableBody = document.createElement("tbody");
+	tableBody.parentNode.replaceChild(newTableBody, tableBody);
+	tableBody = newTableBody;
+	tableBody.id = "demo-tbody";
+
+	$(".gerry-demo[value='White']").prop('checked', true);
+	gerryDemoCheckBoxes = $(".gerry-demo")
+
+	for(button of gerryDemoCheckBoxes){
+		if($(button).prop("checked") == true){
+			demo = $(button).attr('value');
+			row = tableBody.insertRow(0);
+
+			t0 = document.createTextNode(demo);
+			row.insertCell(0).appendChild(t0);
+
+			t1 = document.createTextNode(demos[demo]);
+			row.insertCell(1).appendChild(t1);
+
+			t2 = document.createTextNode(Math.round((demos[demo]/pop)*100*10)/10 + "%");
+			row.insertCell(2).appendChild(t2);
+		}
+	}
+	$(".gerry-demo[value='White']").prop('checked', false);
 }
 
 function hoverFeature(e){
@@ -359,11 +366,13 @@ function onEachFeatureDistrict(feature, layer) {
 			$("#district-info").toggleClass("hide");
 			$("#district-demo-data").toggleClass("hide");
 			$("#demo-results").addClass("hide");
+			$("#gerry-results").removeClass("hide");
     });
 	layer.on('mouseout', function () {
 			$("#district-info").toggleClass("hide");
 			$("#district-demo-data").toggleClass("hide");
 			$("#demo-results").removeClass("hide");
+			$("#gerry-results").addClass("hide");
 	});
 	layer._leaflet_id = feature.id;
 	stateIDs[feature.properties.name] = feature.id;
