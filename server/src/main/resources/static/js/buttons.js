@@ -112,7 +112,7 @@
 			let demoCheckBoxes = $("[name='demographic']");
             for (demoCheckBox of demoCheckBoxes){
                 if(demoCheckBox.checked){
-                    demographics.push(demoCheckBox.value);
+                    demographics.push(demoCheckBox.value.toUpperCase());
                 }
             }
 			let demographicMinimum = $("#slider-range").slider("values", 0) / 100;
@@ -132,36 +132,6 @@
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-                        // let newTableBody = document.createElement("tbody");
-                        // let tableBody = $("#demo-tbody")[0];
-												//
-                        // tableBody.parentNode.replaceChild(newTableBody, tableBody);
-                        // tableBody = newTableBody;
-                        // tableBody.id = "demo-tbody";
-												//
-                        // $(".gerry-demo[value='WHITE']").prop('checked', true);
-												//
-                        // gerryDemoCheckBoxes = $(".gerry-demo")
-												//
-                        // //for every demographic that is checked
-                        // for (button of gerryDemoCheckBoxes){
-                        //     if($(button).prop("checked") == true){
-                        //         let row = tableBody.insertRow(0);
-												//
-                        //         let t0 = document.createTextNode($(button).attr('value')); //demographic
-                        //         row.insertCell(0).appendChild(t0);
-												//
-                        //         let t1 = document.createTextNode("1"); //population
-                        //         row.insertCell(1).appendChild(t1);
-												//
-                        //         let t2 = document.createTextNode("1"); //percentage
-                        //         row.insertCell(2).appendChild(t2);
-                        //     }
-                        // }
-                        // $(".gerry-demo[value='White']").prop('checked', false);
-												//
-                        // $("#gerry-results").removeClass("hide");
-
 						colorPrecincts(data.results);
 					},
 					"400": function (data) {
@@ -204,14 +174,14 @@
                         tableBody.id = "scores-tbody";
                         let row = tableBody.insertRow(0);
 
-                        let t0 = document.createTextNode(Math.round(result.before*10000)/10000);
+                        let t0 = document.createTextNode(Math.round(result.before*1000000)/10000);
                         row.insertCell(0).appendChild(t0);
 
-                        let t1 = document.createTextNode(Math.round(result.after*10000)/10000);
+                        let t1 = document.createTextNode(Math.round(result.after*1000000)/10000);
                         row.insertCell(1).appendChild(t1);
 
                         let diff = result.after - result.before
-                        let t2 = document.createTextNode(Math.round(diff*10000)/10000);
+                        let t2 = document.createTextNode(Math.round(diff*1000000)/10000);
                         row.insertCell(2).appendChild(t2);
 
                         $("#anneal-results").removeClass("hide");

@@ -21,7 +21,7 @@ import java.util.*;
  *
  * @author Mavericks
  */
-public class Cluster {
+public class Cluster{
     public int id;
 
     private State state;
@@ -204,9 +204,9 @@ public class Cluster {
 
 
     /* Phase 1 */
-    public Cluster findMMPair(float minRange, float maxRange, List<Demographic> demographics){
+    public Cluster findMMPair(float minRange, float maxRange, List<Demographic> demographics, float idealPopulation){
         for(Cluster cluster : adjClusters) {
-            if(!cluster.isMerged() && isMMPair(cluster, demographics, minRange, maxRange)) {
+            if(!cluster.isMerged() && isMMPair(cluster, demographics, minRange, maxRange) && isPair(cluster, idealPopulation)) {
                 return cluster;
             }
         }
@@ -232,7 +232,6 @@ public class Cluster {
     public void unlink(Cluster cluster){
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
-        this.state.getClusters().remove(cluster);
 
         for(Cluster neighbor : cluster.getAdjacentClusters()){
             neighbor.getAdjacentClusters().add(this);
@@ -254,14 +253,14 @@ public class Cluster {
         return (float)demographicPopSum / populationSum;
     }
     
-    private boolean isMMPair(Cluster cluster, List<Demographic> demographics, float minRange, float maxRange){
+    public boolean isMMPair(Cluster cluster, List<Demographic> demographics, float minRange, float maxRange){
         int pairDemographicPopSum = this.getDemographicPopSum(demographics) + cluster.getDemographicPopSum(demographics);
         int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
         float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
         return ratio >= minRange && ratio <= maxRange;
     }
 
-    private boolean isPair(Cluster cluster, float targetPopulation) {
+    public boolean isPair(Cluster cluster, float targetPopulation) {
         int populationSum = this.getPopulation() + cluster.getPopulation();
         return populationSum <= targetPopulation;
     }
