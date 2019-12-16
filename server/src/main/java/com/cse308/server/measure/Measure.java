@@ -184,7 +184,6 @@ public enum Measure implements MeasureFunction {
         public double calculateMeasure(Cluster cluster) {
             int rv = cluster.getRepVote();
             int dv = cluster.getDemVote();
-            System.out.println(rv + " " + dv);
             return 1.0 - (((double) Math.abs(rv - dv)) / (rv + dv));
         }
     },

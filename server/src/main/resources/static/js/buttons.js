@@ -161,6 +161,8 @@
                         $(".gerry-demo[value='White']").prop('checked', false);
 
                         $("#gerry-results").removeClass("hide");
+						
+						colorPrecincts(data.results);
 					},
 					"400": function (data) {
 						console.log("error", data);
@@ -213,6 +215,8 @@
                         row.insertCell(2).appendChild(t2);
 
                         $("#anneal-results").removeClass("hide");
+
+						colorPrecincts(data.result.districtResults);
                     },
                     "400": function (data) {
                         console.log("error", data);
@@ -221,6 +225,19 @@
             });
         }
     });
+
+    async function colorPrecincts(results) {
+        for(district of results){
+            let randomColor = getRandomColor();
+            let districtGroup = L.featureGroup();
+            for(precinct of district.precincts){
+                let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+                districtGroup.addLayer(layer);
+                layer.districtGroup = districtGroup;
+            }
+            districtGroup.setStyle({ fillColor: randomColor});
+        }
+    }
 
     $('input[name=electionYear]').change(
         function(){

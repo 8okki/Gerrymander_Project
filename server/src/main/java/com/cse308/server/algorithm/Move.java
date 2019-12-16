@@ -8,6 +8,8 @@ public class Move {
     private Cluster from;
     private Cluster to;
 
+    public Precinct getPrecinct() { return precinct; }
+
     public Move(Precinct precinct, Cluster from, Cluster to) {
         this.precinct = precinct;
         this.from = from;

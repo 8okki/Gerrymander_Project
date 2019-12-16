@@ -34,10 +34,16 @@ public class State {
     @Id
     private String name;
     private int population;
-
+    
     @OneToMany(mappedBy="state",fetch=FetchType.LAZY)
     private Set<Precinct> precincts;
 
+    @Transient
+    private boolean neighborsLoaded;
+    
+    @Transient
+    private boolean geometryLoaded;
+    
     @Transient
     private Set<Cluster> clusters;
 
@@ -47,6 +53,8 @@ public class State {
     @Transient
     private MeasureFunction clusterScoreFunction;
 
+    @Transient
+    private Set<String> changedPrecincts;
 
     /* Getters & Setters */
     public String getName(){
@@ -69,8 +77,16 @@ public class State {
         return this.precincts;
     }
 
-    public MeasureFunction getClusterScoreFunction() { return clusterScoreFunction; }
+    public Set<String> getChangedPrecincts() { return this.changedPrecincts; }
 
+    public boolean areNeighborsLoaded(){
+        return this.neighborsLoaded;
+    }
+    
+    public boolean isGeometryLoaded(){
+        return this.geometryLoaded;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -81,6 +97,14 @@ public class State {
 
     public void setPrecincts(Set precincts) {
         this.precincts = precincts;
+    }
+    
+    public void setNeighborsLoaded(boolean neighborsLoaded){
+        this.neighborsLoaded = neighborsLoaded;
+    }
+    
+    public void setGeometryLoaded(boolean geometryLoaded){
+        this.geometryLoaded = geometryLoaded;
     }
 
     public void setScoreFunction(MeasureFunction function) { this.clusterScoreFunction = function; }
@@ -205,20 +229,21 @@ public class State {
 
     /* Phase 2 */
     public double[] anneal() {
-        // Initialize scores
+        // Initializations
         double initialScore, prevScore, newScore;
         initialScore = prevScore = objectiveFunction();
         newScore = 0;
+        changedPrecincts = new HashSet<>();
 
         // Anneal each cluster until converges
         int stag_count = 0;
-        while (stag_count <= 10) {
+        final int MAX_STAG = 5;
+        while (stag_count <= MAX_STAG) {
             Cluster worstCluster = getLowestScoreCluster();
-            newScore = worstCluster.anneal(prevScore);
+            changedPrecincts.add(worstCluster.anneal(prevScore));
+            newScore = objectiveFunction();
             stag_count = isStagnant(prevScore, newScore) ? stag_count+1 : 0;
             prevScore = newScore;
-
-            System.out.println(newScore);
         }
 
 //        double finalScore = newScore > prevScore ? newScore : prevScore;
