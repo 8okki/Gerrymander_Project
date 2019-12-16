@@ -268,45 +268,13 @@ public class Cluster {
 
 
     /* Phase 2 */
-    public String anneal(double currentScore) {
-        // Find best move
-        Move move = findBestMove(currentScore);
+    public Move findRandomMove() {
+        Precinct candidate = state.getRandom(externals);
+        Cluster to = this;
+        Cluster from = candidate.getCurrentCluster();
 
-        // Execute the move
-        if (move != null){
-            move.execute();
-            return move.getPrecinct().getCode();
-        }
-        return null;
+        return new Move(candidate, from, to);
     }
-
-    public Move findBestMove(double currentScore) {
-        Set<Precinct> candidates = new HashSet<>();
-        for(Precinct precinct : externals)
-            candidates.add(precinct);
-
-        Move bestMove = null;
-        double bestScore = currentScore;
-
-        Move currentMove;
-        double score;
-        for (Precinct precinct : candidates) {
-            Cluster to = this;
-            Cluster from = precinct.getCurrentCluster();
-
-            currentMove = new Move(precinct, from, to);
-            currentMove.execute();
-            score = state.objectiveFunction();
-            if (score >= bestScore) {
-                bestMove = currentMove;
-                bestScore = score;
-            }
-            currentMove.undo();
-        }
-
-        return bestMove;
-    }
-
 
     /* Geometric Functions */
     public MultiPolygon computeMulti() {
