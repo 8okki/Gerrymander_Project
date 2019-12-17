@@ -106,6 +106,18 @@
 				$("#myModal")[0].style.display = "block";
 		}
 	});
+	
+	$("#showHideBtn").click(function(e) {
+		if(currentState == null){
+			$(".alert2").removeClass("hide");
+		}else{
+			if(!map.hasLayer(congressionalDistricts)){
+				map.addLayer(congressionalDistricts);
+			}else{
+				map.removeLayer(congressionalDistricts);
+			}
+		}
+	});
 
 	$(".close").click(function (e) {
 		$("#myModal")[0].style.display = "none";
