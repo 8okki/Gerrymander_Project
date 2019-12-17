@@ -8,7 +8,7 @@
         "EFFICIENCY_GAP" : 'Eff. Gap',
         "POPULATION_EQUALITY" : 'Pop. Eql.',
         "POPULATION_HOMOGENEITY" : 'Pop. Homo.',
-        "COMPETITIVENESS" : 'Competitiveness.',
+        "COMPETITIVENESS" : 'Competitive.',
         "GERRYMANDER_REPUBLICAN" : 'Gerry. Rep.',
         "GERRYMANDER_DEMOCRATIC" : 'Gerry. Dem.'
     }
@@ -300,7 +300,7 @@
                         tableBody.id = "scores-tbody";
                         row = tableBody.insertRow(0);
 
-                        t0 = document.createTextNode('Objective Score');
+                        t0 = document.createTextNode('Obj. Score');
                         row.insertCell(0).appendChild(t0);
 
                         t1 = document.createTextNode(Math.round(result.objBefore*1000000)/10000);
