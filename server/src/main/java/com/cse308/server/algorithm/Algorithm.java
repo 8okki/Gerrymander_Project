@@ -148,16 +148,16 @@ public class Algorithm {
         return results;
     }
 
-    public List<Phase1Result> runPhase1Incremental(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
+    public List<Phase1Result> runPhase1Incremental(float min, float max, List<Demographic> demoMM, int targetDistrictNum){
         if(!incrementalRunning){
-            state.initClusters();
+            state.initClusters(min, max, demoMM);
         }
         float idealPopulation = (float) state.getPopulation() / targetDistrictNum;
 
         // Create initial clusters
         if(state.getClusters().size() > targetDistrictNum) {
             state.resetPairs();
-            state.makeMMPairs(demographicMinimum, demographicMaximum, demographics, idealPopulation);
+            state.makeMMPairs(idealPopulation);
             state.makePairs(idealPopulation);
             state.mergePairs(targetDistrictNum);
             System.out.println("CURRENT CLUSTER COUNT: " + state.getClusters().size());
