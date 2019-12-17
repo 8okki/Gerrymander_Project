@@ -1,5 +1,18 @@
  $(document).ready(function () {
 
+    let measureNames = {
+        "PARTISAN_FAIRNESS" : 'Partisan Fair.',
+        "REOCK_COMPACTNESS" : 'Reock Comp.',
+        "CONVEX_HULL_COMPACTNESS" : 'Conv-Hull Comp.',
+        "EDGE_COMPACTNESS" : 'Edge Comp.',
+        "EFFICIENCY_GAP" : 'Eff. Gap',
+        "POPULATION_EQUALITY" : 'Pop. Eql.',
+        "POPULATION_HOMOGENEITY" : 'Pop. Homo.',
+        "COMPETITIVENESS" : 'Competitiveness.',
+        "GERRYMANDER_REPUBLICAN" : 'Gerry. Rep.',
+        "GERRYMANDER_DEMOCRATIC" : 'Gerry. Dem.'
+    }
+
 	$("#runBlocs").click(function (e) {
 		if (currentState == null) {
 			$(".alert").removeClass("hide");
@@ -132,7 +145,7 @@
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						if(districtIDs){
+						if(phase1Running){
 							for(district of data.districts){
 								let districtGroup = districtIDs[district.id];
 								districtGroup.clearLayers();
@@ -160,8 +173,8 @@
 							}
 							colorPrecincts(data.districts);
 						}
-						// reset district groups as phase 1 is complete
-						districtIDs = null;
+						// set phase 1 running flag to false as done
+						phase1Running = false;
 					},
 					"400": function (data) {
 						console.log("error", data);
@@ -199,7 +212,7 @@
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						if(districtIDs){
+						if(phase1Running){
 							for(district of data.districts){
 								let districtGroup = districtIDs[district.id];
 								districtGroup.clearLayers();
@@ -213,6 +226,7 @@
 								districtGroup.setStyle({fillColor: districtGroup.color});
 							}
 						}else{
+							phase1Running = true;
 							districtIDs = {};
 							for(district of data.districts){
 								let districtGroup = L.featureGroup();
@@ -228,7 +242,7 @@
 							colorPrecincts(data.districts);
 						}
 						if(data.finished){
-							districtIDs = null;
+							phase1Running = false;
 						}
 					},
 					"400": function (data) {
@@ -240,7 +254,7 @@
 	});
 
     $("#runAnneal").click(function (e) {
-        if (currentState == null) {
+        if (currentState == null || !districtIDs || phase1Running) {
             $(".alert").removeClass("hide");
         } else {
             measureWeights = {};
@@ -269,6 +283,7 @@
                         let tableBody = $("#MM-tbody")[0];
                         tableBody.parentNode.replaceChild(newTableBody, tableBody);
                         tableBody = newTableBody;
+                        tableBody.id = "MM-tbody";
                         let row = tableBody.insertRow(0);
 
                         let t0 = document.createTextNode(result.mmBefore);
@@ -301,7 +316,7 @@
                             let scoreAfter = scores[measure][1];
                             row = tableBody.insertRow(rowCount++);
 
-                            t0 = document.createTextNode(measure);
+                            t0 = document.createTextNode(measureNames[measure]);
                             row.insertCell(0).appendChild(t0);
 
                             t1 = document.createTextNode(Math.round(scoreBefore*10000)/10000);
@@ -313,7 +328,18 @@
 
                         $("#anneal-results").removeClass("hide");
 
-						colorPrecincts(result.districtResults);
+						for(district of data.districts){
+								let districtGroup = districtIDs[district.id];
+								districtGroup.clearLayers();
+								districtGroup.population = district.districtPop;
+								districtGroup.demographics = district.demoPopDist;
+								for(precinct of district.precincts){
+									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+									districtGroup.addLayer(layer);
+									layer.districtGroup = districtGroup;
+								}
+								districtGroup.setStyle({fillColor: districtGroup.color});
+						}
                     },
                     "400": function (data) {
                         console.log("error", data);
