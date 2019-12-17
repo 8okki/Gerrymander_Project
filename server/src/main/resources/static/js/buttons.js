@@ -88,7 +88,7 @@
 
 	$("#legalGuide").click(function (e) {
 		if (currentState == null) {
-			$(".alert").removeClass("hide");
+			$(".alert2").removeClass("hide");
 		} else {
 				$("#myModal")[0].style.display = "block";
 		}
@@ -133,6 +133,47 @@
 				'statusCode': {
 					"200": function (data) {
 						colorPrecincts(data.results);
+					},
+					"400": function (data) {
+						console.log("error", data);
+					}
+				}
+			});
+		}
+	});
+	
+	$("#runGerryIncremental").click(function (e) {
+		if (currentState == null) {
+			$(".alert").removeClass("hide");
+		} else {
+		  let demographics = [];
+			let demoCheckBoxes = $("[name='demographic']");
+            for (demoCheckBox of demoCheckBoxes){
+                if(demoCheckBox.checked){
+                    demographics.push(demoCheckBox.value.toUpperCase());
+                }
+            }
+			let demographicMinimum = $("#slider-range").slider("values", 0) / 100;
+			let demographicMaximum = $("#slider-range").slider("values", 1) / 100;
+			let targetDistrictNum = parseInt($("[aria-describedby='cong-dist']").val());
+
+			$.ajax({
+				'type': "POST",
+				'dataType': 'json',
+				'url': "http://localhost:8080/runPhase1Incremental",
+				'data': JSON.stringify({
+					'demographics': demographics,
+					'demographicMinimum': demographicMinimum,
+					'demographicMaximum': demographicMaximum,
+					'targetDistrictNum': targetDistrictNum
+				}),
+				'contentType': "application/json",
+				'statusCode': {
+					"200": function (data) {
+						colorPrecincts(data.results);
+						if(data.finished){
+							console.log(data.finished);
+						}
 					},
 					"400": function (data) {
 						console.log("error", data);

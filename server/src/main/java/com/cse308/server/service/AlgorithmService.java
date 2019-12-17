@@ -47,9 +47,13 @@ public class AlgorithmService {
         return this.algo.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
     }
 
-//    public List<Phase1Result> runPhase1Incremental(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
-//       return this.algo.runPhase1Incremental(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
-//    }
+    public List<Phase1Result> runPhase1Incremental(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
+       return this.algo.runPhase1Incremental(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+    }
+    
+    public boolean isPhase1Done(){
+        return this.algo.isPhase1Done();
+    }
     
     public Phase2Result runPhase2(List<Measure> measures) {
         return this.algo.runPhase2(measures);

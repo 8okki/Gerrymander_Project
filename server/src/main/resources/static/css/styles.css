@@ -203,11 +203,15 @@ html > body #demo-results, html > body #pop-dist {
   overflow-x: hidden;
 }
 
+#weight{
+  position: absolute;
+}
+
 
 /* Bloc Analysis CSS */
 .slider {
   -webkit-appearance: none;
-  width: 100%;
+  width: 80%;
   height: 11.6px;
   background: #d3d3d3;
   outline: none;

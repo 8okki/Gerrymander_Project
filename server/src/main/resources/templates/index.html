@@ -344,7 +344,7 @@
 
 			</div>
 
-			<p class = "alert sameLine hide"> Please select a state first.</p>
+			<p class = "alert2 sameLine hide"> Please select a state first.</p>
 		</div>
 		<div id="gerry-run">
 			<hr>
@@ -369,7 +369,11 @@
 				<input type="text" class="form-control" aria-describedby="cong-dist">
 			</div>
 			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 sameLine">Run Gerrymander</button>
+<<<<<<< HEAD
 			<button id="runGerryStep" class="btn btn-outline-success btn-sm my-2 sameLine">Step Iteration</button>
+=======
+			<button id="runGerryIncremental" class="btn btn-outline-success btn-sm my-2 sameLine">Step Iteration</button>
+>>>>>>> e103de50d95151f52af15f429a895801bc3e39e6
 			<p class = "alert hide"> Please select a state first.</p>
 			<hr>
 			<div id="gerry-results" class="hide">
@@ -428,30 +432,31 @@
 				<input type="range" id="weightSlider10" class="slider mb-2" min="0" max="100" value="0"> -->
 
 				<div class="measure1">
-					<input type="checkbox" class="m-1" name="measure" value="PARTISAN_FAIRNESS">Partisan Fairness: <span id="weight"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="REOCK_COMPACTNESS">Reock Compactness: <span id="weight2"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="CONVEX_HULL_COMPACTNESS"> Convex Hull Compactness: <span id="weight3"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="EDGE_COMPACTNESS"> Edge Compactness: <span id="weight4"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="EFFICIENCY_GAP"> Efficiency Gap: <span id="weight5"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY"> Population Equality: <span id="weight6"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="POPULATION_HOMOGENEITY"> Population Homogeneity: <span id="weight7"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="COMPETITIVENESS"> Competitiveness: <span id="weight8"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_REPUBLICAN"> Gerrymander Republican: <span id="weight9"></span> % <br>
-					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_DEMOCRATIC"> Gerrymander Democratic: <span id="weight10"></span> % <br>
+					<input type="checkbox" class="m-1" name="measure" value="PARTISAN_FAIRNESS">Partisan Fairness:<br>
+					<input type="checkbox" class="m-1" name="measure" value="REOCK_COMPACTNESS">Reock Compactness: <br>
+					<input type="checkbox" class="m-1" name="measure" value="CONVEX_HULL_COMPACTNESS">Convex Hull Compactness: <br>
+					<input type="checkbox" class="m-1" name="measure" value="EDGE_COMPACTNESS">Edge Compactness: <br>
+					<input type="checkbox" class="m-1" name="measure" value="EFFICIENCY_GAP">Efficiency Gap: <br>
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY">Partisan Equality: <br>
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_HOMOGENEITY">Population Homogeneity: <br>
+					<input type="checkbox" class="m-1" name="measure" value="COMPETITIVENESS">Competitiveness: <br>
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_REPUBLICAN">Gerrymander Republican: <br>
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_DEMOCRATIC">Gerrymander Democratic: <br>
 				</div>
 
 
 				<div class="weights">
-						<input type="range" id="weightSlider" class="slider mb-2" min="0" max="100" name="PARTISAN_FAIRNESS" value="0"><br>
-						<input type="range" id="weightSlider2" class="slider mb-2" min="0" max="100" name="REOCK_COMPACTNESS" value="0"><br>
-						<input type="range" id="weightSlider3" class="slider mb-2" min="0" max="100" name="CONVEX_HULL_COMPACTNESS" value="0"><br>
-						<input type="range" id="weightSlider4" class="slider mb-2" min="0" max="100" name="EDGE_COMPACTNESS" value="0"><br>
-						<input type="range" id="weightSlider5" class="slider mb-2" min="0" max="100" name="EFFICIENCY_GAP" value="0"><br>
-						<input type="range" id="weightSlider6" class="slider mb-2" min="0" max="100" name="POPULATION_EQUALITY" value="0"><br>
-						<input type="range" id="weightSlider7" class="slider mb-2" min="0" max="100" name="POPULATION_HOMOGENEITY" value="0"><br>
-						<input type="range" id="weightSlider8" class="slider mb-2" min="0" max="100" name="COMPETITIVENESS" value="0"><br>
-						<input type="range" id="weightSlider9" class="slider mb-2" min="0" max="100" name="GERRYMANDER_REPUBLICAN" value="0"><br>
-						<input type="range" id="weightSlider10" class="slider mb-2" min="0" max="100" name="GERRYMANDER_DEMOCRATIC" value="0"><br>
+						<span id="weight"></span> % <input type="range" id="weightSlider" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight2"></span> % <input type="range" id="weightSlider2" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight3"></span> % <input type="range" id="weightSlider3" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight4"></span> % <input type="range" id="weightSlider4" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight5"></span> % <input type="range" id="weightSlider5" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight6"></span> % <input type="range" id="weightSlider6" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight7"></span> % <input type="range" id="weightSlider7" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight8"></span> % <input type="range" id="weightSlider8" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight9"></span> % <input type="range" id="weightSlider9" class="slider mb-2" min="0" max="100" value="0"><br>
+						<span id="weight10"></span> % <input type="range" id="weightSlider10" class="slider mb-2" min="0" max="100" value="0"><br>
+
 				</div>
 				<br><br>
 
@@ -475,13 +480,13 @@
 				</table>
 			</div>
 			<div id="anneal-scores">
-				<h6>Objective Function Score</h6>
+				<h6>Gerrymander Scores</h6>
 				<table class="table table-striped">
 					<thead class="thead-dark">
 					<tr>
+						<th scope="col">Name</th>
 						<th scope="col">Before Annealing</th>
 						<th scope="col">After Annealing</th>
-						<th scope="col">Difference</th>
 					</tr>
 					</thead>
 					<tbody id="scores-tbody">
