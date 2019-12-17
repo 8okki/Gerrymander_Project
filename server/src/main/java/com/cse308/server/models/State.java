@@ -129,14 +129,14 @@ public class State {
 
 
     /* Phase 1 */
-    public void initClusters(){
+    public void initClusters(float min, float max, List<Demographic> demoMM){
         Comparator<Cluster> comparator = Comparator.comparing(Cluster::getPopulation).thenComparing(Cluster::getId);
         clusters = new TreeSet<>(comparator);
         int id = 1;
         for(Precinct precinct : precincts){
             if(precinct.getCode().equals("123-ACQ") || precinct.getCode().equals("043-ACN"))
                 continue;
-            clusters.add(new Cluster(id++,this, precinct));
+            clusters.add(new Cluster(id++,this, precinct, min, max, demoMM));
         }
 
         for(Cluster cluster : clusters){
@@ -154,10 +154,10 @@ public class State {
         }
     }
 
-    public void makeMMPairs(float minRange, float maxRange, List<Demographic> demographics, float idealPopulation) {
+    public void makeMMPairs(float idealPopulation) {
         for (Cluster cluster : clusters) {
             if (!cluster.isMerged()) {
-                Cluster pair = cluster.findMMPair(minRange, maxRange, demographics, idealPopulation);
+                Cluster pair = cluster.findMMPair(idealPopulation);
                 if (pair != null) {
                     pairs.put(cluster, pair);
                     cluster.setIsMerged(true);
@@ -176,7 +176,7 @@ public class State {
                     pairs.put(cluster, pair);
                     cluster.setIsMerged(true);
                     pair.setIsMerged(true);
-//                    System.out.println("POP Made");
+                    System.out.println("No-MM Made");
                 }
             }
         }
@@ -212,8 +212,6 @@ public class State {
 
         for (Cluster cluster : pairs.keySet()) {
             if (cluster.isMerged() && pairs.get(cluster).isMerged()) {
-                clusters.remove(cluster);
-                clusters.remove(pairs.get(cluster));
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
             }
@@ -226,17 +224,17 @@ public class State {
 
     /* Phase 2 */
     public double[] anneal() {
-        // Initialization Scores
+        // Initialize scores & mmCounts
         double initialScore, prevScore, newScore;
-        initialScore = prevScore = objectiveFunction();
-        newScore = 0;
+        int initialMM, prevMM, newMM;
+        initialScore = prevScore = newScore= objectiveFunction();
+        initialMM = prevMM = newMM = countMM();
 
         // Initialize Stagnation Counter
         final int MAX_STAG = 50;
         final long TIME_LIMIT = 30;
         int stagnation = 0;
 
-        // Intialize changed precincts container
         changedPrecincts = new HashSet<>();
 
         // Anneal randomly until converges or passes time limit
@@ -244,23 +242,32 @@ public class State {
         long startTime = System.nanoTime();
         while (stagnation <= MAX_STAG && elapsedTime < TIME_LIMIT) {
             Cluster cluster = getRandom(clusters);
-            Move move = cluster.findRandomMove();
-            move.execute();
-            newScore = objectiveFunction();
+            if(cluster == null)
+                break;
 
-            if (newScore < prevScore){
-                move.undo();
-                newScore = prevScore;
-            } else
-                changedPrecincts.add(move.getPrecinct().getCode());
+            Move move = cluster.findRandomMove();
+            if (move != null){
+                move.execute();
+                newMM = countMM();
+                newScore = objectiveFunction();
+                if (newMM < prevMM || newScore < prevScore ){
+                    move.undo();
+                    newScore = prevScore;
+                    newMM = prevMM;
+                } else
+                    changedPrecincts.add(move.getPrecinct().getCode());
+            }
 
             System.out.println(newScore);
+
             stagnation = isStagnant(prevScore, newScore) ? stagnation+1 : 0;
+
+            prevMM = newMM;
             prevScore = newScore;
             elapsedTime = (int) ((System.nanoTime() - startTime) / 1e+9) ;
         }
 
-        double[] result = {initialScore, newScore};
+        double[] result = {initialMM, newMM, initialScore, newScore};
         System.out.println("Anneal Finished");
         return result;
     }
@@ -278,13 +285,24 @@ public class State {
         return Math.abs(prevScore - newScore) < 0.00001;
     }
 
+
+    public int countMM() {
+        int mm = 0;
+        for(Cluster cluster : clusters)
+            if(cluster.isMM())
+                mm++;
+        return mm;
+    }
+
     public <E> E getRandom(Set<E> set){
+        if(set.isEmpty())
+            return null;
+
         return set.stream().skip((int) (set.size() * Math.random())).findFirst().get();
     }
 
     @Override
     public String toString(){
-        return "[Name: " + this.name.toString() +
-                ", population: " + this.population + "]";
+        return "[Name: " + this.name + ", population: " + this.population + "]";
     }
 }

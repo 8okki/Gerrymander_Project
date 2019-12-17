@@ -107,19 +107,19 @@ public class Algorithm {
     }
 
     /* Phase 1 */
-    public List<Phase1Result> runPhase1(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
+    public List<Phase1Result> runPhase1(float min, float max, List<Demographic> demoMM, int targetDistrictNum){
         if(!incrementalRunning){
-            state.initClusters();
+            state.initClusters(min, max, demoMM);
         }
-        float idealPopulation = (float) state.getPopulation() / targetDistrictNum;
+        float idealPopulation = (float) (state.getPopulation()) / targetDistrictNum;
 
         // Create initial clusters
         while(state.getClusters().size() > targetDistrictNum) {
             state.resetPairs();
-            state.makeMMPairs(demographicMinimum, demographicMaximum, demographics, idealPopulation);
+            state.makeMMPairs(idealPopulation);
             state.makePairs(idealPopulation);
             state.mergePairs(targetDistrictNum);
-            System.out.println("CURRENT CLUSTER COUNT: " + state.getClusters().size());
+            System.out.println("CURRENT SIZE: " + state.getClusters().size());
         }
 
         // Creating Result objects
@@ -131,9 +131,8 @@ public class Algorithm {
             results.add(new Phase1Result(precinctCodes));
         }
         incrementalRunning = false;
-        System.out.println(state.getClusters().size() + " clusters created");
 
-        int maxPop = Integer.MIN_VALUE, minPop = Integer.MAX_VALUE;
+        int maxPop = Integer.MIN_VALUE, minPop = Integer.MAX_VALUE, mm = 0;
         for(Cluster cluster : state.getClusters()){
             if(cluster.getPopulation() > maxPop) {
                 maxPop = cluster.getPopulation();
@@ -141,8 +140,10 @@ public class Algorithm {
             if(cluster.getPopulation() < minPop) {
                 minPop = cluster.getPopulation();
             }
+            if(cluster.isMM())
+                mm++;
         }
-        System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop);
+        System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop + " " + mm);
 
         return results;
     }
@@ -219,8 +220,8 @@ public class Algorithm {
     public Phase2Result runPhase2(List<Measure> measures){
         DefaultMeasure measureFunction = new DefaultMeasure(measures);
         state.setScoreFunction(measureFunction);
-        double[] scores = state.anneal();
-        return new Phase2Result(scores[0], scores[1], createDistrictResults(), state.getChangedPrecincts());
+        double[] results = state.anneal();
+        return new Phase2Result(results, createDistrictResults(), state.getChangedPrecincts());
     }
 
     public List<Phase1Result> createDistrictResults(){

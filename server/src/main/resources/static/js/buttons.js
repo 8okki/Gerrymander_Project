@@ -95,7 +95,7 @@
 	});
 
 	$(".close").click(function (e) {
-				$("#myModal")[0].style.display = "none";
+		$("#myModal")[0].style.display = "none";
 	});
 
 	$(window).click(function (e) {
@@ -188,11 +188,11 @@
             $(".alert").removeClass("hide");
         } else {
             measureWeights = {};
-            let weight = 1;
             let measureCheckBoxes = $("[name='measure']");
             for(measureCheckBox of measureCheckBoxes){
                 if(measureCheckBox.checked){
-                    measureWeights[measureCheckBox.value] = weight;
+                    let weight = $("[name='" + measureCheckBox.value + "']")[0].value;
+                    measureWeights[measureCheckBox.value] = parseInt(weight);
                 }
             }
 
@@ -208,20 +208,34 @@
                     "200": function (data) {
                         let result = data.result;
 
+                        /* Number of MMs */
                         let newTableBody = document.createElement("tbody");
-                        let tableBody = $("#scores-tbody")[0];
+                        let tableBody = $("#MM-tbody")[0];
+                        tableBody.parentNode.replaceChild(newTableBody, tableBody);
+                        tableBody = newTableBody;
+                        let row = tableBody.insertRow(0);
+
+                        let t0 = document.createTextNode(result.mmBefore);
+                        row.insertCell(0).appendChild(t0);
+
+                        let t1 = document.createTextNode(result.mmAfter);
+                        row.insertCell(1).appendChild(t1);
+
+                        /* Scores */
+                        newTableBody = document.createElement("tbody");
+                        tableBody = $("#scores-tbody")[0];
                         tableBody.parentNode.replaceChild(newTableBody, tableBody);
                         tableBody = newTableBody;
                         tableBody.id = "scores-tbody";
-                        let row = tableBody.insertRow(0);
+                        row = tableBody.insertRow(0);
 
-                        let t0 = document.createTextNode(Math.round(result.before*1000000)/10000);
+                        t0 = document.createTextNode(Math.round(result.scoreBefore*1000000)/10000);
                         row.insertCell(0).appendChild(t0);
 
-                        let t1 = document.createTextNode(Math.round(result.after*1000000)/10000);
+                        t1 = document.createTextNode(Math.round(result.scoreAfter*1000000)/10000);
                         row.insertCell(1).appendChild(t1);
 
-                        let diff = result.after - result.before
+                        let diff = result.scoreAfter - result.scoreBefore
                         let t2 = document.createTextNode(Math.round(diff*1000000)/10000);
                         row.insertCell(2).appendChild(t2);
 
