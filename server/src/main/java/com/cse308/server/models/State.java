@@ -252,7 +252,12 @@ public class State {
                 move.execute();
                 newMM = countMM();
                 newObj = objectiveFunction();
-                if (newMM < prevMM || newObj < prevObj){
+                if (newMM >= prevMM && newObj >= prevObj){
+                    for(Measure measure : measures){
+                        scores.get(measure.name())[1] = measure.getScore();
+                        System.out.println(measure.name() + ": " + measure.getScore());
+                    }
+                } else {
                     move.undo();
                     newObj = prevObj;
                     newMM = prevMM;
@@ -267,9 +272,6 @@ public class State {
             prevObj = newObj;
             elapsedTime = (int) ((System.nanoTime() - startTime) / 1e+9) ;
         }
-
-        for(Measure measure : measures)
-            scores.get(measure.name())[1] = measure.getScore();
 
         int[] MM = {initialMM, newMM};
         double[] objs = {initialObj, newObj};
