@@ -230,13 +230,13 @@ public class State {
         initialMM = prevMM = newMM = countMM();
         Map<String, Double[]> scores = new HashMap<>();
         for(Measure measure : measures){
-            Double[] score = {measure.getScore(), 0.0};
+            Double[] score = {measure.getScore(), measure.getScore()};
             scores.put(measure.name(), score);
         }
 
         // Initialize Stagnation Counter
-        final int MAX_STAG = 50;
-        final long TIME_LIMIT = 15;
+        final int MAX_STAG = 100;
+        final long TIME_LIMIT = 2;
         int stagnation = 0;
 
         // Anneal randomly until converges or passes time limit
@@ -256,11 +256,9 @@ public class State {
                     move.undo();
                     newObj = prevObj;
                     newMM = prevMM;
-                }
-                for(Measure measure : measures){
-                    scores.get(measure.name())[1] = measure.getScore();
-                    System.out.println(measure.name() + ": " + measure.getScore());
-                }
+                } else
+                    for (Measure measure : measures)
+                        scores.get(measure.name())[1] = measure.getScore();
             }
 
             System.out.println(newObj);
@@ -269,7 +267,7 @@ public class State {
 
             prevMM = newMM;
             prevObj = newObj;
-            elapsedTime = (int) ((System.nanoTime() - startTime) / 1e+9) ;
+            elapsedTime = (int) ((System.nanoTime() - startTime) / 1e+9);
         }
 
         int[] MM = {initialMM, newMM};

@@ -311,7 +311,7 @@ html > body #gerry-results {
 
 #scores-tbody {
   display: block;
-  height: 150px;
+  height: 155px;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;

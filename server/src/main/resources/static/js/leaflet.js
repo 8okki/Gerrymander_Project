@@ -8,6 +8,7 @@ var stateIDs = {};
 var stateLoadedFlags = {};
 var districtIDs;
 var phase1Running = false;
+var phase2Running = false;
 var districtLoadedFlag = false;
 var precinctLoadedFlag = false;
 

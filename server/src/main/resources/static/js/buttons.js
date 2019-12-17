@@ -1,4 +1,7 @@
- $(document).ready(function () {
+ $(document).ready(function() {
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
     let measureNames = {
         "PARTISAN_FAIRNESS" : 'Partisan Fair.',
@@ -170,7 +173,7 @@
 								}
 								districtGroup.setStyle({fillColor: districtGroup.color});
 							}
-						}else{
+						} else {
 							districtIDs = {};
 							for(district of data.districts){
 								let districtGroup = L.featureGroup();
@@ -183,6 +186,7 @@
 								}
 								districtIDs[district.id] = districtGroup;
 							}
+
 							colorPrecincts(data.districts);
 						}
 						// set phase 1 running flag to false as done
@@ -270,102 +274,101 @@
             $(".alert").removeClass("hide");
         } else {
             measureWeights = {};
-            let measureCheckBoxes = $("[name='measure']");
-            for(measureCheckBox of measureCheckBoxes){
-                if(measureCheckBox.checked){
-                    let weight = $("[name='" + measureCheckBox.value + "']")[0].value;
-                    measureWeights[measureCheckBox.value] = parseInt(weight);
+            let measures = Object.keys(measureNames);
+            for(measure of measures){
+                let weight = $("[name='" + measure + "']")[0].value;
+                if(weight > 0){
+                    measureWeights[measure] = parseInt(weight);
                 }
             }
-
-            $.ajax({
-                'type': "POST",
-                'dataType': 'json',
-                'url': "http://localhost:8080/runPhase2",
-                'data': JSON.stringify({
-                    "measureWeights" : measureWeights
-                }),
-                'contentType': "application/json",
-                'statusCode': {
-                    "200": function (data) {
-                        let result = data.result;
-
-                        /* Number of MMs */
-                        let newTableBody = document.createElement("tbody");
-                        let tableBody = $("#MM-tbody")[0];
-                        tableBody.parentNode.replaceChild(newTableBody, tableBody);
-                        tableBody = newTableBody;
-                        tableBody.id = "MM-tbody";
-                        let row = tableBody.insertRow(0);
-
-                        let t0 = document.createTextNode(result.mmBefore);
-                        row.insertCell(0).appendChild(t0);
-
-                        let t1 = document.createTextNode(result.mmAfter);
-                        row.insertCell(1).appendChild(t1);
-
-                        /* Objective Function Score */
-                        newTableBody = document.createElement("tbody");
-                        tableBody = $("#scores-tbody")[0];
-                        tableBody.parentNode.replaceChild(newTableBody, tableBody);
-                        tableBody = newTableBody;
-                        tableBody.id = "scores-tbody";
-                        row = tableBody.insertRow(0);
-
-                        t0 = document.createTextNode('Obj. Score');
-                        row.insertCell(0).appendChild(t0);
-
-                        t1 = document.createTextNode(Math.round(result.objBefore*1000000)/10000);
-                        row.insertCell(1).appendChild(t1);
-
-                        t2 = document.createTextNode(Math.round(result.objAfter*1000000)/10000);
-                        row.insertCell(2).appendChild(t2);
-
-                        let scores = result.scores;
-                        let rowCount = 1;
-                        for(measure in scores){
-                            let scoreBefore = scores[measure][0];
-                            let scoreAfter = scores[measure][1];
-                            row = tableBody.insertRow(rowCount++);
-
-                            t0 = document.createTextNode(measureNames[measure]);
-                            row.insertCell(0).appendChild(t0);
-
-                            t1 = document.createTextNode(Math.round(scoreBefore*1000000)/10000);
-                            row.insertCell(1).appendChild(t1);
-
-                            t2 = document.createTextNode(Math.round(scoreAfter*1000000)/10000);
-                            row.insertCell(2).appendChild(t2);
-                        }
-
-                        $("#anneal-results").removeClass("hide");
-
-						for(district of result.districts){
-								let districtGroup = districtIDs[district.id];
-								districtGroup.clearLayers();
-								districtGroup.population = district.districtPop;
-								districtGroup.demographics = district.demoPopDist;
-								for(precinct of district.precincts){
-									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
-									districtGroup.addLayer(layer);
-									layer.districtGroup = districtGroup;
-								}
-								districtGroup.setStyle({fillColor: districtGroup.color});
-						}
-                    },
-                    "400": function (data) {
-                        console.log("error", data);
-                    }
-                }
-            });
         }
+        $.ajax({
+            'type': "POST",
+            'dataType': 'json',
+            'url': "http://localhost:8080/runPhase2",
+            'data': JSON.stringify({
+                "measureWeights" : measureWeights
+            }),
+            'contentType': "application/json",
+            'statusCode': {
+                "200": function (data) {
+                    let result = data.result;
+
+                    /* Number of MMs */
+                    let newTableBody = document.createElement("tbody");
+                    let tableBody = $("#MM-tbody")[0];
+                    tableBody.parentNode.replaceChild(newTableBody, tableBody);
+                    tableBody = newTableBody;
+                    tableBody.id = "MM-tbody";
+                    let row = tableBody.insertRow(0);
+
+                    let t0 = document.createTextNode(result.mmBefore);
+                    row.insertCell(0).appendChild(t0);
+
+                    let t1 = document.createTextNode(result.mmAfter);
+                    row.insertCell(1).appendChild(t1);
+
+                    /* Objective Function Score */
+                    newTableBody = document.createElement("tbody");
+                    tableBody = $("#scores-tbody")[0];
+                    tableBody.parentNode.replaceChild(newTableBody, tableBody);
+                    tableBody = newTableBody;
+                    tableBody.id = "scores-tbody";
+                    row = tableBody.insertRow(0);
+
+                    t0 = document.createTextNode('Obj. Score');
+                    row.insertCell(0).appendChild(t0);
+
+                    t1 = document.createTextNode(Math.round(result.objBefore*1000000)/10000);
+                    row.insertCell(1).appendChild(t1);
+
+                    t2 = document.createTextNode(Math.round(result.objAfter*1000000)/10000);
+                    row.insertCell(2).appendChild(t2);
+
+                    let scores = result.scores;
+                    let rowCount = 1;
+                    for(measure in scores){
+                        let scoreBefore = scores[measure][0];
+                        let scoreAfter = scores[measure][1];
+                        row = tableBody.insertRow(rowCount++);
+
+                        t0 = document.createTextNode(measureNames[measure]);
+                        row.insertCell(0).appendChild(t0);
+
+                        t1 = document.createTextNode(Math.round(scoreBefore*1000000)/10000);
+                        row.insertCell(1).appendChild(t1);
+
+                        t2 = document.createTextNode(Math.round(scoreAfter*1000000)/10000);
+                        row.insertCell(2).appendChild(t2);
+                    }
+
+                    $("#anneal-results").removeClass("hide");
+
+                    for(district of result.districts){
+                        let districtGroup = districtIDs[district.id];
+                        districtGroup.clearLayers();
+                        districtGroup.population = district.districtPop;
+                        districtGroup.demographics = district.demoPopDist;
+                        for(precinct of district.precincts){
+                            let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+                            districtGroup.addLayer(layer);
+                            layer.districtGroup = districtGroup;
+                        }
+                        districtGroup.setStyle({fillColor: districtGroup.color});
+                    }
+                },
+                "400": function (data) {
+                    console.log("error", data);
+                }
+            }
+        });
     });
 
     async function colorPrecincts(districts) {
         for(district of districts){
             let randomColor = getRandomColor();
             districtGroup = districtIDs[district.id];
-            districtGroup.setStyle({ fillColor: randomColor});
+            districtGroup.setStyle({fillColor : randomColor});
 			districtGroup.color = randomColor;
         }
     }
@@ -389,21 +392,22 @@
                 electionResults["republican2008"] = {"party":"Republican","votes":"5,459,160","percentage":"46.9%"}
 
             if ($(this).is(':checked')) {
-                        for (partyYear of Object.keys(electionResults)){
-                            if(partyYear.indexOf($(this).val()) >= 0 ){
-                                let row = tableBody.insertRow(0);
+                for (partyYear of Object.keys(electionResults)){
+                    if(partyYear.indexOf($(this).val()) >= 0 ){
+                        let row = tableBody.insertRow(0);
 
-                                let t0 = document.createTextNode(electionResults[partyYear]["party"]); //demographic
-                                row.insertCell(0).appendChild(t0);
+                        let t0 = document.createTextNode(electionResults[partyYear]["party"]); //demographic
+                        row.insertCell(0).appendChild(t0);
 
-                                let t1 = document.createTextNode(electionResults[partyYear]["votes"]); //population
-                                row.insertCell(1).appendChild(t1);
+                        let t1 = document.createTextNode(electionResults[partyYear]["votes"]); //population
+                        row.insertCell(1).appendChild(t1);
 
-                                let t2 = document.createTextNode(electionResults[partyYear]["percentage"]); //percentage
-                                row.insertCell(2).appendChild(t2);
-                            }
-                     }
+                        let t2 = document.createTextNode(electionResults[partyYear]["percentage"]); //percentage
+                        row.insertCell(2).appendChild(t2);
+                    }
+                }
             }
-        });
+        }
+    );
 
 });

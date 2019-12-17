@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -158,7 +159,7 @@ public class AlgorithmController {
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
     }
-    
+
     @PostMapping(value = "/runPhase2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> phase2Request(@RequestBody JsonObject input){
         JsonObject responseBody = new JsonObject();
@@ -181,4 +182,19 @@ public class AlgorithmController {
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/getClusters", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getClustersRequest(){
+        JsonObject responseBody = new JsonObject();
+        try{
+            JsonElement jsonResult = new Gson().toJsonTree(algoService.getClusters());
+            responseBody.add("result", jsonResult);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

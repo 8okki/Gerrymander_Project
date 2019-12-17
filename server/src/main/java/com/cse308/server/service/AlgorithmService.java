@@ -7,6 +7,7 @@ package com.cse308.server.service;
 
 import com.cse308.server.algorithm.Algorithm;
 import com.cse308.server.measure.Measure;
+import com.cse308.server.models.Cluster;
 import com.cse308.server.models.State;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
@@ -16,6 +17,7 @@ import com.cse308.server.result.Phase2Result;
 import com.cse308.server.result.VoteBlocResult;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +60,9 @@ public class AlgorithmService {
     
     public Phase2Result runPhase2(List<Measure> measures) {
         return this.algo.runPhase2(measures);
+    }
+
+    public List<DistrictInfo> getClusters() {
+        return this.algo.getClusters();
     }
 }

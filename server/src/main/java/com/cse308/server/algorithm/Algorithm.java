@@ -143,6 +143,7 @@ public class Algorithm {
                 mm++;
         }
         System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop + " " + mm);
+        System.out.println("---------------------Gerrymander Finished---------------------");
 
         return results;
     }
@@ -190,35 +191,27 @@ public class Algorithm {
                 mm++;
         }
         System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop + " " + mm);
-
         return results;
     }
     
     public boolean isPhase1Done(){
         return !this.incrementalRunning;
     }
-    
-//    public List<Phase1Result> runPhase1Incremental(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum) {
-//        if(!incrementalRunning){
-//            state.initClusters();
-//        }
-//        float idealPopulation = (float) state.getPopulation() / targetDistrictNum;
-//        if(state.getClusters().size() > targetDistrictNum){
-//            state.resetPairs();
-//            state.makeMMPairs(demographicMinimum, demographicMinimum, demographics, idealPopulation);
-//            state.makePairs(idealPopulation);
-//            state.mergePairs(targetDistrictNum, idealPopulation);
-//            System.out.println("CURRENT SIZE - " + state.getClusters().size());
-//        }
-//        if(state.getClusters().size() <= targetDistrictNum){
-//            incrementalRunning = false;
-//        }
-//        // Creating Result objects
-//        return createDistrictResults();
-//    }
-    
+
     /* Phase 2 */
     public Phase2Result runPhase2(List<Measure> measures){
         return state.anneal(measures);
     }
+
+    public List<DistrictInfo> getClusters(){
+        List<DistrictInfo> results = new ArrayList<>();
+        for(Cluster c : state.getClusters()){
+            List<String> precinctCodes = new ArrayList<>();
+            for(Precinct p : c.getPrecincts())
+                precinctCodes.add(p.getCode());
+            results.add(new DistrictInfo(c.getId(), precinctCodes, c.getDemographicPopDist(), c.getPopulation()));
+        }
+        return results;
+    }
+
 }
