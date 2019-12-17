@@ -107,6 +107,26 @@ function onHoverPrecinct(e){
 	}
 
 	if(layer.districtGroup){
+		$("#district-demo-data").removeClass("hide");
+		tableBody = $("#district-demo-table")[0];
+		newTableBody = document.createElement("tbody");
+		tableBody.parentNode.replaceChild(newTableBody, tableBody);
+		tableBody = newTableBody;
+		tableBody.id = "district-demo-table";
+		let demographics = layer.districtGroup.demographics;
+		let pop = layer.districtGroup.population;
+		for(demo of Object.keys(demographics)){
+			row = tableBody.insertRow(0);
+
+			t0 = document.createTextNode(demo);
+			row.insertCell(0).appendChild(t0);
+
+			t1 = document.createTextNode(demographics[demo]);
+			row.insertCell(1).appendChild(t1);
+
+			t2 = document.createTextNode(Math.round((demographics[demo]/pop)*100*10)/10 + "%");
+			row.insertCell(2).appendChild(t2);
+		}
 		layer.districtGroup.setStyle(
 			{
 				opacity: 0,
@@ -406,6 +426,7 @@ function onEachFeaturePrecinct(feature, layer) {
     });
 	layer.on('mouseout', function () {
 			$("#precinct-voting-data").addClass("hide");
+			$("#district-demo-data").addClass("hide");
 			$("#demo-results").removeClass("hide");
 	});
 	layer._leaflet_id = L.Util.stamp(layer);

@@ -3,7 +3,7 @@
     let measureNames = {
         "PARTISAN_FAIRNESS" : 'Partisan Fair.',
         "REOCK_COMPACTNESS" : 'Reock Comp.',
-        "CONVEX_HULL_COMPACTNESS" : 'Conv-Hull Comp.',
+        "CONVEX_HULL_COMPACTNESS" : 'CH Comp.',
         "EDGE_COMPACTNESS" : 'Edge Comp.',
         "EFFICIENCY_GAP" : 'Eff. Gap',
         "POPULATION_EQUALITY" : 'Pop. Eql.',
@@ -104,6 +104,18 @@
 			$(".alert2").removeClass("hide");
 		} else {
 				$("#myModal")[0].style.display = "block";
+		}
+	});
+	
+	$("#showHideBtn").click(function(e) {
+		if(currentState == null){
+			$(".alert2").removeClass("hide");
+		}else{
+			if(!map.hasLayer(congressionalDistricts)){
+				map.addLayer(congressionalDistricts);
+			}else{
+				map.removeLayer(congressionalDistricts);
+			}
 		}
 	});
 

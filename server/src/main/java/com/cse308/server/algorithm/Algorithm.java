@@ -7,7 +7,6 @@ package com.cse308.server.algorithm;
 
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
-import com.cse308.server.measure.DefaultMeasure;
 import com.cse308.server.measure.Measure;
 import com.cse308.server.models.Cluster;
 import com.cse308.server.models.Precinct;

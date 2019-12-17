@@ -302,16 +302,19 @@ html > body #gerry-results {
 }
 
 #anneal-results {
-    overflow: auto;
     height: 300px;
-}
-
-#MM-tbody{
-    height: 40px;
 }
 
 #scores-tbody{
     height: 40px;
+}
+
+#scores-tbody {
+  display: block;
+  height: 150px;
+  width: 100%;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 .annealing{
