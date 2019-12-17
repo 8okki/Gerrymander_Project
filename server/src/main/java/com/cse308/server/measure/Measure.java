@@ -137,7 +137,7 @@ public enum Measure implements MeasureFunction {
             State state = cluster.getState();
             int idealPopulation = state.getPopulation() / state.getClusters().size();
             int truePopulation = cluster.getPopulation();
-            return 1 - Math.pow(Math.abs(idealPopulation - (double)truePopulation) / state.getPopulation(), 1.25);
+            return 1 - Math.abs(idealPopulation - (double)truePopulation) / state.getPopulation();
         }
     },
     POPULATION_HOMOGENEITY {
@@ -220,7 +220,7 @@ public enum Measure implements MeasureFunction {
     };
 
     // Weight for each measure type
-    public double weight;
+    public int weight;
 
     public abstract double calculateMeasure(Cluster cluster);
 

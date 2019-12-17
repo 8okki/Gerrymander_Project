@@ -31,25 +31,25 @@ public class Cluster{
 
     private int population;
     private Map<Demographic, Integer> demographicPopDist;
+    private boolean isMerged;
+    private double score;
 
+    /* MM parameters */
+    private float min;
+    private float max;
+    private List<Demographic> demoMM;
+
+    /* Paraemters for measures */
     private int repVote;
     private int demVote;
-
     private int internalEdges;
     private int externalEdges;
-
     private MultiPolygon multiPolygon;
     private Geometry boundingCircle;
     private Geometry convexHull;
-
     private boolean boundingCircleUpdated;
     private boolean multiPolygonUpdated;
     private boolean convexHullUpdated;
-
-    private boolean isMerged;
-
-    private double score;
-
 
     /* Getters & Setters */
 
@@ -108,9 +108,12 @@ public class Cluster{
     public void setScore(double score) { this.score = score; }
 
     /* Constructor */
-    public Cluster(int id, State state, Precinct precinct) {
+    public Cluster(int id, State state, Precinct precinct, float min, float max, List<Demographic> demoMM) {
         this.id = id;
         this.state = state;
+        this.min = min;
+        this.max = max;
+        this.demoMM = demoMM;
         precincts = new HashSet<>();
         adjClusters = new HashSet<>();
         externals = new HashSet<>();
@@ -204,9 +207,9 @@ public class Cluster{
 
 
     /* Phase 1 */
-    public Cluster findMMPair(float minRange, float maxRange, List<Demographic> demographics, float idealPopulation){
+    public Cluster findMMPair(float idealPopulation){
         for(Cluster cluster : adjClusters) {
-            if(!cluster.isMerged() && isMMPair(cluster, demographics, minRange, maxRange) && isPair(cluster, idealPopulation)) {
+            if(!cluster.isMerged() && isMMPair(cluster) && isPair(cluster, idealPopulation)) {
                 return cluster;
             }
         }
@@ -222,14 +225,29 @@ public class Cluster{
         return null;
     }
 
+    public boolean isMMPair(Cluster cluster){
+        int pairDemographicPopSum = this.getDemographicPopSum(demoMM) + cluster.getDemographicPopSum(demoMM);
+        int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
+        float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
+        return ratio >= min && ratio <= max;
+    }
+
+    public boolean isPair(Cluster cluster, float targetPopulation) {
+        int populationSum = this.getPopulation() + cluster.getPopulation();
+        return populationSum <= targetPopulation;
+    }
+
     public void merge(Cluster cluster) {
+        unlink(cluster);
+
         for (Precinct precinct : cluster.getPrecincts())
             addPrecinct(precinct);
-
-        unlink(cluster);
     }
 
     public void unlink(Cluster cluster){
+        state.getClusters().remove(this);
+        state.getClusters().remove(cluster);
+
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
 
@@ -249,26 +267,23 @@ public class Cluster{
         return sum;
     }
 
-    private static float calculateRatio(int demographicPopSum, int populationSum){
-        return (float)demographicPopSum / populationSum;
-    }
-    
-    public boolean isMMPair(Cluster cluster, List<Demographic> demographics, float minRange, float maxRange){
-        int pairDemographicPopSum = this.getDemographicPopSum(demographics) + cluster.getDemographicPopSum(demographics);
-        int pairTotalPopulation = this.getPopulation() + cluster.getPopulation();
-        float ratio = calculateRatio(pairDemographicPopSum, pairTotalPopulation);
-        return ratio >= minRange && ratio <= maxRange;
+    public boolean isMM() {
+        float ratio = calculateRatio(this.getDemographicPopSum(demoMM), population);
+        return ratio >= min && ratio <= max;
     }
 
-    public boolean isPair(Cluster cluster, float targetPopulation) {
-        int populationSum = this.getPopulation() + cluster.getPopulation();
-        return populationSum <= targetPopulation;
+    private float calculateRatio(int demographicPopSum, int populationSum){
+        return (float)demographicPopSum / populationSum;
     }
+
 
 
     /* Phase 2 */
     public Move findRandomMove() {
         Precinct candidate = state.getRandom(externals);
+        if(candidate == null)
+            return null;
+
         Cluster to = this;
         Cluster from = candidate.getCurrentCluster();
 

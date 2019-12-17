@@ -95,7 +95,7 @@
 	});
 
 	$(".close").click(function (e) {
-				$("#myModal")[0].style.display = "none";
+		$("#myModal")[0].style.display = "none";
 	});
 
 	$(window).click(function (e) {
@@ -141,17 +141,58 @@
 			});
 		}
 	});
+	
+	$("#runGerryIncremental").click(function (e) {
+		if (currentState == null) {
+			$(".alert").removeClass("hide");
+		} else {
+		  let demographics = [];
+			let demoCheckBoxes = $("[name='demographic']");
+            for (demoCheckBox of demoCheckBoxes){
+                if(demoCheckBox.checked){
+                    demographics.push(demoCheckBox.value.toUpperCase());
+                }
+            }
+			let demographicMinimum = $("#slider-range").slider("values", 0) / 100;
+			let demographicMaximum = $("#slider-range").slider("values", 1) / 100;
+			let targetDistrictNum = parseInt($("[aria-describedby='cong-dist']").val());
+
+			$.ajax({
+				'type': "POST",
+				'dataType': 'json',
+				'url': "http://localhost:8080/runPhase1Incremental",
+				'data': JSON.stringify({
+					'demographics': demographics,
+					'demographicMinimum': demographicMinimum,
+					'demographicMaximum': demographicMaximum,
+					'targetDistrictNum': targetDistrictNum
+				}),
+				'contentType': "application/json",
+				'statusCode': {
+					"200": function (data) {
+						colorPrecincts(data.results);
+						if(data.finished){
+							console.log(data.finished);
+						}
+					},
+					"400": function (data) {
+						console.log("error", data);
+					}
+				}
+			});
+		}
+	});
 
     $("#runAnneal").click(function (e) {
         if (currentState == null) {
             $(".alert").removeClass("hide");
         } else {
             measureWeights = {};
-            let weight = 1;
             let measureCheckBoxes = $("[name='measure']");
             for(measureCheckBox of measureCheckBoxes){
                 if(measureCheckBox.checked){
-                    measureWeights[measureCheckBox.value] = weight;
+                    let weight = $("[name='" + measureCheckBox.value + "']")[0].value;
+                    measureWeights[measureCheckBox.value] = parseInt(weight);
                 }
             }
 
@@ -167,20 +208,34 @@
                     "200": function (data) {
                         let result = data.result;
 
+                        /* Number of MMs */
                         let newTableBody = document.createElement("tbody");
-                        let tableBody = $("#scores-tbody")[0];
+                        let tableBody = $("#MM-tbody")[0];
+                        tableBody.parentNode.replaceChild(newTableBody, tableBody);
+                        tableBody = newTableBody;
+                        let row = tableBody.insertRow(0);
+
+                        let t0 = document.createTextNode(result.mmBefore);
+                        row.insertCell(0).appendChild(t0);
+
+                        let t1 = document.createTextNode(result.mmAfter);
+                        row.insertCell(1).appendChild(t1);
+
+                        /* Scores */
+                        newTableBody = document.createElement("tbody");
+                        tableBody = $("#scores-tbody")[0];
                         tableBody.parentNode.replaceChild(newTableBody, tableBody);
                         tableBody = newTableBody;
                         tableBody.id = "scores-tbody";
-                        let row = tableBody.insertRow(0);
+                        row = tableBody.insertRow(0);
 
-                        let t0 = document.createTextNode(Math.round(result.before*1000000)/10000);
+                        t0 = document.createTextNode(Math.round(result.scoreBefore*1000000)/10000);
                         row.insertCell(0).appendChild(t0);
 
-                        let t1 = document.createTextNode(Math.round(result.after*1000000)/10000);
+                        t1 = document.createTextNode(Math.round(result.scoreAfter*1000000)/10000);
                         row.insertCell(1).appendChild(t1);
 
-                        let diff = result.after - result.before
+                        let diff = result.scoreAfter - result.scoreBefore
                         let t2 = document.createTextNode(Math.round(diff*1000000)/10000);
                         row.insertCell(2).appendChild(t2);
 

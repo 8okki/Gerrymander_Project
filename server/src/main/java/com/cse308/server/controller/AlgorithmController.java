@@ -122,7 +122,7 @@ public class AlgorithmController {
             float demographicMinimum = input.get("demographicMinimum").getAsFloat();
             float demographicMaximum = input.get("demographicMaximum").getAsFloat();
             int targetDistrictNum = input.get("targetDistrictNum").getAsInt();
-            List<Phase1Result> results = algoService.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+            List<Phase1Result> results = algoService.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
             JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(results);
             responseBody.add("results",jsonResults);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
@@ -132,7 +132,32 @@ public class AlgorithmController {
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
     }
-
+    
+    @PostMapping(value = "/runPhase1Incremental", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> phase1RequestIncremental(@RequestBody JsonObject input){
+        JsonObject responseBody = new JsonObject();
+        try {
+            JsonArray demographicsAsStrings = input.get("demographics").getAsJsonArray();
+            List<Demographic> demographics = new ArrayList<>();
+            for(JsonElement demographic : demographicsAsStrings){
+                demographics.add(Demographic.valueOf(demographic.getAsString()));
+            }
+            float demographicMinimum = input.get("demographicMinimum").getAsFloat();
+            float demographicMaximum = input.get("demographicMaximum").getAsFloat();
+            int targetDistrictNum = input.get("targetDistrictNum").getAsInt();
+            List<Phase1Result> results = algoService.runPhase1Incremental(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+            JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(results);
+            JsonElement isFinished = (JsonElement) new Gson().toJsonTree(algoService.isPhase1Done());
+            responseBody.add("results",jsonResults);
+            responseBody.add("finished",isFinished);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseBody.addProperty("error", "Invalid request body");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
     @PostMapping(value = "/runPhase2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> phase2Request(@RequestBody JsonObject input){
         JsonObject responseBody = new JsonObject();
@@ -141,7 +166,7 @@ public class AlgorithmController {
             List<Measure> measures = new ArrayList<>();
             for(Measure measure : Measure.values()) {
                 if (measureWeightsJson.has(measure.name())) {
-                    measure.weight = measureWeightsJson.get(measure.name()).getAsDouble();
+                    measure.weight = measureWeightsJson.get(measure.name()).getAsInt();
                     measures.add(measure);
                 }
             }
