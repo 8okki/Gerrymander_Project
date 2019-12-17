@@ -122,7 +122,7 @@ public class AlgorithmController {
             float demographicMinimum = input.get("demographicMinimum").getAsFloat();
             float demographicMaximum = input.get("demographicMaximum").getAsFloat();
             int targetDistrictNum = input.get("targetDistrictNum").getAsInt();
-            List<Phase1Result> results = algoService.runPhase1(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+            List<Phase1Result> results = algoService.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
             JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(results);
             responseBody.add("results",jsonResults);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
