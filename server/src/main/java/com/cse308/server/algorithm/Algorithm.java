@@ -107,7 +107,7 @@ public class Algorithm {
     }
 
     /* Phase 1 */
-    public List<Phase1Result> runPhase1(float min, float max, List<Demographic> demoMM, int targetDistrictNum){
+    public List<DistrictInfo> runPhase1(float min, float max, List<Demographic> demoMM, int targetDistrictNum){
         if(!incrementalRunning){
             state.initClusters(min, max, demoMM);
         }
@@ -123,12 +123,12 @@ public class Algorithm {
         }
 
         // Creating Result objects
-        List<Phase1Result> results = new ArrayList<>();
+        List<DistrictInfo> results = new ArrayList<>();
         for(Cluster c : state.getClusters()){
             List<String> precinctCodes = new ArrayList<>();
             for(Precinct p : c.getPrecincts())
                     precinctCodes.add(p.getCode());
-            results.add(new Phase1Result(precinctCodes));
+            results.add(new DistrictInfo(c.getId(), precinctCodes, c.getDemographicPopDist(), c.getPopulation()));
         }
         incrementalRunning = false;
 
@@ -148,7 +148,7 @@ public class Algorithm {
         return results;
     }
 
-    public List<Phase1Result> runPhase1Incremental(float min, float max, List<Demographic> demoMM, int targetDistrictNum){
+    public List<DistrictInfo> runPhase1Incremental(float min, float max, List<Demographic> demoMM, int targetDistrictNum){
         if(!incrementalRunning){
             state.initClusters(min, max, demoMM);
         }
@@ -170,12 +170,12 @@ public class Algorithm {
         }
 
         // Creating Result objects
-        List<Phase1Result> results = new ArrayList<>();
+        List<DistrictInfo> results = new ArrayList<>();
         for(Cluster c : state.getClusters()){
             List<String> precinctCodes = new ArrayList<>();
             for(Precinct p : c.getPrecincts())
                     precinctCodes.add(p.getCode());
-            results.add(new Phase1Result(precinctCodes));
+            results.add(new DistrictInfo(c.getId(), precinctCodes, c.getDemographicPopDist(), c.getPopulation()));
         }
         System.out.println(state.getClusters().size() + " clusters created");
 

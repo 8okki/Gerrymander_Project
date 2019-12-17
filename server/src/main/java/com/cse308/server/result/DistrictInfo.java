@@ -6,6 +6,7 @@
 package com.cse308.server.result;
 
 import com.cse308.server.enums.Demographic;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,10 +14,18 @@ import java.util.Map;
  * @author Mavericks
  */
 public class DistrictInfo implements Result {
-    
+   
+    int id;
     Map<Demographic, Integer> demoPopDist;
+    List<String> precincts;
     int districtPop;
-    int statePop;
+    
+    public DistrictInfo(int id, List<String> precincts, Map<Demographic, Integer> demoPopDist, int districtPop){
+        this.id = id;
+        this.precincts = precincts;
+        this.demoPopDist = demoPopDist;
+        this.districtPop = districtPop;
+    }
     
     public Map<Demographic, Integer> getDemoPopDist(){
         return this.demoPopDist;
@@ -24,10 +33,5 @@ public class DistrictInfo implements Result {
     
     public int getDistrictPop(){
         return this.districtPop;
-    }
-    
-    public int getStatePop(){
-        return this.statePop;
-    }
-    
+    }    
 }

@@ -10,6 +10,7 @@ import com.cse308.server.measure.Measure;
 import com.cse308.server.models.State;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
+import com.cse308.server.result.DistrictInfo;
 import com.cse308.server.result.Phase1Result;
 import com.cse308.server.result.Phase2Result;
 import com.cse308.server.result.VoteBlocResult;
@@ -43,11 +44,11 @@ public class AlgorithmService {
         return this.algo.runPhase0(blocThreshold, voteThreshold);
     }
     
-    public List<Phase1Result> runPhase1(float demographicMinimum, float demographicMaximum, List<Demographic> demographics, int targetDistrictNum){
+    public List<DistrictInfo> runPhase1(float demographicMinimum, float demographicMaximum, List<Demographic> demographics, int targetDistrictNum){
         return this.algo.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
     }
 
-    public List<Phase1Result> runPhase1Incremental(float demographicMinimum, float demographicMaximum, List<Demographic> demographics, int targetDistrictNum){
+    public List<DistrictInfo> runPhase1Incremental(float demographicMinimum, float demographicMaximum, List<Demographic> demographics, int targetDistrictNum){
        return this.algo.runPhase1Incremental(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
     }
     

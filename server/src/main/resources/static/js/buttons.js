@@ -145,7 +145,36 @@
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						colorPrecincts(data.results);
+						if(districtIDs){
+							for(district of data.districts){
+								let districtGroup = districtIDs[district.id];
+								districtGroup.clearLayers();
+								districtGroup.population = district.districtPop;
+								districtGroup.demographics = district.demoPopDist;
+								for(precinct of district.precincts){
+									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+									districtGroup.addLayer(layer);
+									layer.districtGroup = districtGroup;
+								}
+								districtGroup.setStyle({fillColor: districtGroup.color});
+							}
+						}else{
+							districtIDs = {};
+							for(district of data.districts){
+								let districtGroup = L.featureGroup();
+								districtGroup.population = district.districtPop;
+								districtGroup.demographics = district.demoPopDist;
+								for(precinct of district.precincts){
+									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+									districtGroup.addLayer(layer);
+									layer.districtGroup = districtGroup;
+								}
+								districtIDs[district.id] = districtGroup;
+							}
+							colorPrecincts(data.districts);
+						}
+						// reset district groups as phase 1 is complete
+						districtIDs = null;
 					},
 					"400": function (data) {
 						console.log("error", data);
@@ -183,9 +212,36 @@
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						colorPrecincts(data.results);
+						if(districtIDs){
+							for(district of data.districts){
+								let districtGroup = districtIDs[district.id];
+								districtGroup.clearLayers();
+								districtGroup.population = district.districtPop;
+								districtGroup.demographics = district.demoPopDist;
+								for(precinct of district.precincts){
+									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+									districtGroup.addLayer(layer);
+									layer.districtGroup = districtGroup;
+								}
+								districtGroup.setStyle({fillColor: districtGroup.color});
+							}
+						}else{
+							districtIDs = {};
+							for(district of data.districts){
+								let districtGroup = L.featureGroup();
+								districtGroup.population = district.districtPop;
+								districtGroup.demographics = district.demoPopDist;
+								for(precinct of district.precincts){
+									let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
+									districtGroup.addLayer(layer);
+									layer.districtGroup = districtGroup;
+								}
+								districtIDs[district.id] = districtGroup;
+							}
+							colorPrecincts(data.districts);
+						}
 						if(data.finished){
-							console.log(data.finished);
+							districtIDs = null;
 						}
 					},
 					"400": function (data) {
@@ -280,16 +336,12 @@
         }
     });
 
-    async function colorPrecincts(results) {
-        for(district of results){
+    async function colorPrecincts(districts) {
+        for(district of districts){
             let randomColor = getRandomColor();
-            let districtGroup = L.featureGroup();
-            for(precinct of district.precincts){
-                let layer = precincts.getLayer(statePrecincts[currentState.name.toUpperCase()][precinct]);
-                districtGroup.addLayer(layer);
-                layer.districtGroup = districtGroup;
-            }
+            districtGroup = districtIDs[district.id];
             districtGroup.setStyle({ fillColor: randomColor});
+			districtGroup.color = randomColor;
         }
     }
 
