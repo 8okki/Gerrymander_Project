@@ -11,15 +11,15 @@ public class Phase2Result implements Result {
     double objBefore;
     double objAfter;
     Map scores;
-    List<Phase1Result> districtResults;
+    List<DistrictInfo> districts;
 
-    public Phase2Result(int[] MMs, double[] objs, Map scores, List<Phase1Result> districtResults){
+    public Phase2Result(int[] MMs, double[] objs, Map scores, List<DistrictInfo> districts){
         this.mmBefore = MMs[0];
         this.mmAfter = MMs[1];
         this.objBefore = objs[0];
         this.objAfter = objs[1];
         this.scores = scores;
-        this.districtResults = districtResults;
+        this.districts = districts;
     }
 
 }

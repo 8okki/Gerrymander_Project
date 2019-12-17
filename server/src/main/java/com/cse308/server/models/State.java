@@ -306,13 +306,13 @@ public class State {
         return set.stream().skip((int) (set.size() * Math.random())).findFirst().get();
     }
 
-    public List<Phase1Result> createDistrictResults(){
-        List<Phase1Result> results = new ArrayList<>();
+    public List<DistrictInfo> createDistrictResults(){
+        List<DistrictInfo> results = new ArrayList<>();
         for(Cluster c : clusters){
             List<String> precinctCodes = new ArrayList<>();
             for(Precinct p : c.getPrecincts())
                 precinctCodes.add(p.getCode());
-            results.add(new Phase1Result(precinctCodes));
+            results.add(new DistrictInfo(c.getId(), precinctCodes, c.getDemographicPopDist(), c.getPopulation()));
         }
         return results;
     }
