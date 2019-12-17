@@ -303,10 +303,10 @@
                         t0 = document.createTextNode('Obj. Score');
                         row.insertCell(0).appendChild(t0);
 
-                        t1 = document.createTextNode(Math.round(result.objBefore*10000)/10000);
+                        t1 = document.createTextNode(Math.round(result.objBefore*1000000)/10000);
                         row.insertCell(1).appendChild(t1);
 
-                        t2 = document.createTextNode(Math.round(result.objAfter*10000)/10000);
+                        t2 = document.createTextNode(Math.round(result.objAfter*1000000)/10000);
                         row.insertCell(2).appendChild(t2);
 
                         let scores = result.scores;
@@ -319,10 +319,10 @@
                             t0 = document.createTextNode(measureNames[measure]);
                             row.insertCell(0).appendChild(t0);
 
-                            t1 = document.createTextNode(Math.round(scoreBefore*10000)/10000);
+                            t1 = document.createTextNode(Math.round(scoreBefore*1000000)/10000);
                             row.insertCell(1).appendChild(t1);
 
-                            t2 = document.createTextNode(Math.round(scoreAfter*10000)/10000);
+                            t2 = document.createTextNode(Math.round(scoreAfter*1000000)/10000);
                             row.insertCell(2).appendChild(t2);
                         }
 
