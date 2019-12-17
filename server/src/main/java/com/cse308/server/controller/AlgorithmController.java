@@ -9,6 +9,7 @@ import com.cse308.server.measure.Measure;
 import com.cse308.server.models.State;
 import com.cse308.server.enums.Demographic;
 import com.cse308.server.enums.StateName;
+import com.cse308.server.result.DistrictInfo;
 import com.cse308.server.result.Phase1Result;
 import com.cse308.server.result.Phase2Result;
 import com.cse308.server.result.VoteBlocResult;
@@ -122,9 +123,9 @@ public class AlgorithmController {
             float demographicMinimum = input.get("demographicMinimum").getAsFloat();
             float demographicMaximum = input.get("demographicMaximum").getAsFloat();
             int targetDistrictNum = input.get("targetDistrictNum").getAsInt();
-            List<Phase1Result> results = algoService.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
+            List<DistrictInfo> results = algoService.runPhase1(demographicMinimum, demographicMaximum, demographics, targetDistrictNum);
             JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(results);
-            responseBody.add("results",jsonResults);
+            responseBody.add("districts",jsonResults);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,10 +146,10 @@ public class AlgorithmController {
             float demographicMinimum = input.get("demographicMinimum").getAsFloat();
             float demographicMaximum = input.get("demographicMaximum").getAsFloat();
             int targetDistrictNum = input.get("targetDistrictNum").getAsInt();
-            List<Phase1Result> results = algoService.runPhase1Incremental(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
+            List<DistrictInfo> results = algoService.runPhase1Incremental(demographics, demographicMinimum, demographicMaximum, targetDistrictNum);
             JsonArray jsonResults = (JsonArray) new Gson().toJsonTree(results);
             JsonElement isFinished = (JsonElement) new Gson().toJsonTree(algoService.isPhase1Done());
-            responseBody.add("results",jsonResults);
+            responseBody.add("districts",jsonResults);
             responseBody.add("finished",isFinished);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (Exception e) {

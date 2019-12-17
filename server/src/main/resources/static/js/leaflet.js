@@ -6,6 +6,7 @@ var precincts;
 var statePrecincts = {"OHIO":{}};
 var stateIDs = {};
 var stateLoadedFlags = {};
+var districtIDs;
 var districtLoadedFlag = false;
 var precinctLoadedFlag = false;
 
