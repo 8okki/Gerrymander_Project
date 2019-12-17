@@ -203,8 +203,10 @@ html > body #demo-results, html > body #pop-dist {
   overflow-x: hidden;
 }
 
-#weight{
+.weightValue{
   position: absolute;
+  margin-left: 6.7rem;
+  margin-top: -.2rem;
 }
 
 
