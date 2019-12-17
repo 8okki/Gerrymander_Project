@@ -32,7 +32,7 @@ public class DefaultMeasure implements MeasureFunction {
             double weight = measure.getWeight();
             double score = activationFunction.apply(value) * weight;
 
-            measure.setScore(score);
+            measure.setScore(value);
             sum += score;
             totalWeight += weight;
         }

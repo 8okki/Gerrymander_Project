@@ -179,7 +179,7 @@ public class Algorithm {
         }
         System.out.println(state.getClusters().size() + " clusters created");
 
-        int maxPop = Integer.MIN_VALUE, minPop = Integer.MAX_VALUE;
+        int maxPop = Integer.MIN_VALUE, minPop = Integer.MAX_VALUE, mm = 0;
         for(Cluster cluster : state.getClusters()){
             if(cluster.getPopulation() > maxPop) {
                 maxPop = cluster.getPopulation();
@@ -187,8 +187,10 @@ public class Algorithm {
             if(cluster.getPopulation() < minPop) {
                 minPop = cluster.getPopulation();
             }
+            if(cluster.isMM())
+                mm++;
         }
-        System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop);
+        System.out.println(maxPop + " " + minPop + " " + (float) maxPop / minPop + " " + mm);
 
         return results;
     }
