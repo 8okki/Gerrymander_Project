@@ -148,9 +148,9 @@ public class Algorithm {
         return results;
     }
 
-    public List<DistrictInfo> runPhase1Incremental(List<Demographic> demographics, float demographicMinimum, float demographicMaximum, int targetDistrictNum){
+    public List<DistrictInfo> runPhase1Incremental(float min, float max, List<Demographic> demoMM, int targetDistrictNum){
         if(!incrementalRunning){
-            state.initClusters(demographicMinimum, demographicMaximum, demographics);
+            state.initClusters(min, max, demoMM);
         }
         float idealPopulation = (float) state.getPopulation() / targetDistrictNum;
 

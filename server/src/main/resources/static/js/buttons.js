@@ -1,5 +1,18 @@
  $(document).ready(function () {
 
+    let measureNames = {
+        "PARTISAN_FAIRNESS" : 'Partisan Fair.',
+        "REOCK_COMPACTNESS" : 'Reock Comp.',
+        "CONVEX_HULL_COMPACTNESS" : 'Conv-Hull Comp.',
+        "EDGE_COMPACTNESS" : 'Edge Comp.',
+        "EFFICIENCY_GAP" : 'Eff. Gap',
+        "POPULATION_EQUALITY" : 'Pop. Eql.',
+        "POPULATION_HOMOGENEITY" : 'Pop. Homo.',
+        "COMPETITIVENESS" : 'Competitiveness.',
+        "GERRYMANDER_REPUBLICAN" : 'Gerry. Rep.',
+        "GERRYMANDER_DEMOCRATIC" : 'Gerry. Dem.'
+    }
+
 	$("#runBlocs").click(function (e) {
 		if (currentState == null) {
 			$(".alert").removeClass("hide");
@@ -302,7 +315,7 @@
                             let scoreAfter = scores[measure][1];
                             row = tableBody.insertRow(rowCount++);
 
-                            t0 = document.createTextNode(measure);
+                            t0 = document.createTextNode(measureNames[measure]);
                             row.insertCell(0).appendChild(t0);
 
                             t1 = document.createTextNode(Math.round(scoreBefore*10000)/10000);
