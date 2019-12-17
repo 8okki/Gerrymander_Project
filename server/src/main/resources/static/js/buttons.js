@@ -88,7 +88,7 @@
 
 	$("#legalGuide").click(function (e) {
 		if (currentState == null) {
-			$(".alert").removeClass("hide");
+			$(".alert2").removeClass("hide");
 		} else {
 				$("#myModal")[0].style.display = "block";
 		}
