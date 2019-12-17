@@ -7,7 +7,7 @@ package com.cse308.server.models;
 
 import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
-import com.cse308.server.measure.DefaultMeasure;
+import com.cse308.server.measure.ObjectiveFunction;
 import com.cse308.server.measure.Measure;
 import com.cse308.server.measure.MeasureFunction;
 import com.cse308.server.result.*;
@@ -54,7 +54,7 @@ public class State {
     private Map<Cluster,Cluster> pairs;
 
     @Transient
-    private MeasureFunction clusterScoreFunction;
+    private ObjectiveFunction objFunction;
 
     /* Getters & Setters */
     public String getName(){
@@ -105,7 +105,7 @@ public class State {
         this.geometryLoaded = geometryLoaded;
     }
 
-    public void setScoreFunction(MeasureFunction function) { this.clusterScoreFunction = function; }
+    public void setObjFunction(ObjectiveFunction function) { this.objFunction = function; }
 
     /* Constructor */
     public State() {}
@@ -221,12 +221,12 @@ public class State {
     /* Phase 2 */
     public Phase2Result anneal(List<Measure> measures) {
         // Initialize score function
-        clusterScoreFunction = new DefaultMeasure(measures);
+        objFunction = new ObjectiveFunction(measures);
 
         // Initialize scores & mmCounts
         double initialObj, prevObj, newObj;
         int initialMM, prevMM, newMM;
-        initialObj = prevObj = newObj= objectiveFunction();
+        initialObj = prevObj = newObj= objFunction.calculateObj(clusters);
         initialMM = prevMM = newMM = countMM();
         Map<String, Double[]> scores = new HashMap<>();
         for(Measure measure : measures){
@@ -251,16 +251,15 @@ public class State {
             if (move != null){
                 move.execute();
                 newMM = countMM();
-                newObj = objectiveFunction();
-                if (newMM >= prevMM && newObj >= prevObj){
-                    for(Measure measure : measures){
-                        scores.get(measure.name())[1] = measure.getScore();
-                        System.out.println(measure.name() + ": " + measure.getScore());
-                    }
-                } else {
+                newObj = objFunction.calculateObj(clusters);
+                if (newMM < prevMM || newObj < prevObj) {
                     move.undo();
                     newObj = prevObj;
                     newMM = prevMM;
+                }
+                for(Measure measure : measures){
+                    scores.get(measure.name())[1] = measure.getScore();
+                    System.out.println(measure.name() + ": " + measure.getScore());
                 }
             }
 
@@ -276,17 +275,8 @@ public class State {
         int[] MM = {initialMM, newMM};
         double[] objs = {initialObj, newObj};
         Phase2Result result = new Phase2Result(MM, objs, scores, createDistrictResults());
-        System.out.println("Anneal Finished");
+        System.out.println("-----------------------Anneal Finished-----------------------");
         return result;
-    }
-
-    public double objectiveFunction() {
-        double score = 0;
-        for (Cluster cluster : clusters){
-            cluster.setScore(clusterScoreFunction.calculateMeasure(cluster));
-            score += cluster.getScore();
-        }
-        return score / clusters.size();
     }
 
     public boolean isStagnant(double prevScore, double newScore){

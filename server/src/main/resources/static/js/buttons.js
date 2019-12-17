@@ -3,7 +3,7 @@
     let measureNames = {
         "PARTISAN_FAIRNESS" : 'Partisan Fair.',
         "REOCK_COMPACTNESS" : 'Reock Comp.',
-        "CONVEX_HULL_COMPACTNESS" : 'Conv-Hull Comp.',
+        "CONVEX_HULL_COMPACTNESS" : 'CH Comp.',
         "EDGE_COMPACTNESS" : 'Edge Comp.',
         "EFFICIENCY_GAP" : 'Eff. Gap',
         "POPULATION_EQUALITY" : 'Pop. Eql.',
