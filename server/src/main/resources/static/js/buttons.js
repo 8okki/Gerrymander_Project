@@ -282,6 +282,7 @@
                         let tableBody = $("#MM-tbody")[0];
                         tableBody.parentNode.replaceChild(newTableBody, tableBody);
                         tableBody = newTableBody;
+                        tableBody.id = "MM-tbody";
                         let row = tableBody.insertRow(0);
 
                         let t0 = document.createTextNode(result.mmBefore);
