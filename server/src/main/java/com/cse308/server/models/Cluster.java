@@ -224,13 +224,16 @@ public class Cluster{
     }
 
     public void merge(Cluster cluster) {
+        unlink(cluster);
+
         for (Precinct precinct : cluster.getPrecincts())
             addPrecinct(precinct);
-
-        unlink(cluster);
     }
 
     public void unlink(Cluster cluster){
+        state.getClusters().remove(this);
+        state.getClusters().remove(cluster);
+
         cluster.getAdjacentClusters().remove(this);
         adjClusters.remove(cluster);
 
@@ -278,6 +281,9 @@ public class Cluster{
     /* Phase 2 */
     public Move findRandomMove() {
         Precinct candidate = state.getRandom(externals);
+        if(candidate == null)
+            return null;
+
         Cluster to = this;
         Cluster from = candidate.getCurrentCluster();
 

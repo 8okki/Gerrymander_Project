@@ -212,8 +212,6 @@ public class State {
 
         for (Cluster cluster : pairs.keySet()) {
             if (cluster.isMerged() && pairs.get(cluster).isMerged()) {
-                clusters.remove(cluster);
-                clusters.remove(pairs.get(cluster));
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
             }
@@ -228,8 +226,7 @@ public class State {
     public double[] anneal() {
         // Initialization Scores
         double initialScore, prevScore, newScore;
-        initialScore = prevScore = objectiveFunction();
-        newScore = 0;
+        initialScore = newScore = prevScore = objectiveFunction();
 
         // Initialize Stagnation Counter
         final int MAX_STAG = 50;
@@ -244,17 +241,22 @@ public class State {
         long startTime = System.nanoTime();
         while (stagnation <= MAX_STAG && elapsedTime < TIME_LIMIT) {
             Cluster cluster = getRandom(clusters);
-            Move move = cluster.findRandomMove();
-            move.execute();
-            newScore = objectiveFunction();
+            if(cluster == null)
+                break;
 
-            if (newScore < prevScore){
-                move.undo();
-                newScore = prevScore;
-            } else
-                changedPrecincts.add(move.getPrecinct().getCode());
+            Move move = cluster.findRandomMove();
+            if (move != null){
+                move.execute();
+                newScore = objectiveFunction();
+                if (newScore < prevScore){
+                    move.undo();
+                    newScore = prevScore;
+                } else
+                    changedPrecincts.add(move.getPrecinct().getCode());
+            }
 
             System.out.println(newScore);
+
             stagnation = isStagnant(prevScore, newScore) ? stagnation+1 : 0;
             prevScore = newScore;
             elapsedTime = (int) ((System.nanoTime() - startTime) / 1e+9) ;
@@ -279,6 +281,9 @@ public class State {
     }
 
     public <E> E getRandom(Set<E> set){
+        if(set.isEmpty())
+            return null;
+
         return set.stream().skip((int) (set.size() * Math.random())).findFirst().get();
     }
 
