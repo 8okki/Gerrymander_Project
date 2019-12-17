@@ -7,9 +7,10 @@ package com.cse308.server.models;
 
 import com.cse308.server.algorithm.Move;
 import com.cse308.server.enums.Demographic;
+import com.cse308.server.measure.DefaultMeasure;
+import com.cse308.server.measure.Measure;
 import com.cse308.server.measure.MeasureFunction;
-import com.cse308.server.result.DistrictInfo;
-import com.cse308.server.result.VoteBlocResult;
+import com.cse308.server.result.*;
 
 import java.util.*;
 import javax.persistence.*;
@@ -55,9 +56,6 @@ public class State {
     @Transient
     private MeasureFunction clusterScoreFunction;
 
-    @Transient
-    private Set<String> changedPrecincts;
-
     /* Getters & Setters */
     public String getName(){
         return this.name.toString();
@@ -78,8 +76,6 @@ public class State {
     public Set<Precinct> getPrecincts() {
         return this.precincts;
     }
-
-    public Set<String> getChangedPrecincts() { return this.changedPrecincts; }
 
     public boolean areNeighborsLoaded(){
         return this.neighborsLoaded;
@@ -223,19 +219,25 @@ public class State {
 
 
     /* Phase 2 */
-    public double[] anneal() {
+    public Phase2Result anneal(List<Measure> measures) {
+        // Initialize score function
+        clusterScoreFunction = new DefaultMeasure(measures);
+
         // Initialize scores & mmCounts
-        double initialScore, prevScore, newScore;
+        double initialObj, prevObj, newObj;
         int initialMM, prevMM, newMM;
-        initialScore = prevScore = newScore= objectiveFunction();
+        initialObj = prevObj = newObj= objectiveFunction();
         initialMM = prevMM = newMM = countMM();
+        Map<String, Double[]> scores = new HashMap<>();
+        for(Measure measure : measures){
+            Double[] score = {measure.getScore(), 0.0};
+            scores.put(measure.name(), score);
+        }
 
         // Initialize Stagnation Counter
         final int MAX_STAG = 50;
-        final long TIME_LIMIT = 30;
+        final long TIME_LIMIT = 15;
         int stagnation = 0;
-
-        changedPrecincts = new HashSet<>();
 
         // Anneal randomly until converges or passes time limit
         int elapsedTime = 0;
@@ -249,25 +251,29 @@ public class State {
             if (move != null){
                 move.execute();
                 newMM = countMM();
-                newScore = objectiveFunction();
-                if (newMM < prevMM || newScore < prevScore ){
+                newObj = objectiveFunction();
+                if (newMM < prevMM || newObj < prevObj){
                     move.undo();
-                    newScore = prevScore;
+                    newObj = prevObj;
                     newMM = prevMM;
-                } else
-                    changedPrecincts.add(move.getPrecinct().getCode());
+                }
             }
 
-            System.out.println(newScore);
+            System.out.println(newObj);
 
-            stagnation = isStagnant(prevScore, newScore) ? stagnation+1 : 0;
+            stagnation = isStagnant(prevObj, newObj) ? stagnation+1 : 0;
 
             prevMM = newMM;
-            prevScore = newScore;
+            prevObj = newObj;
             elapsedTime = (int) ((System.nanoTime() - startTime) / 1e+9) ;
         }
 
-        double[] result = {initialMM, newMM, initialScore, newScore};
+        for(Measure measure : measures)
+            scores.get(measure.name())[1] = measure.getScore();
+
+        int[] MM = {initialMM, newMM};
+        double[] objs = {initialObj, newObj};
+        Phase2Result result = new Phase2Result(MM, objs, scores, createDistrictResults());
         System.out.println("Anneal Finished");
         return result;
     }
@@ -285,7 +291,6 @@ public class State {
         return Math.abs(prevScore - newScore) < 0.00001;
     }
 
-
     public int countMM() {
         int mm = 0;
         for(Cluster cluster : clusters)
@@ -299,6 +304,17 @@ public class State {
             return null;
 
         return set.stream().skip((int) (set.size() * Math.random())).findFirst().get();
+    }
+
+    public List<Phase1Result> createDistrictResults(){
+        List<Phase1Result> results = new ArrayList<>();
+        for(Cluster c : clusters){
+            List<String> precinctCodes = new ArrayList<>();
+            for(Precinct p : c.getPrecincts())
+                precinctCodes.add(p.getCode());
+            results.add(new Phase1Result(precinctCodes));
+        }
+        return results;
     }
 
     @Override

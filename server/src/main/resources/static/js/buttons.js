@@ -180,7 +180,7 @@
                         let t1 = document.createTextNode(result.mmAfter);
                         row.insertCell(1).appendChild(t1);
 
-                        /* Scores */
+                        /* Objective Function Score */
                         newTableBody = document.createElement("tbody");
                         tableBody = $("#scores-tbody")[0];
                         tableBody.parentNode.replaceChild(newTableBody, tableBody);
@@ -188,19 +188,35 @@
                         tableBody.id = "scores-tbody";
                         row = tableBody.insertRow(0);
 
-                        t0 = document.createTextNode(Math.round(result.scoreBefore*1000000)/10000);
+                        t0 = document.createTextNode('Objective Score');
                         row.insertCell(0).appendChild(t0);
 
-                        t1 = document.createTextNode(Math.round(result.scoreAfter*1000000)/10000);
+                        t1 = document.createTextNode(Math.round(result.objBefore*1000000)/10000);
                         row.insertCell(1).appendChild(t1);
 
-                        let diff = result.scoreAfter - result.scoreBefore
-                        let t2 = document.createTextNode(Math.round(diff*1000000)/10000);
+                        t2 = document.createTextNode(Math.round(result.objAfter*1000000)/10000);
                         row.insertCell(2).appendChild(t2);
+
+                        let scores = result.scores;
+                        let rowCount = 1;
+                        for(measure in scores){
+                            let scoreBefore = scores[measure][0];
+                            let scoreAfter = scores[measure][1];
+                            row = tableBody.insertRow(rowCount++);
+
+                            t0 = document.createTextNode(measure);
+                            row.insertCell(0).appendChild(t0);
+
+                            t1 = document.createTextNode(Math.round(scoreBefore*10000)/10000);
+                            row.insertCell(1).appendChild(t1);
+
+                            t2 = document.createTextNode(Math.round(scoreAfter*10000)/10000);
+                            row.insertCell(1).appendChild(t2);
+                        }
 
                         $("#anneal-results").removeClass("hide");
 
-						colorPrecincts(data.result.districtResults);
+						colorPrecincts(result.districtResults);
                     },
                     "400": function (data) {
                         console.log("error", data);

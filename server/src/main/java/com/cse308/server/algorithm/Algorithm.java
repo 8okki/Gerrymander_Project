@@ -169,20 +169,6 @@ public class Algorithm {
     
     /* Phase 2 */
     public Phase2Result runPhase2(List<Measure> measures){
-        DefaultMeasure measureFunction = new DefaultMeasure(measures);
-        state.setScoreFunction(measureFunction);
-        double[] results = state.anneal();
-        return new Phase2Result(results, createDistrictResults(), state.getChangedPrecincts());
-    }
-
-    public List<Phase1Result> createDistrictResults(){
-        List<Phase1Result> results = new ArrayList<>();
-        for(Cluster c : state.getClusters()){
-            List<String> precinctCodes = new ArrayList<>();
-            for(Precinct p : c.getPrecincts())
-                precinctCodes.add(p.getCode());
-            results.add(new Phase1Result(precinctCodes));
-        }
-        return results;
+        return state.anneal(measures);
     }
 }

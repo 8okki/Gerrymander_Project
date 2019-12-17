@@ -220,7 +220,16 @@ public enum Measure implements MeasureFunction {
     };
 
     // Weight for each measure type
-    public int weight;
+    private int weight;
+    private double score;
+
+    public int getWeight() { return weight; }
+
+    public double getScore() { return score; }
+
+    public void setWeight(int weight) { this.weight = weight; }
+
+    public void setScore(double score) { this.score = score; }
 
     public abstract double calculateMeasure(Cluster cluster);
 
