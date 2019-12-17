@@ -328,7 +328,7 @@
 
                         $("#anneal-results").removeClass("hide");
 
-						for(district of data.districts){
+						for(district of result.districts){
 								let districtGroup = districtIDs[district.id];
 								districtGroup.clearLayers();
 								districtGroup.population = district.districtPop;
