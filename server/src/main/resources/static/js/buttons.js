@@ -282,6 +282,7 @@ function sleep(ms) {
 		let measureWeights = {};
         if (currentState == null || !districtIDs || phase1Running) {
             $(".alert").removeClass("hide");
+			return;
         } else {
             measureWeights = {};
             let measures = Object.keys(measureNames);
