@@ -203,24 +203,17 @@ html > body #demo-results, html > body #pop-dist {
   overflow-x: hidden;
 }
 
-.weightValue{
-  position: absolute;
-  margin-left: 6.7rem;
-  margin-top: -.2rem;
-}
-
 
 /* Bloc Analysis CSS */
 .slider {
   -webkit-appearance: none;
-  width: 80%;
-  height: .72rem;
+  width: 100%;
+  height: 11.6px;
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
   transition: opacity .2s;
-  margin-bottom: .3rem;
   }
 
 .slider:hover {
@@ -230,8 +223,8 @@ html > body #demo-results, html > body #pop-dist {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 1rem;
-  height: .72rem;
+  width: 25px;
+  height: 10px;
   background: #4CAF50;
   cursor: pointer;
 }
@@ -301,20 +294,31 @@ html > body #gerry-results {
   float: right;
 }
 
+a[name=measure]{
+  float: left;
+}
+
+.weightslider{
+  margin-top: .5px;
+}
+
+.weightValue{
+  position: absolute;
+ margin-top: -4px;
+ margin-left: -2rem;
+}
+
 #anneal-results {
+    overflow: auto;
     height: 300px;
+}
+
+#MM-tbody{
+    height: 40px;
 }
 
 #scores-tbody{
     height: 40px;
-}
-
-#scores-tbody {
-  display: block;
-  height: 155px;
-  width: 100%;
-  overflow: auto;
-  overflow-x: hidden;
 }
 
 .annealing{

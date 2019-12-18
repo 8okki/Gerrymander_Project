@@ -401,32 +401,12 @@
 	<div id="anneal-contents" class="contents p-2">
 		<div id="anneal-title" class="mb-3">
 			<h4 class = "sameLine annealing"><i class="fas fa-chart-line mr-2"></i>Annealing</h4>
-			<button id="showHideBtn" class="btn btn-outline-success btn-sm my-2 sameLine">Show/Hide Districts</button>
+			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2 sameLine">Show/Hide Districts</button>
 		</div>
 		<div id="anneal-run">
 			<hr>
 			<div id="anneal-measures">
 				<h6>Measures</h6>
-				<!-- <p>Partisan Fairness: <span id="weight"></span> %</p>
-				<input type="range" id="weightSlider" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Reock Compactness: <span id="weight2"></span> %</p>
-				<input type="range" id="weightSlider2" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Convex Hull Compactness: <span id="weight3"></span> %</p>
-				<input type="range" id="weightSlider3" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Edge Compactness: <span id="weight4"></span> %</p>
-				<input type="range" id="weightSlider4" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Efficiency Gap: <span id="weight5"></span> %</p>
-				<input type="range" id="weightSlider5" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Partisan Equality: <span id="weight6"></span> %</p>
-				<input type="range" id="weightSlider6" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Population Homogeneity: <span id="weight7"></span> %</p>
-				<input type="range" id="weightSlider7" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Competitiveness: <span id="weight8"></span> %</p>
-				<input type="range" id="weightSlider8" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Gerrymander Republican: <span id="weight9"></span> %</p>
-				<input type="range" id="weightSlider9" class="slider mb-2" min="0" max="100" value="0">
-				<p class="mb-1">Gerrymander Democratic: <span id="weight10"></span> %</p>
-				<input type="range" id="weightSlider10" class="slider mb-2" min="0" max="100" value="0"> -->
 
 				<div class="measure1">
 					Partisan Fairness:<br>
@@ -443,30 +423,81 @@
 
 				<div class="weights">
 					<span class="weightValue" id="weight"></span>
-					<input type="range" id="weightSlider" name="PARTISAN_FAIRNESS" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider" name="PARTISAN_FAIRNESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight2"></span>
-					<input type="range" id="weightSlider2" name="REOCK_COMPACTNESS" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider2" name="REOCK_COMPACTNESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight3"></span>
-					<input type="range" id="weightSlider3" name="CONVEX_HULL_COMPACTNESS" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider3" name="CONVEX_HULL_COMPACTNESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight4"></span>
-					<input type="range" id="weightSlider4" name="EDGE_COMPACTNESS" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider4" name="EDGE_COMPACTNESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight5"></span>
-					<input type="range" id="weightSlider5" name="EFFICIENCY_GAP" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider5" name="EFFICIENCY_GAP" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight6"></span>
-					<input type="range" id="weightSlider6" name="POPULATION_EQUALITY" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider6" name="POPULATION_EQUALITY" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight7"></span>
-					<input type="range" id="weightSlider7" name="POPULATION_HOMOGENEITY" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider7" name="POPULATION_HOMOGENEITY" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight8"></span>
-					<input type="range" id="weightSlider8" name="COMPETITIVENESS" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider8" name="COMPETITIVENESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight9"></span>
-					<input type="range" id="weightSlider9" name="GERRYMANDER_REPUBLICAN" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider9" name="GERRYMANDER_REPUBLICAN" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 					<span class="weightValue" id="weight10"></span>
-					<input type="range" id="weightSlider10" name="GERRYMANDER_DEMOCRATIC" class="slider mb-2" min="0" max="100" value="0"><br>
+					<input type="range" id="weightSlider10" name="GERRYMANDER_DEMOCRATIC" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
 				</div>
 				<br><br>
 
+				<!-- <div class="weights1">
+					<input type="checkbox" class="m-1" name="measure" value="PARTISAN_FAIRNESS">Partisan Fairness:
+					<span class="weightValue" id="weight"></span>
+					<input type="range" id="weightSlider" name="PARTISAN_FAIRNESS" class="slider mb-2 weightslider" min="0" max="100" value="0">
+				</div>
+				<div class="weights2">
+					<input type="checkbox" class="m-1" name="measure" value="REOCK_COMPACTNESS">Reock Compactness:
+					<span class="weightValue" id="weight2"></span>
+					<input type="range" id="weightSlider2" name="REOCK_COMPACTNESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div> -->
+				<!-- <div class="weights3">
+					<input type="checkbox" class="m-1" name="measure" value="CONVEX_HULL_COMPACTNESS">Convex Hull Compactness:
+					<span class="weightValue" id="weight3"></span>
+					<input type="range" id="weightSlider3" name="CONVEX_HULL_COMPACTNESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div>
+				<div class="weights4">
+					<input type="checkbox" class="m-1" name="measure" value="EDGE_COMPACTNESS">Edge Compactness:
+					<span class="weightValue" id="weight4"></span>
+					<input type="range" id="weightSlider4" name="EDGE_COMPACTNESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div>
+				<div class="weights5">
+					<input type="checkbox" class="m-1" name="measure" value="EFFICIENCY_GAP">Efficiency Gap:
+					<span class="weightValue" id="weight5"></span>
+					<input type="range" id="weightSlider5" name="EFFICIENCY_GAP" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div>
+				<div class="weights6">
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_EQUALITY">Population Equality:
+					<span class="weightValue" id="weight6"></span>
+					<input type="range" id="weightSlider6" name="POPULATION_EQUALITY" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div>
+				<div class="weights7">
+					<input type="checkbox" class="m-1" name="measure" value="POPULATION_HOMOGENEITY">Population Homogeneity:
+					<span class="weightValue" id="weight7"></span>
+					<input type="range" id="weightSlider7" name="POPULATION_HOMOGENEITY" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div>
+				<div class="weights8">
+					<input type="checkbox" class="m-1" name="measure" value="COMPETITIVENESS">Competitiveness:
+					<span class="weightValue" id="weight8"></span>
+					<input type="range" id="weightSlider8" name="COMPETITIVENESS" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div>
+				<div class="weights9">
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_REPUBLICAN">Gerrymander Republican:
+					<span class="weightValue" id="weight9"></span>
+					<input type="range" id="weightSlider9" name="GERRYMANDER_REPUBLICAN" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div>
+				<div class="weights10">
+					<input type="checkbox" class="m-1" name="measure" value="GERRYMANDER_DEMOCRATIC">Gerrymander Democratic:
+					<span class="weightValue" id="weight10"></span>
+					<input type="range" id="weightSlider10" name="GERRYMANDER_DEMOCRATIC" class="slider mb-2 weightslider" min="0" max="100" value="0"><br>
+				</div> -->
+
 			</div>
-			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2 sameLine">Run Annealing</button>
+			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2">Run Annealing</button>
 			<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
 		</div>
@@ -485,16 +516,21 @@
 				</table>
 			</div>
 			<div id="anneal-scores">
-				<h6>Gerrymander Scores (0 ~ 100)</h6>
+				<h6>Gerrymander Scores</h6>
 				<table class="table table-striped">
 					<thead class="thead-dark">
 					<tr>
-						<th scope="col">Name 	</th>
+						<th scope="col" class="mr-2">Name</th>
 						<th scope="col">Before Annealing</th>
 						<th scope="col">After Annealing</th>
 					</tr>
 					</thead>
 					<tbody id="scores-tbody">
+					<tr>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
 					</tbody>
 				</table>
 			</div>
