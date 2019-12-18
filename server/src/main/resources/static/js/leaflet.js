@@ -108,12 +108,12 @@ function onHoverPrecinct(e){
 	}
 
 	if(layer.districtGroup){
-		$("#district-demo-data").removeClass("hide");
-		tableBody = $("#district-demo-table")[0];
+		$("#gerry-results").removeClass("hide");
+		tableBody = $("#demo-tbody")[0];
 		newTableBody = document.createElement("tbody");
 		tableBody.parentNode.replaceChild(newTableBody, tableBody);
 		tableBody = newTableBody;
-		tableBody.id = "district-demo-table";
+		tableBody.id = "demo-tbody";
 		let demographics = layer.districtGroup.demographics;
 		let pop = layer.districtGroup.population;
 		for(demo of Object.keys(demographics)){
