@@ -36,7 +36,7 @@ function sleep(ms) {
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						let elapsedTime = Date.now()/1000 - currentTime;
+						let elapsedTime = Math.floor((Date.now()/1000 - currentTime)*10000)/10000;
 						$("#phase0log")[0].innerHTML = "Latency: " + elapsedTime + "s";
 						
 						let results = data.results;
@@ -164,7 +164,7 @@ function sleep(ms) {
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						let elapsedTime = Date.now()/1000 - currentTime;
+						let elapsedTime = Math.floor((Date.now()/1000 - currentTime)*10000)/10000;
 						$("#phase1log")[0].innerHTML = "Latency: " + elapsedTime + "s";
 						if(phase1Running){
 							for(district of data.districts){
@@ -235,7 +235,7 @@ function sleep(ms) {
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
-						let elapsedTime = Date.now()/1000 - currentTime;
+						let elapsedTime = Math.floor((Date.now()/1000 - currentTime)*10000)/10000;
 						$("#phase1log")[0].innerHTML = "Latency: " + elapsedTime + "s";
 						if(phase1Running){
 							for(district of data.districts){
@@ -303,7 +303,7 @@ function sleep(ms) {
             'contentType': "application/json",
             'statusCode': {
                 "200": function (data) {
-					let elapsedTime = Date.now()/1000 - currentTime;
+					let elapsedTime = Math.floor((Date.now()/1000 - currentTime)*10000)/10000;
 					$("#phase2log")[0].innerHTML = "Latency: " + elapsedTime + "s";
 					
                     let result = data.result;
