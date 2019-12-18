@@ -24,7 +24,7 @@ function sleep(ms) {
 			let voteSlider = $("#voteSlider")[0];
 			let popThreshold = popSlider.value / 100;
 			let voteThreshold = voteSlider.value / 100;
-
+			let currentTime = Date.now() / 1000
 			$.ajax({
 				'type': "POST",
 				'dataType': 'json',
@@ -36,11 +36,14 @@ function sleep(ms) {
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
+						let elapsedTime = Date.now()/1000 - currentTime;
+						$("#phase0log")[0].innerHTML = "Latency: " + elapsedTime + "s";
+						
 						let results = data.results;
 						let summary = {};
 						let newTableBody = document.createElement("tbody");
 						let tableBody = $("#bloc-tbody")[0];
-
+						
 						tableBody.parentNode.replaceChild(newTableBody, tableBody);
 						tableBody = newTableBody;
 						tableBody.id = "bloc-tbody";
@@ -146,7 +149,8 @@ function sleep(ms) {
 			let demographicMinimum = $("#slider-range").slider("values", 0) / 100;
 			let demographicMaximum = $("#slider-range").slider("values", 1) / 100;
 			let targetDistrictNum = parseInt($("[aria-describedby='cong-dist']").val());
-
+			let currentTime = Date.now()/1000;
+			
 			$.ajax({
 				'type': "POST",
 				'dataType': 'json',
@@ -160,6 +164,8 @@ function sleep(ms) {
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
+						let elapsedTime = Date.now()/1000 - currentTime;
+						$("#phase1log")[0].innerHTML = "Latency: " + elapsedTime + "s";
 						if(phase1Running){
 							for(district of data.districts){
 								let districtGroup = districtIDs[district.id];
@@ -214,7 +220,8 @@ function sleep(ms) {
 			let demographicMinimum = $("#slider-range").slider("values", 0) / 100;
 			let demographicMaximum = $("#slider-range").slider("values", 1) / 100;
 			let targetDistrictNum = parseInt($("[aria-describedby='cong-dist']").val());
-
+			let currentTime = Date.now()/1000;
+			
 			$.ajax({
 				'type': "POST",
 				'dataType': 'json',
@@ -228,6 +235,8 @@ function sleep(ms) {
 				'contentType': "application/json",
 				'statusCode': {
 					"200": function (data) {
+						let elapsedTime = Date.now()/1000 - currentTime;
+						$("#phase1log")[0].innerHTML = "Latency: " + elapsedTime + "s";
 						if(phase1Running){
 							for(district of data.districts){
 								let districtGroup = districtIDs[district.id];
@@ -270,6 +279,7 @@ function sleep(ms) {
 	});
 
     $("#runAnneal").click(function (e) {
+		let measureWeights = {};
         if (currentState == null || !districtIDs || phase1Running) {
             $(".alert").removeClass("hide");
         } else {
@@ -282,6 +292,7 @@ function sleep(ms) {
                 }
             }
         }
+		let currentTime = Date.now()/1000;
         $.ajax({
             'type': "POST",
             'dataType': 'json',
@@ -292,6 +303,9 @@ function sleep(ms) {
             'contentType': "application/json",
             'statusCode': {
                 "200": function (data) {
+					let elapsedTime = Date.now()/1000 - currentTime;
+					$("#phase2log")[0].innerHTML = "Latency: " + elapsedTime + "s";
+					
                     let result = data.result;
 
                     /* Number of MMs */
