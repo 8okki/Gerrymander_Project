@@ -304,13 +304,12 @@ a[name=measure]{
 
 .weightValue{
   position: absolute;
- margin-top: -4px;
- margin-left: -2rem;
+  margin-top: -4px;
+  margin-left: -2rem;
 }
 
 #anneal-results {
-    overflow: auto;
-    height: 300px;
+    height: 400px;
 }
 
 #MM-tbody{
@@ -318,7 +317,10 @@ a[name=measure]{
 }
 
 #scores-tbody{
-    height: 40px;
+    height: 160px;
+    display: block;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .annealing{

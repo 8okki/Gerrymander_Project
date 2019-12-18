@@ -93,8 +93,6 @@ public class Cluster{
 
     public int getExternalEdges() { return externalEdges; }
 
-    public double getScore() { return score; }
-
     public DistrictInfo getDistrictInfo(int statePopulation, Demographic[] demographics){
         return null;
     }
@@ -244,7 +242,7 @@ public class Cluster{
             addPrecinct(precinct);
     }
 
-    public void unlink(Cluster cluster){
+    public void unlink(Cluster cluster) {
         state.getClusters().remove(this);
         state.getClusters().remove(cluster);
 

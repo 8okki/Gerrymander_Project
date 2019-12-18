@@ -205,9 +205,8 @@ public class State {
             makeRandomPair();
 
         // Merge all pairs
-
         for (Cluster cluster : pairs.keySet()) {
-            if (cluster.isMerged() && pairs.get(cluster).isMerged()) {
+            if (cluster.isMerged() && pairs.get(cluster).isMerged()){
                 cluster.merge(pairs.get(cluster));
                 clusters.add(cluster);
             }
