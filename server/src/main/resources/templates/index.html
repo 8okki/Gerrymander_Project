@@ -255,6 +255,7 @@
 			<p class="mb-1">Bloc Vote Threshold: <span id="vote"></span> %</p>
 			<input type="range" id="voteSlider" class="slider mb-2" min="1" max="100" value="50">
 				<button id="runBlocs" class="btn btn-outline-success btn-sm sameLine">Analyze</button>
+				<p id="phase1log"></p>
 				<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
 		</div>
@@ -369,6 +370,7 @@
 				<input type="text" class="form-control" aria-describedby="cong-dist">
 			</div>
 			<button id="runGerry" class="btn btn-outline-success btn-sm my-2 sameLine">Run Gerrymander</button>
+			<p id="phase2log"></p>
 			<button id="runGerryIncremental" class="btn btn-outline-success btn-sm my-2 sameLine">Step Iteration</button>
 			<p class = "alert hide"> Please select a state first.</p>
 			<hr>
@@ -401,7 +403,7 @@
 	<div id="anneal-contents" class="contents p-2">
 		<div id="anneal-title" class="mb-3">
 			<h4 class = "sameLine annealing"><i class="fas fa-chart-line mr-2"></i>Annealing</h4>
-			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2 sameLine">Show/Hide Districts</button>
+			<button id="showHideBtn" class="btn btn-outline-success btn-sm my-2 sameLine">Show/Hide Districts</button>
 		</div>
 		<div id="anneal-run">
 			<hr>
@@ -498,6 +500,7 @@
 
 			</div>
 			<button id="runAnneal" class="btn btn-outline-success btn-sm my-2">Run Annealing</button>
+			<p id="phase2log"></p>
 			<p class = "alert sameLine hide"> Please select a state first.</p>
 			<hr>
 		</div>
